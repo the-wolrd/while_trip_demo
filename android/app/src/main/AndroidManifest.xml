@@ -2,7 +2,8 @@
     package="com.exampl2e.while_trip_demo">
    <application
         android:label="while_trip_demo"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+       android:roundIcon="@mipmap/ic_launcher_round">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
