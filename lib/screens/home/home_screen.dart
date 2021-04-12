@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './sub/my_location.dart';
 import '../../widget/advertise_part.dart';
 import '../../widget/activity_card.dart';
 import '../../screens/result/result_screen.dart';
@@ -224,26 +225,31 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _locationSet() {
-    return Padding(
-      padding: EdgeInsets.only(
-          left: leftPadding,
-          top: 8.0,
-          bottom: 10.0
-      ),
-      child: Row(
-        children: [
-          Text(
-            location,
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 8.0),
-            child: Icon(
-              Icons.arrow_drop_down,
-              size: 25.0,
+    return InkWell(
+      onTap: (){
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> SetLocation()));
+      },
+      child: Padding(
+        padding: EdgeInsets.only(
+            left: leftPadding,
+            top: 8.0,
+            bottom: 10.0
+        ),
+        child: Row(
+          children: [
+            Text(
+              location,
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
-          )
-        ],
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: Icon(
+                Icons.arrow_drop_down,
+                size: 25.0,
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

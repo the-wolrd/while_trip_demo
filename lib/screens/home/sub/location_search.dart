@@ -1,51 +1,34 @@
 import 'package:flutter/material.dart';
-import '../../../screens/menu/menu_screen.dart';
 
-class SearchScreen extends StatefulWidget {
-
-  final String location;
-
-  SearchScreen({this.location});
-
+class LocationSearch extends StatefulWidget {
   @override
-  _SearchScreenState createState() => _SearchScreenState();
+  _LocationSearchState createState() => _LocationSearchState();
 }
 
-class _SearchScreenState extends State<SearchScreen> {
+class _LocationSearchState extends State<LocationSearch> {
 
   TextEditingController _searchController = TextEditingController();
 
   List<String> results = [
-    '서귀포 서핑샵',
-    '윈드 1947 카트 테마파크',
-    '제주 감귤 체험 농장',
-    '아다지오 커피 전문점',
-    '제주 승마장',
+    '대전광역시 유성구 ',
+    '경상북도 포항',
+    '경상남도 마산',
+    '광주광역시',
+    '부산광역시 해운대',
   ];
 
   List<String> recentSearch = [
-    '서핑보드 렌트',
-    '스킨스쿠버',
-    '승마 체험장',
-    '오션뷰 카페',
-    '카페',
-    '마리오 카트',
-    'PC방',
-    '스쿼시',
-    '마라톤',
-    '당구장'
+    '포항',
+    '제주',
+    '효자',
+    '대학로 291',
   ];
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
 
   @override
   void dispose() {
-    super.dispose();
     _searchController.dispose();
+    super.dispose();
   }
 
   @override
@@ -82,7 +65,7 @@ class _SearchScreenState extends State<SearchScreen> {
                               child: Text(recentSearch[index], style: TextStyle(color: Colors.grey, fontSize: 15.0),),
                             ),
                             Expanded(child: Container(),),
-                            Text('04.12', style: TextStyle(color: Colors.grey, fontSize: 12.0),),
+                            Text('최근 설정 : 04.12', style: TextStyle(color: Colors.grey, fontSize: 12.0),),
                             IconButton(
                               icon: Icon(Icons.clear),
                               onPressed: (){},
@@ -103,7 +86,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                 child: Text(recentSearch[index], style: TextStyle(fontWeight: FontWeight.bold)),
                               ),
                               Expanded(child: Container(),),
-                              Text('04.12', style: TextStyle(color: Colors.black, fontSize: 12.0),),
+                              Text('최근 설정 : 04.12', style: TextStyle(color: Colors.black, fontSize: 12.0),),
                               IconButton(
                                 icon: Icon(Icons.clear),
                                 onPressed: (){},
@@ -163,12 +146,11 @@ class _SearchScreenState extends State<SearchScreen> {
             },
           ),
           Expanded(
-            child: Center(child: Text(widget.location, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0),)),
+            child: Center(child: Text('위치 설정하기', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0),)),
           ),
           IconButton(
-            icon: Icon(Icons.menu),
+            icon: Icon(Icons.map),
             onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>MenuScreen()));
             },
           )
         ],
