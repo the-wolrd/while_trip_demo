@@ -4,7 +4,7 @@
     <item android:drawable="@color/splash_color" />
 
     <item>
-        <bitmap android:gravity="fill|clip_horizontal" android:src="@drawable/splash" />
+        <bitmap android:gravity="fill" android:src="@drawable/splash" />
 
     </item>
 
