@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:provider/provider.dart';
 import 'package:while_trip_demo/constant/size.dart';
 import 'package:while_trip_demo/provider/login.dart';
 
@@ -7,6 +8,8 @@ import 'sub/1vs1.dart';
 import 'sub/personal_auth.dart';
 
 class MenuScreen extends StatefulWidget {
+
+
   @override
   _MenuScreenState createState() => _MenuScreenState();
 }
@@ -16,9 +19,7 @@ class _MenuScreenState extends State<MenuScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Consumer<Login>(
-          builder: (BuildContext context, provider, Widget child) {
-            return Padding(
+        body: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 18.0),
               child: ListView(
                 children: [
@@ -52,11 +53,14 @@ class _MenuScreenState extends State<MenuScreen> {
                   _inquire(),
                   _myDivider(),
                   _gap(38),
+                  TextButton(onPressed: (){
+                    Provider.of<Login>(context, listen: false).logout();
+                  },
+                  child: Text("dsadsa"),
+                  )
                 ],
               ),
-            );
-          },
-        ),
+            )
       ),
     );
   }

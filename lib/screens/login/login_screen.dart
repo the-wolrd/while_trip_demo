@@ -6,11 +6,13 @@ import 'package:while_trip_demo/screens/home/home_screen.dart';
 import 'package:while_trip_demo/screens/login/sub/signUp.dart';
 
 class LoginScreen extends StatelessWidget {
+  final Function loginFunc;
+
+  LoginScreen({this.loginFunc});
+
   @override
   Widget build(BuildContext context) {
-    return Consumer<Login>(
-      builder: (BuildContext context, provider, Widget child) {
-        return Scaffold(
+    return Scaffold(
           body: SafeArea(
             child: Column(
               children: [
@@ -43,8 +45,6 @@ class LoginScreen extends StatelessWidget {
             ),
           ),
         );
-      },
-    );
   }
 
   TextButton _signUpButton(BuildContext context) {
@@ -65,15 +65,19 @@ class LoginScreen extends StatelessWidget {
   Padding _anotherAccount(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 50),
-      child: Consumer<Login>(
-        builder: (BuildContext context, provider, Widget child) {
-
-          return Row(
+      child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               InkWell(
                 child: _imageIcon("assets/login_page/kakao_icon.png"),
                 onTap: () {
+
+                  Navigator.pop(context);
+                  Provider.of<Login>(context, listen: false).login();
+
+                  print(Provider.of<Login>(context, listen: false)
+                      .loginState);
+                  print('카카오 누름');
                 },
               ),
               Spacer(
@@ -82,10 +86,6 @@ class LoginScreen extends StatelessWidget {
               InkWell(
                 child: _imageIcon("assets/login_page/facebook_icon.png"),
                 onTap: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => HomeScreen()),
-                  );
                 },
               ),
               Spacer(
@@ -94,10 +94,6 @@ class LoginScreen extends StatelessWidget {
               InkWell(
                 child: _imageIcon("assets/login_page/google_icon.png"),
                 onTap: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => HomeScreen()),
-                  );
                 },
               ),
               Spacer(
@@ -106,16 +102,10 @@ class LoginScreen extends StatelessWidget {
               InkWell(
                 child: _imageIcon("assets/login_page/apple_icon.png"),
                 onTap: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => HomeScreen()),
-                  );
                 },
               ),
             ],
-          );
-        },
-      ),
+          )
     );
   }
 

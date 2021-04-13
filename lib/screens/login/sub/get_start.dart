@@ -5,8 +5,14 @@ import 'package:while_trip_demo/screens/login/login_screen.dart';
 double aa = size.width;
 
 class GetStartScreen extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
+
+    if (size == null) {
+      size = MediaQuery.of(context).size;
+    }
+
     return SafeArea(
       child: Stack(
         children: [

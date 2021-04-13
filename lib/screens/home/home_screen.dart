@@ -13,6 +13,7 @@ import '../../widget/favorite.dart';
 import '../../widget/history.dart';
 
 class HomeScreen extends StatefulWidget {
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -119,6 +120,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    if (size == null) {
+      size = MediaQuery.of(context).size;
+    }
+
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
