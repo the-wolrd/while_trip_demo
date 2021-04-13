@@ -28,23 +28,20 @@ class MyApp extends StatelessWidget {
                 switch(provider.loginState){
                   case LoginState.signIn:
                     _currentWidget = HomeScreen();
-                    print("로그인");
                     break;
 
                   case LoginState.signOut:
                     _currentWidget = GetStartScreen();
-                    print("로그아웃");
                     break;
 
                   default:
                     _currentWidget = CircularProgressIndicator();
-                    print("중");
                     break;
-
                 }
                 return AnimatedSwitcher(
                     duration: Duration(seconds: 1),
                     child: _currentWidget);
+
               },
             ),
           ),

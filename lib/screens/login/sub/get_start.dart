@@ -42,7 +42,7 @@ class GetStartScreen extends StatelessWidget {
                 style: TextStyle(color: Colors.cyan, fontSize: 17),
               )),
               onPressed: () {
-                Navigator.pushReplacement(
+                Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => LoginScreen()),
                 );

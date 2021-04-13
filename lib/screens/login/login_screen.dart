@@ -71,13 +71,8 @@ class LoginScreen extends StatelessWidget {
               InkWell(
                 child: _imageIcon("assets/login_page/kakao_icon.png"),
                 onTap: () {
-
-                  Navigator.pop(context);
                   Provider.of<Login>(context, listen: false).login();
-
-                  print(Provider.of<Login>(context, listen: false)
-                      .loginState);
-                  print('카카오 누름');
+                  Navigator.pop(context);
                 },
               ),
               Spacer(

@@ -12,12 +12,14 @@ class Login extends ChangeNotifier{
 
   void login(){
     _loginState = LoginState.signIn;
+    _isLogin = true;
     print('바뀜!');
     notifyListeners();
   }
 
   void logout(){
     _loginState = LoginState.signOut;
+    _isLogin = false;
     notifyListeners();
   }
 }
