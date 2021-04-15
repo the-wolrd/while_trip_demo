@@ -18,6 +18,8 @@ enum PerLocate { Allowed, NotAllowed, UseApp }
 class _MenuScreenState extends State<MenuScreen> {
   PerAlert _perAlert = PerAlert.Allowed;
   PerLocate _perLocate = PerLocate.Allowed;
+  String _alertState = '허용';
+  String _locateState = "허용";
 
   @override
   Widget build(BuildContext context) {
@@ -156,7 +158,7 @@ class _MenuScreenState extends State<MenuScreen> {
             leading: Icon(Icons.not_listed_location),
             title: Text("위치 정보 수집"),
             trailing: Text(
-              '앱을 사용하는 동안',
+              _locateState,
               style: TextStyle(color: Colors.black38),
             ),
           )),
@@ -189,6 +191,7 @@ class _MenuScreenState extends State<MenuScreen> {
                         setState(() {
                           _perLocate = value;
                           print(value);
+                          _locateState = "항상";
                           Navigator.pop(context);
                         });
                       },
@@ -201,6 +204,7 @@ class _MenuScreenState extends State<MenuScreen> {
                         setState(() {
                           _perLocate = value;
                           print(value);
+                          _locateState = "앱을 사용하는동안";
                           Navigator.pop(context);
                         });
                       },
@@ -213,6 +217,7 @@ class _MenuScreenState extends State<MenuScreen> {
                         setState(() {
                           _perLocate = value;
                           print(value);
+                          _locateState = "안 허용";
                           Navigator.pop(context);
                         });
                       },
@@ -245,7 +250,7 @@ class _MenuScreenState extends State<MenuScreen> {
             leading: Icon(Icons.add_alert),
             title: Text("알림"),
             trailing: Text(
-              '허용',
+              _alertState,
               style: TextStyle(color: Colors.black38),
             ),
           )),
@@ -279,6 +284,7 @@ class _MenuScreenState extends State<MenuScreen> {
                           _perAlert = value;
                           print(value);
                           Navigator.pop(context);
+                          _alertState = "허용";
                         });
                       },
                     ),
@@ -291,6 +297,8 @@ class _MenuScreenState extends State<MenuScreen> {
                           _perAlert = value;
                           print(value);
                           Navigator.pop(context);
+                          _alertState = "안 허용";
+
                         });
                       },
                     ),
