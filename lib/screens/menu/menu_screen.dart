@@ -19,7 +19,7 @@ class _MenuScreenState extends State<MenuScreen> {
   PerAlert _perAlert = PerAlert.Allowed;
   PerLocate _perLocate = PerLocate.Allowed;
   String _alertState = '허용';
-  String _locateState = "허용";
+  String _locateState = '허용';
 
   @override
   Widget build(BuildContext context) {
@@ -70,27 +70,28 @@ class _MenuScreenState extends State<MenuScreen> {
   InkWell _inquire() {
     return InkWell(
       splashColor: Colors.grey,
-      child: SizedBox(
-          height: 50,
-          child: ListTile(
-            leading: Icon(Icons.help_outline),
-            title: Text("1:1 문의하기"),
-            trailing: Icon(Icons.arrow_forward_ios_outlined),
-          )),
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) => QnA()));
       },
+      child: const SizedBox(
+          height: 50,
+          child: ListTile(
+            leading: Icon(Icons.help_outline),
+            title: Text('1:1 문의하기'),
+            trailing: Icon(Icons.arrow_forward_ios_outlined),
+          )),
     );
   }
 
   Text _qnA() => Text(
-        "Q&A",
+        'Q&A',
         style: TextStyle(fontSize: 16, color: Colors.black38),
       );
 
   InkWell _licenceInfo() {
     return InkWell(
       splashColor: Colors.grey,
+      onTap: () {},
       child: SizedBox(
           height: 50,
           child: ListTile(
@@ -98,21 +99,20 @@ class _MenuScreenState extends State<MenuScreen> {
             title: Text("라이센스 정보"),
             trailing: Icon(Icons.arrow_forward_ios_outlined),
           )),
-      onTap: () {},
     );
   }
 
   InkWell _serviceInfo() {
     return InkWell(
       splashColor: Colors.grey,
+      onTap: () {},
       child: SizedBox(
           height: 50,
           child: ListTile(
             leading: Icon(Icons.info_outline),
-            title: Text("서비스 이용 약관"),
+            title: Text('서비스 이용 약관'),
             trailing: Icon(Icons.arrow_forward_ios_outlined),
           )),
-      onTap: () {},
     );
   }
 
@@ -124,44 +124,34 @@ class _MenuScreenState extends State<MenuScreen> {
   InkWell _privacy() {
     return InkWell(
       splashColor: Colors.grey,
-      child: SizedBox(
+      onTap: () {},
+      child: const SizedBox(
           height: 50,
           child: ListTile(
             leading: Icon(Icons.info_outline),
             title: Text("개인정보 처리 방침"),
             trailing: Icon(Icons.arrow_forward_ios_outlined),
           )),
-      onTap: () {},
     );
   }
 
   InkWell _setTheme() {
     return InkWell(
       splashColor: Colors.grey,
-      child: SizedBox(
+      onTap: () {},
+      child: const SizedBox(
           height: 50,
           child: ListTile(
             leading: Icon(Icons.video_label_rounded),
             title: Text("테마 설정"),
             trailing: Icon(Icons.arrow_forward_ios_outlined),
           )),
-      onTap: () {},
     );
   }
 
   InkWell _perLocation() {
     return InkWell(
       splashColor: Colors.grey,
-      child: SizedBox(
-          height: 50,
-          child: ListTile(
-            leading: Icon(Icons.not_listed_location),
-            title: Text("위치 정보 수집"),
-            trailing: Text(
-              _locateState,
-              style: TextStyle(color: Colors.black38),
-            ),
-          )),
       onTap: () {
         showDialog(
             context: context,
@@ -226,34 +216,34 @@ class _MenuScreenState extends State<MenuScreen> {
                 ),
                 actions: [
                   TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
                     child: Text(
                       '취소',
                       style: TextStyle(color: Colors.black87),
                     ),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
                   ),
                 ],
               );
             });
       },
+      child: SizedBox(
+          height: 50,
+          child: ListTile(
+            leading: Icon(Icons.not_listed_location),
+            title: Text("위치 정보 수집"),
+            trailing: Text(
+              _locateState,
+              style: TextStyle(color: Colors.black38),
+            ),
+          )),
     );
   }
 
   InkWell _setAlert() {
     return InkWell(
       splashColor: Colors.grey,
-      child: SizedBox(
-          height: 50,
-          child: ListTile(
-            leading: Icon(Icons.add_alert),
-            title: Text("알림"),
-            trailing: Text(
-              _alertState,
-              style: TextStyle(color: Colors.black38),
-            ),
-          )),
       onTap: () {
         showDialog(
             context: context,
@@ -267,7 +257,7 @@ class _MenuScreenState extends State<MenuScreen> {
                 //Dialog Main Title
                 title: Column(
                   children: <Widget>[
-                    Text("알림 설정"),
+                    const Text('알림 설정'),
                   ],
                 ),
                 //
@@ -284,7 +274,7 @@ class _MenuScreenState extends State<MenuScreen> {
                           _perAlert = value;
                           print(value);
                           Navigator.pop(context);
-                          _alertState = "허용";
+                          _alertState = '허용';
                         });
                       },
                     ),
@@ -297,8 +287,7 @@ class _MenuScreenState extends State<MenuScreen> {
                           _perAlert = value;
                           print(value);
                           Navigator.pop(context);
-                          _alertState = "안 허용";
-
+                          _alertState = '안 허용';
                         });
                       },
                     ),
@@ -306,18 +295,28 @@ class _MenuScreenState extends State<MenuScreen> {
                 ),
                 actions: [
                   TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
                     child: Text(
                       '취소',
                       style: TextStyle(color: Colors.black87),
                     ),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
                   ),
                 ],
               );
             });
       },
+      child: SizedBox(
+          height: 50,
+          child: ListTile(
+            leading: Icon(Icons.add_alert),
+            title: Text('알림'),
+            trailing: Text(
+              _alertState,
+              style: TextStyle(color: Colors.black38),
+            ),
+          )),
     );
   }
 
@@ -332,16 +331,6 @@ class _MenuScreenState extends State<MenuScreen> {
   InkWell _versionInfo() {
     return InkWell(
       splashColor: Colors.grey,
-      child: SizedBox(
-          height: 50,
-          child: ListTile(
-            leading: Icon(Icons.info_outline),
-            title: Text("버전 정보"),
-            trailing: Text(
-              '최신 버전',
-              style: TextStyle(color: Colors.black38),
-            ),
-          )),
       onTap: () {
         showDialog(
             context: context,
@@ -355,7 +344,7 @@ class _MenuScreenState extends State<MenuScreen> {
                 //Dialog Main Title
                 title: Column(
                   children: <Widget>[
-                    Text("버전 정보"),
+                    Text('버전 정보'),
                   ],
                 ),
                 //
@@ -364,30 +353,40 @@ class _MenuScreenState extends State<MenuScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      "0.011(beta)",
+                      '0.011(beta)',
                     ),
                   ],
                 ),
                 actions: [
                   TextButton(
-                    child: Text(
-                      "확인",
-                      style: TextStyle(color: Colors.black87),
-                    ),
                     onPressed: () {
                       Navigator.pop(context);
                     },
+                    child: Text(
+                      '확인',
+                      style: TextStyle(color: Colors.black87),
+                    ),
                   ),
                 ],
               );
             });
       },
+      child: SizedBox(
+          height: 50,
+          child: ListTile(
+            leading: Icon(Icons.info_outline),
+            title: Text('버전 정보'),
+            trailing: Text(
+              '최신 버전',
+              style: TextStyle(color: Colors.black38),
+            ),
+          )),
     );
   }
 
   Text _application() {
     return Text(
-      "어플리케이션",
+      '어플리케이션',
       style: TextStyle(fontSize: 16, color: Colors.black38),
     );
   }
@@ -399,6 +398,7 @@ class _MenuScreenState extends State<MenuScreen> {
         SizedBox(
           child: InkWell(
             splashColor: Colors.grey,
+            onTap: () {},
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -406,30 +406,30 @@ class _MenuScreenState extends State<MenuScreen> {
                   Icons.list_alt,
                   color: Colors.cyan,
                 ),
-                Text("이용내역", style: TextStyle(fontSize: 12))
+                Text('이용내역', style: TextStyle(fontSize: 12))
               ],
             ),
-            onTap: () {},
           ),
         ),
         Spacer(flex: 2),
         InkWell(
           splashColor: Colors.grey,
+          onTap: () {},
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
+              const Icon(
                 Icons.chat,
                 color: Colors.cyan,
               ),
-              Text("리뷰관리", style: TextStyle(fontSize: 12))
+              Text('리뷰관리', style: TextStyle(fontSize: 12))
             ],
           ),
-          onTap: () {},
         ),
         Spacer(flex: 2),
         InkWell(
           splashColor: Colors.grey,
+          onTap: () {},
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -437,10 +437,9 @@ class _MenuScreenState extends State<MenuScreen> {
                 Icons.star_border,
                 color: Colors.cyan,
               ),
-              Text("관심목록", style: TextStyle(fontSize: 12))
+              Text('관심목록', style: TextStyle(fontSize: 12))
             ],
           ),
-          onTap: () {},
         ),
         Spacer(flex: 1),
       ],
@@ -458,10 +457,10 @@ class _MenuScreenState extends State<MenuScreen> {
         ),
         Spacer(flex: 8),
         Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text("김다슬님",
+          const Text('김다슬님',
               style: TextStyle(fontWeight: FontWeight.w600, fontSize: 21)),
           SizedBox(height: 4),
-          Text("일반 회원"),
+          const Text('일반 회원'),
         ]),
         Spacer(flex: 88),
         IconButton(
@@ -476,7 +475,7 @@ class _MenuScreenState extends State<MenuScreen> {
 
   Text _basicInfo() {
     return Text(
-      "기본 정보",
+      '기본 정보',
       style: TextStyle(fontSize: 15, color: Colors.black38),
     );
   }
@@ -491,7 +490,7 @@ class _MenuScreenState extends State<MenuScreen> {
             }),
         Spacer(flex: 3),
         Text(
-          "더보기",
+          '더보기',
           style: TextStyle(fontSize: 18),
         ),
         Spacer(flex: 4),

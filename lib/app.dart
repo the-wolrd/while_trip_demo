@@ -14,26 +14,24 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (size == null) {
-      size = MediaQuery.of(context).size;
-    }
+    size ??= MediaQuery.of(context).size;
     return Consumer<Login>(
       builder: (BuildContext context, Login provider, Widget child) {
 
         switch(provider.loginState){
           case LoginState.signIn:
             _currentWidget = HomeScreen();
-            print("로그인");
+            print('로그인');
             break;
 
           case LoginState.signOut:
             _currentWidget = GetStartScreen();
-            print("로그아웃");
+            print('로그아웃');
             break;
 
           default:
             _currentWidget = CircularProgressIndicator();
-            print("중");
+            print('중');
             break;
         }
         return AnimatedSwitcher(

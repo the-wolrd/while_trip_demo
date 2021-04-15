@@ -22,7 +22,7 @@ class ActivityCard extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(30.0)),
             image: DecorationImage(
-              image: AssetImage('assets/stores/${img_path}'),
+              image: AssetImage('assets/stores/$img_path'),
               fit: BoxFit.fill
             )
       ),
@@ -55,14 +55,14 @@ class ActivityCard extends StatelessWidget {
               Row(
                 children: [
                   Icon(Icons.star, color: Colors.white, size: 20.0,),
-                  Text(' ${score} (${reviewNum}명)',  style: TextStyle(fontWeight: FontWeight.bold, color:Colors.white, fontSize: 15.0))
+                  Text(' $score ($reviewNum명)',  style: TextStyle(fontWeight: FontWeight.bold, color:Colors.white, fontSize: 15.0))
                 ],
               ),
               SizedBox(height: 5.0,),
               Row(
                 children: [
-                  Text('${content} ${price_final} ', style: TextStyle(fontWeight: FontWeight.bold, color:Colors.white, fontSize: 20.0)),
-                  Text('${price_origin}', style: TextStyle(color:Colors.white70, fontSize: 15.0,decoration: TextDecoration.lineThrough))
+                  Text('$content $price_final ', style: TextStyle(fontWeight: FontWeight.bold, color:Colors.white, fontSize: 20.0)),
+                  Text('$price_origin', style: TextStyle(color:Colors.white70, fontSize: 15.0,decoration: TextDecoration.lineThrough))
                 ],
               )
             ],

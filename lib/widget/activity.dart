@@ -168,15 +168,15 @@ class _ActivityScreenState extends State<ActivityScreen> {
             },
           ),
           Expanded(
-            child: Center(child: Text("MY 액티비티", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0),)),
+            child: Center(child: Text('MY 액티비티', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0),)),
           ),
           TextButton(
-            child: Text(setOption?'완료':'편집', style: TextStyle(color: Colors.lightBlueAccent, fontWeight: FontWeight.bold)),
             onPressed: (){
               setState(() {
                 setOption = !setOption;
               });
             },
+            child: Text(setOption?'완료':'편집', style: const TextStyle(color: Colors.lightBlueAccent, fontWeight: FontWeight.bold)),
           )
         ],
       ),

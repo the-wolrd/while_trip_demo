@@ -169,16 +169,16 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
       child: Row(
         children: [
           IconButton(
-            icon: Icon(Icons.arrow_back_ios),
+            icon: const Icon(Icons.arrow_back_ios),
             onPressed: (){
               Navigator.pop(context);
             },
           ),
-          Expanded(
-            child: Center(child: Text("관심목록", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0),)),
+          const Expanded(
+            child: Center(child: Text('관심목록', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0),)),
           ),
           IconButton(
-            icon: Icon(Icons.star, color: Colors.white,),
+            icon: const Icon(Icons.star, color: Colors.white,), onPressed: (){},
           )
         ],
       ),

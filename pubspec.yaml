@@ -30,6 +30,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   provider: ^5.0.0
   flutter_native_splash: ^0.1.9
+  pedantic: ^1.11.0
 
 flutter_native_splash:
   image: assets/loding_page/loading_bg.png
@@ -38,6 +39,8 @@ flutter_native_splash:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+  pedantic: ^1.11.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

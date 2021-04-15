@@ -13,7 +13,7 @@ void main() {
 class MyApp extends StatelessWidget {
   // This widget is the root of your application..
 
-  Login _loginState = Login();
+  final Login _loginState = Login();
   Widget _currentWidget;
 
   @override

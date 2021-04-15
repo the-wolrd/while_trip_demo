@@ -13,18 +13,19 @@ class AdvertisePart extends StatefulWidget {
 class _AdvertisePartState extends State<AdvertisePart> {
 
   int _pageNum = 0;
-  PageController _pageController = PageController();
+  final PageController _pageController = PageController();
   LittleDotsPainter _littleDosPainter = LittleDotsPainter(deviceSize: size, page: 0.0);
 
   Timer _timer;
 
   @override
   void initState() {
-    _timer = new Timer.periodic(Duration(seconds: 2), (timer){
-      if(_pageController.page <3.0)
-        _pageController.nextPage(duration: Duration(seconds: 1), curve: Curves.fastOutSlowIn);
-      else
-        _pageController.animateToPage(0, duration: Duration(seconds: 1), curve: Curves.fastOutSlowIn);
+    _timer = Timer.periodic(const Duration(seconds: 2), (timer){
+      if(_pageController.page <3.0) {
+        _pageController.nextPage(duration: const Duration(seconds: 1), curve: Curves.fastOutSlowIn);
+      } else {
+        _pageController.animateToPage(0, duration: const Duration(seconds: 1), curve: Curves.fastOutSlowIn);
+      }
     });
     _pageController.addListener(onPageChanged);
     super.initState();
@@ -57,11 +58,11 @@ class _AdvertisePartState extends State<AdvertisePart> {
             child:Container(
               height:30.0,
               width: 50.0,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 borderRadius: BorderRadius.only(topLeft: Radius.circular(20.0), bottomLeft: Radius.circular(20.0)),
                 color: Colors.black54
               ),
-              child: Center(child: Text('${_pageNum}/4', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15.0),)),
+              child: Center(child: Text('$_pageNum/4', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15.0),)),
             ),
           ),
           CustomPaint(
@@ -96,8 +97,9 @@ class LittleDotsPainter extends CustomPainter{
     canvas.drawCircle(Offset(deviceSize.width * 0.5 + 8.0,  190.0), 5.0, Paint()..color = Colors.red..strokeWidth = 2 .. style=PaintingStyle.stroke);
     canvas.drawCircle(Offset(deviceSize.width * 0.5 + 24.0,  190.0), 5.0, Paint()..color = Colors.red..strokeWidth = 2 .. style=PaintingStyle.stroke);
 
-    if(page != null)
+    if(page != null) {
       canvas.drawCircle(Offset(deviceSize.width * 0.5 - 24.0 + page*16.0,  190.0), 5.0, Paint()..color = Colors.yellow);
+    }
 
   }
 
