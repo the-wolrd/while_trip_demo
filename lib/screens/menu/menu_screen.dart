@@ -8,60 +8,58 @@ import 'sub/1vs1.dart';
 import 'sub/personal_auth.dart';
 
 class MenuScreen extends StatefulWidget {
-
-
   @override
   _MenuScreenState createState() => _MenuScreenState();
 }
 
+enum PerAlert { Allowed, NotAllowed }
+enum PerLocate { Allowed, NotAllowed, UseApp }
+
 class _MenuScreenState extends State<MenuScreen> {
+  PerAlert _perAlert = PerAlert.Allowed;
+  PerLocate _perLocate = PerLocate.Allowed;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 18.0),
-              child: ListView(
-                children: [
-                  _topBar(context),
-                  _gap(34),
-                  _basicInfo(),
-                  _gap(14),
-                  _account(),
-                  _gap(22),
-                  _etc(),
-                  _gap(18),
-                  _application(),
-                  _versionInfo(),
-                  _myDivider(),
-                  _setAlert(),
-                  _myDivider(),
-                  _perLocation(),
-                  _myDivider(),
-                  _setTheme(),
-                  _myDivider(),
-                  _gap(38),
-                  _etcInfo(),
-                  _privacy(),
-                  _myDivider(),
-                  _serviceInfo(),
-                  _myDivider(),
-                  _licenceInfo(),
-                  _myDivider(),
-                  _gap(38),
-                  _qnA(),
-                  _inquire(),
-                  _myDivider(),
-                  _gap(38),
-                  TextButton(onPressed: (){
-                    Provider.of<Login>(context, listen: false).logout();
-                  },
-                  child: Text("dsadsa"),
-                  )
-                ],
-              ),
-            )
-      ),
+          body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 18.0),
+        child: ListView(
+          children: [
+            _topBar(context),
+            _gap(34),
+            _basicInfo(),
+            _gap(14),
+            _account(),
+            _gap(22),
+            _etc(),
+            _gap(18),
+            _application(),
+            _versionInfo(),
+            _myDivider(),
+            _setAlert(),
+            _myDivider(),
+            _perLocation(),
+            _myDivider(),
+            _setTheme(),
+            _myDivider(),
+            _gap(38),
+            _etcInfo(),
+            _privacy(),
+            _myDivider(),
+            _serviceInfo(),
+            _myDivider(),
+            _licenceInfo(),
+            _myDivider(),
+            _gap(38),
+            _qnA(),
+            _inquire(),
+            _myDivider(),
+            _gap(38),
+          ],
+        ),
+      )),
     );
   }
 
@@ -162,7 +160,79 @@ class _MenuScreenState extends State<MenuScreen> {
               style: TextStyle(color: Colors.black38),
             ),
           )),
-      onTap: () {},
+      onTap: () {
+        showDialog(
+            context: context,
+            //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
+            barrierDismissible: false,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                // RoundedRectangleBorder - Dialog 화면 모서리 둥글게 조절
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0)),
+                //Dialog Main Title
+                title: Column(
+                  children: <Widget>[
+                    Text("알림 설정"),
+                  ],
+                ),
+                //
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    RadioListTile(
+                      title: Text('항상'),
+                      value: PerLocate.Allowed,
+                      groupValue: _perLocate,
+                      onChanged: (value) {
+                        setState(() {
+                          _perLocate = value;
+                          print(value);
+                          Navigator.pop(context);
+                        });
+                      },
+                    ),
+                    RadioListTile(
+                      title: Text('앱을 사용하는동안'),
+                      value: PerLocate.UseApp,
+                      groupValue: _perLocate,
+                      onChanged: (value) {
+                        setState(() {
+                          _perLocate = value;
+                          print(value);
+                          Navigator.pop(context);
+                        });
+                      },
+                    ),
+                    RadioListTile(
+                      title: Text('안 허용'),
+                      value: PerLocate.NotAllowed,
+                      groupValue: _perLocate,
+                      onChanged: (value) {
+                        setState(() {
+                          _perLocate = value;
+                          print(value);
+                          Navigator.pop(context);
+                        });
+                      },
+                    ),
+                  ],
+                ),
+                actions: [
+                  TextButton(
+                    child: Text(
+                      '취소',
+                      style: TextStyle(color: Colors.black87),
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ],
+              );
+            });
+      },
     );
   }
 
@@ -179,7 +249,67 @@ class _MenuScreenState extends State<MenuScreen> {
               style: TextStyle(color: Colors.black38),
             ),
           )),
-      onTap: () {},
+      onTap: () {
+        showDialog(
+            context: context,
+            //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
+            barrierDismissible: false,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                // RoundedRectangleBorder - Dialog 화면 모서리 둥글게 조절
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0)),
+                //Dialog Main Title
+                title: Column(
+                  children: <Widget>[
+                    Text("알림 설정"),
+                  ],
+                ),
+                //
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    RadioListTile(
+                      title: Text('허용'),
+                      value: PerAlert.Allowed,
+                      groupValue: _perAlert,
+                      onChanged: (value) {
+                        setState(() {
+                          _perAlert = value;
+                          print(value);
+                          Navigator.pop(context);
+                        });
+                      },
+                    ),
+                    RadioListTile(
+                      title: Text('안 허용'),
+                      value: PerAlert.NotAllowed,
+                      groupValue: _perAlert,
+                      onChanged: (value) {
+                        setState(() {
+                          _perAlert = value;
+                          print(value);
+                          Navigator.pop(context);
+                        });
+                      },
+                    ),
+                  ],
+                ),
+                actions: [
+                  TextButton(
+                    child: Text(
+                      '취소',
+                      style: TextStyle(color: Colors.black87),
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ],
+              );
+            });
+      },
     );
   }
 
@@ -204,7 +334,46 @@ class _MenuScreenState extends State<MenuScreen> {
               style: TextStyle(color: Colors.black38),
             ),
           )),
-      onTap: () {},
+      onTap: () {
+        showDialog(
+            context: context,
+            //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
+            barrierDismissible: false,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                // RoundedRectangleBorder - Dialog 화면 모서리 둥글게 조절
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0)),
+                //Dialog Main Title
+                title: Column(
+                  children: <Widget>[
+                    Text("버전 정보"),
+                  ],
+                ),
+                //
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "0.011(beta)",
+                    ),
+                  ],
+                ),
+                actions: [
+                  TextButton(
+                    child: Text(
+                      "확인",
+                      style: TextStyle(color: Colors.black87),
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ],
+              );
+            });
+      },
     );
   }
 
@@ -225,7 +394,10 @@ class _MenuScreenState extends State<MenuScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.list_alt),
+                Icon(
+                  Icons.list_alt,
+                  color: Colors.cyan,
+                ),
                 Text("이용내역", style: TextStyle(fontSize: 12))
               ],
             ),
@@ -238,7 +410,10 @@ class _MenuScreenState extends State<MenuScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.chat),
+              Icon(
+                Icons.chat,
+                color: Colors.cyan,
+              ),
               Text("리뷰관리", style: TextStyle(fontSize: 12))
             ],
           ),
@@ -250,7 +425,10 @@ class _MenuScreenState extends State<MenuScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.star_border),
+              Icon(
+                Icons.star_border,
+                color: Colors.cyan,
+              ),
               Text("관심목록", style: TextStyle(fontSize: 12))
             ],
           ),
@@ -268,7 +446,7 @@ class _MenuScreenState extends State<MenuScreen> {
         Icon(
           Icons.account_circle,
           size: 60,
-          color: Colors.grey,
+          color: Colors.cyan,
         ),
         Spacer(flex: 8),
         Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -279,9 +457,11 @@ class _MenuScreenState extends State<MenuScreen> {
         ]),
         Spacer(flex: 88),
         IconButton(
-            icon: Icon(Icons.arrow_forward_ios_rounded), onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context)=> PersonalAuth()));
-        })
+            icon: Icon(Icons.arrow_forward_ios_rounded),
+            onPressed: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => PersonalAuth()));
+            })
       ],
     );
   }
