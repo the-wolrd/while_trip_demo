@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:while_trip_demo/constant/size.dart';
+import 'package:while_trip_demo/network/network_function.dart';
 import 'package:while_trip_demo/provider/login.dart';
 import 'package:while_trip_demo/screens/home/home_screen.dart';
 import 'package:while_trip_demo/screens/login/sub/signUp.dart';
@@ -81,6 +82,60 @@ class LoginScreen extends StatelessWidget {
               InkWell(
                 child: _imageIcon("assets/login_page/facebook_icon.png"),
                 onTap: () {
+
+//                  final String storeKey; // 가게 고유키
+//                  final String ownerKey; // 가게 userKey
+//                  final List<dynamic> profileImgs; // 가게 사진들 (들어갈 값은, firestorage에 인터넷링크)
+//                  final String storeName; // 가게 이름
+//                  final String location; // 가게 위치
+//                  final String detail; // 가게 세부위치
+//                  final double lat; // 위도
+//                  final double lon; // 경도
+//                  final String info; // 가게 설명
+//                  final List<dynamic> reviews; // 리뷰들 리스트 (각 학목은 reviewKey 값)
+//
+//                  final List<Map<String, dynamic>> summarys; // 요약
+//
+//                  final String specificInfo; // 상세 정보
+//                  final String refoundInfo; // 환불 규정
+//                  final String cautionInfo; // 유의 사항
+//                  final String homeLink; // 가게 링크
+//                  final String storePhone; // 가게 전화번호
+
+                  networkFunction.createStore({
+                    'storeKey' : '1d9v7seDfiv993',
+                    'ownerKey' : 'asdfasdfasdf',
+                    'profileImgs' : ['htttpP:/wwnvewljw.com'],
+                    'storeName' : '진호',
+                    'location' : '강현',
+                    'detail' : '1층',
+                    'lat' : 12.0,
+                    'lon' : 241.5,
+                    'info' : 'ㅇㄴ',
+                    'reviews' : ['asdfasdfasfd', 'asdfasdfw2eqf'],
+                    'summarys' : [
+                      {
+                      'name':'서핑 3시간',
+                      'origin':'299,000원',
+                      'final': '99,000원'
+                    },
+                      {
+                        'name':'서핑 2시간',
+                        'origin':'299,000원',
+                        'final': '99,000원'
+                      },
+                      {
+                        'name':'서핑 1시간',
+                        'origin':'299,000원',
+                        'final': '99,000원'
+                      }
+                      ],
+                    'specificInfo' : 'ㅁㄴㅇㄻㄴㅇ',
+                    'refoundInfo' : 'ㄴㅇㅁㄹ',
+                    'cautionInfo' : 'ㄴㅁㅇㄹ',
+                    'homeLink' : 'ㅁㄴㅇㄹ',
+                    'storePhone' : '123456798',
+                  });
                 },
               ),
               Spacer(

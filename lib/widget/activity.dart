@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:while_trip_demo/screens/home/sub/register_store.dart';
 import '../constant/size.dart';
 
 class ActivityScreen extends StatefulWidget {
@@ -77,6 +78,13 @@ class _ActivityScreenState extends State<ActivityScreen> {
             _listActivity()
           ],
         ),
+        floatingActionButton: setOption?FloatingActionButton(
+          backgroundColor: Colors.lightBlueAccent,
+          child: Icon(Icons.add, color: Colors.white,),
+          onPressed: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>RegisterStore()));
+          },
+        ):Container(),
       ),
     );
   }
@@ -133,7 +141,6 @@ class _ActivityScreenState extends State<ActivityScreen> {
                           ),
                         ),
                       ),
-
                       AnimatedContainer(
                         duration: Duration(milliseconds: 300),
                         transform: Matrix4.translationValues(setOption?size.width-50.0:size.width, 0, 0),

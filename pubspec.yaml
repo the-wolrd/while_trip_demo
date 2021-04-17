@@ -32,6 +32,12 @@ dependencies:
   flutter_native_splash: ^0.1.9
   pedantic: ^1.11.0
 
+  firebase_auth: ^1.1.0
+  firebase_core: ^1.0.3
+  cloud_firestore: ^1.0.5
+  firebase_storage: ^8.0.3
+
+
 flutter_native_splash:
   image: assets/loding_page/loading_bg.png
   color: "42A5F5"

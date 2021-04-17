@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:while_trip_demo/model/store_model.dart';
+import 'package:while_trip_demo/network/network_function.dart';
 import './sub/my_location.dart';
 import '../../widget/advertise_part.dart';
 import '../../widget/activity_card.dart';
@@ -169,15 +172,22 @@ class _HomeScreenState extends State<HomeScreen> {
               itemBuilder: (context, index){
                 return Padding(
                   padding: const EdgeInsets.only(right: 10.0),
-                  child: ActivityCard(
-                      storeName: card[index]['storeName'],
-                      location: card[index]['location'],
-                      score: card[index]['score'],
-                      reviewNum: card[index]['reviewNum'],
-                      content: card[index]['content'],
-                      price_final: card[index]['price_final'],
-                      price_origin: card[index]['price_origin'],
-                      img_path: card[index]['img_path'],
+                  child: StreamProvider<StoreModel>.value(
+                    value: networkFunction.getAStoreModel('1d9v7seDfiv993'),
+
+                    child: Consumer<StoreModel>(
+                      builder: (context, store, _){
+                        if(store == null){
+                          return Container();
+                        }
+                        else{
+                          return  ActivityCard(
+                            store: store,
+                          );
+                        }
+                      },
+
+                    ),
                   ),
                 );
               },
