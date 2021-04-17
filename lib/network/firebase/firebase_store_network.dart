@@ -15,13 +15,27 @@ class FirebaseStoreNetwork with Transformers{
 
     return FirebaseFirestore.instance.runTransaction((Transaction tx) async {
       if(!documentSnapshot.exists){
-        List<Map<String, dynamic>> summaryData = storeData['summarys'];
+        List<Map<String, dynamic>> summaryData = storeData['summaries'];
         summaryData.forEach((element) async {
-          final newSummaryRef = newStoreRef.collection('summarys').doc(element.toString());
+          final newSummaryRef = newStoreRef.collection('summaries').doc(element.toString());
           await tx.set(newSummaryRef, element);
         });
         await tx.set(newStoreRef, storeData);
       }
+    });
+  }
+
+  Future<void> updateStore(Map<String, dynamic> storeData, String storeKey) async {
+
+    final newStoreRef = FirebaseFirestore.instance.collection('stores').doc(storeKey);
+
+    return FirebaseFirestore.instance.runTransaction((Transaction tx) async {
+      List<Map<String, dynamic>> summaryData = storeData['summarys'];
+      summaryData.forEach((element) async {
+        final newSummaryRef = newStoreRef.collection('summarys').doc(element.toString());
+        await tx.set(newSummaryRef, element);
+      });
+      await tx.set(newStoreRef, storeData);
     });
   }
 

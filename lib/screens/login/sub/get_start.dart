@@ -38,7 +38,7 @@ class GetStartScreen extends StatelessWidget {
               ),
               child: Center(
                   child: Text(
-                "시작하기",
+                '시작하기',
                 style: TextStyle(color: Colors.cyan, fontSize: 17),
               )),
               onPressed: () {
@@ -59,7 +59,7 @@ class GetStartScreen extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("assets/login_page/get_start.png"),
+          image: AssetImage('assets/login_page/get_start.png'),
           fit: BoxFit.cover,
         ),
       ),

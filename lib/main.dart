@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:while_trip_demo/provider/login.dart';
 
 import 'app.dart';
+import 'model/gallery_state.dart';
 import 'screens/home/home_screen.dart';
 import 'screens/login/sub/get_start.dart';
 
@@ -13,41 +14,55 @@ void main() async {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   // This widget is the root of your application..
 
+  final GalleryState _galleryState = GalleryState();
+
+  @override
+  _MyAppState createState() {
+    _galleryState.initProvider();
+    return _MyAppState();
+  }
+}
+
+class _MyAppState extends State<MyApp> {
   final Login _loginState = Login();
+
   Widget _currentWidget;
 
   @override
   Widget build(BuildContext context) {
-    return
-        ChangeNotifierProvider<Login>.value(
-          value: _loginState,
-          child:  MaterialApp(
-            home: Consumer<Login>(
-              builder: (BuildContext context, Login provider, Widget child) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<Login>.value(value: _loginState),
+        ChangeNotifierProvider<GalleryState>.value(value: widget._galleryState),
+      ],
+      child: MaterialApp(
+        home: Consumer<Login>(
+          builder: (BuildContext context, Login provider, Widget child) {
 
-                switch(provider.loginState){
-                  case LoginState.signIn:
-                    _currentWidget = HomeScreen();
-                    break;
+            switch(provider.loginState){
+              case LoginState.signIn:
+                _currentWidget = HomeScreen();
+                break;
 
-                  case LoginState.signOut:
-                    _currentWidget = GetStartScreen();
-                    break;
+              case LoginState.signOut:
+                _currentWidget = GetStartScreen();
+                break;
 
-                  default:
-                    _currentWidget = CircularProgressIndicator();
-                    break;
-                }
-                return AnimatedSwitcher(
-                    duration: Duration(seconds: 1),
-                    child: _currentWidget);
+              default:
+                _currentWidget = CircularProgressIndicator();
+                break;
+            }
+            return AnimatedSwitcher(
+                duration: Duration(seconds: 1),
+                child: _currentWidget);
 
-              },
-            ),
-          ),
-        );
+          },
+        ),
+      ),
+    );
+
   }
 }

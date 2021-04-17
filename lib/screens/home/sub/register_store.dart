@@ -1,10 +1,17 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:while_trip_demo/constant/size.dart';
+import 'package:while_trip_demo/model/store_model.dart';
 import 'package:while_trip_demo/network/network_function.dart';
+import 'package:while_trip_demo/widget/select_img_from_gallery.dart';
 
 class RegisterStore extends StatefulWidget {
+  final StoreModel store;
+
+  RegisterStore({this.store});
+
   @override
   _RegisterStoreState createState() => _RegisterStoreState();
 }
@@ -14,24 +21,56 @@ class _RegisterStoreState extends State<RegisterStore> {
   final double _titleSize = 15.0;
   final double _contentSize = 25.0;
 
+  bool _isNew = true;
+
   String _field = '서핑';
   TextEditingController _storeName = TextEditingController();
-  String _location = '대학로 291';
+  String _location = '서귀포시 중문관광로 94';
   TextEditingController _detail = TextEditingController();
   TextEditingController _storePhone = TextEditingController();
   TextEditingController _homeLink = TextEditingController();
-  List<dynamic> _photos = [1, 2, 3, 4, 5];
+  List<dynamic> _photos = [];
   TextEditingController _info = TextEditingController();
   List<Map<String, dynamic>> _summaries = [
     {'name': '서핑 강의 + 3시간 이용권', 'origin': '229,000원', 'final': '229,000원'},
     {'name': '서핑 강의 + 6시간 이용권', 'origin': '349,000원', 'final': '349,000원'},
     {'name': '3시간 자유이용권', 'origin': '149,000원', 'final': '149,000원'}
   ];
-  TextEditingController _optionName = TextEditingController();
-  TextEditingController _optionPrice = TextEditingController();
+  TextEditingController _optionName = TextEditingController(); // not in store
+  TextEditingController _optionPrice = TextEditingController(); // not in store
   TextEditingController _specificInfo = TextEditingController();
   TextEditingController _refundInfo = TextEditingController();
   TextEditingController _cautionInfo = TextEditingController();
+
+  @override
+  void initState() {
+    if (widget.store != null) {
+      _isNew = false;
+      _field = widget.store.field;
+      _storeName.text = widget.store.storeName;
+      _location = widget.store.location;
+      _detail.text = widget.store.detail;
+      _storePhone.text = widget.store.storePhone;
+      _homeLink.text = widget.store.homeLink;
+      _photos = widget.store.profileImgs;
+      _info.text = widget.store.info;
+      _summaries = widget.store.summaries;
+      _specificInfo.text = widget.store.specificInfo;
+      _refundInfo.text = widget.store.refundInfo;
+      _cautionInfo.text = widget.store.cautionInfo;
+    }
+
+    _storeName.text = '서귀포 서핑샵';
+    _detail.text = '1층';
+    _storePhone.text = '010-1234-5678';
+    _homeLink.text = 'https://www.instagram.com/jeju_surfing/';
+    _info.text = '제주도 여행에서 결코 놓칠 수 없는 것, 바로 제주 바닷가에서의 서핑! 태평양에서부터 불어오는 바람과 파도를 직접 느낄 수 있는 서귀포 앞바다에서의 서핑을 지금 바로 즐겨보세요!';
+    _specificInfo.text = '제주도 여행에서 결코 놓칠 수 없는 것, 바로 제주 바닷가에서의 서핑!\n태평양세서부터 불어오는 바람과 파도를 직접 느낄 수 있는 서귀포 앞바다에서의 서핑을 지금 바로 즐겨보세요!\n- 예약 확정 후 , 무료코드가 바우처 또는 문자로 발송됩니다.\n- 각 업체별로 사용 가능한 쿠폰이 노출됩니다.\n- 무료쿠폰 코드는 등록 즉시 사용처리되므로, 사용일에 등록 바랍니다.\n- 오등록으로 인한 코드 재발급은 불가합니다.\n- 유효기간은 0000.00.00까지이며, 코드를 등록한 시점으로부터 168시간 (7일) 동안 사용하실 수 있습니다.\n- 업체 사정으로 인해 일부 혜택이 예고 없이 변경될 수 있습니다.\- 업체별 영업시간이 변돌될 수 있어, 방문 전 업체로 문의하시기 바랍니다. (전화문의 권장)\n- 쿠폰은 3시간에 1잔 사용할 수 있으며, 동일 업체는 당일 재사용이 불가능 합니다.\n- 이용기간 내 사용하지 않은 쿠폰은 소멸됩니다.(미사용 쿠폰에 대해 부분환불, 적립 불가)';
+    _refundInfo.text = '- 예약 확정 후 , 무료코드가 바우처 또는 문자로 발송됩니다.\n- 각 업체별로 사용 가능한 쿠폰이 노출됩니다.\n- 무료쿠폰 코드는 등록 즉시 사용처리되므로, 사용일에 등록 바랍니다.\n- 오등록으로 인한 코드 재발급은 불가합니다.\n- 유효기간은 0000.00.00까지이며, 코드를 등록한 시점으로부터 168시간 (7일) 동안 사용하실 수 있습니다.\n- 업체 사정으로 인해 일부 혜택이 예고 없이 변경될 수 있습니다.\- 업체별 영업시간이 변돌될 수 있어, 방문 전 업체로 문의하시기 바랍니다. (전화문의 권장)\n- 쿠폰은 3시간에 1잔 사용할 수 있으며, 동일 업체는 당일 재사용이 불가능 합니다.\n- 이용기간 내 사용하지 않은 쿠폰은 소멸됩니다.(미사용 쿠폰에 대해 부분환불, 적립 불가)';
+    _cautionInfo.text = '- 예약 확정 후 , 무료코드가 바우처 또는 문자로 발송됩니다.\n- 각 업체별로 사용 가능한 쿠폰이 노출됩니다.\n- 무료쿠폰 코드는 등록 즉시 사용처리되므로, 사용일에 등록 바랍니다.\n- 오등록으로 인한 코드 재발급은 불가합니다.\n- 유효기간은 0000.00.00까지이며, 코드를 등록한 시점으로부터 168시간 (7일) 동안 사용하실 수 있습니다.\n- 업체 사정으로 인해 일부 혜택이 예고 없이 변경될 수 있습니다.\- 업체별 영업시간이 변돌될 수 있어, 방문 전 업체로 문의하시기 바랍니다. (전화문의 권장)\n- 쿠폰은 3시간에 1잔 사용할 수 있으며, 동일 업체는 당일 재사용이 불가능 합니다.\n- 이용기간 내 사용하지 않은 쿠폰은 소멸됩니다.(미사용 쿠폰에 대해 부분환불, 적립 불가)';
+
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -73,7 +112,7 @@ class _RegisterStoreState extends State<RegisterStore> {
                     _specificInfoSet(),
                     _refundInfoSet(),
                     _cautionInfoSet(),
-                    _registerButton()
+                    _isNew ? _registerButton() : Container()
                   ],
                 ),
               ),
@@ -87,18 +126,88 @@ class _RegisterStoreState extends State<RegisterStore> {
   Widget _registerButton() {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: _leftPadding),
-      child: Container(
-        height: 60.0,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(10.0)),
-            color: Colors.lightBlueAccent),
-        child: Center(
-            child: Text(
-          '등록',
-          style: TextStyle(color: Colors.white),
-        )),
+      child: InkWell(
+        onTap: _registerStore,
+        child: Container(
+          height: 60.0,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+              color: Colors.lightBlueAccent),
+          child: Center(
+              child: Text(
+            '등록',
+            style: TextStyle(color: Colors.white),
+          )),
+        ),
       ),
     );
+  }
+
+  void _registerStore() async {
+    if (_field.isEmpty ||
+        _storeName.text.isEmpty ||
+        _location.isEmpty ||
+        _detail.text.isEmpty ||
+        _info.text.isEmpty ||
+        _homeLink.text.isEmpty ||
+        _storePhone.text.isEmpty) {
+      return;
+    }
+
+    Map<String, dynamic> storeTemp = Map();
+
+    storeTemp['storeKey'] = DateTime.now().millisecondsSinceEpoch.toString();
+    storeTemp['ownerKey'] = '123456789';
+    storeTemp['profileImgs'] = _photos;
+    storeTemp['field'] = _field;
+    storeTemp['storeName'] = _storeName.text;
+    storeTemp['location'] = _location;
+    storeTemp['detail'] = _detail.text;
+    storeTemp['lat'] = 33.253894;
+    storeTemp['long'] = 126.417486;
+    storeTemp['info'] = _info.text;
+    //'제주도 여행에서 결코 놓칠 수 없는 것, 바로 제주 바닷가에서의 서핑! 태평양에서부터 불어오는 바람과 파도를 직접 느낄 수 있는 서귀포 앞바다에서의 서핑을 지금 바로 즐겨보세요!'
+    storeTemp['reviews'] = [];
+    storeTemp['summaries'] = _summaries;
+    storeTemp['specificInfo'] = _specificInfo.text;
+    //'제주도 여행에서 결코 놓칠 수 없는 것, 바로 제주 바닷가에서의 서핑!\n태평양세서부터 불어오는 바람과 파도를 직접 느낄 수 있는 서귀포 앞바다에서의 서핑을 지금 바로 즐겨보세요!\n- 예약 확정 후 , 무료코드가 바우처 또는 문자로 발송됩니다.\n- 각 업체별로 사용 가능한 쿠폰이 노출됩니다.\n- 무료쿠폰 코드는 등록 즉시 사용처리되므로, 사용일에 등록 바랍니다.\n- 오등록으로 인한 코드 재발급은 불가합니다.\n- 유효기간은 0000.00.00까지이며, 코드를 등록한 시점으로부터 168시간 (7일) 동안 사용하실 수 있습니다.\n- 업체 사정으로 인해 일부 혜택이 예고 없이 변경될 수 있습니다.\- 업체별 영업시간이 변돌될 수 있어, 방문 전 업체로 문의하시기 바랍니다. (전화문의 권장)\n- 쿠폰은 3시간에 1잔 사용할 수 있으며, 동일 업체는 당일 재사용이 불가능 합니다.\n- 이용기간 내 사용하지 않은 쿠폰은 소멸됩니다.(미사용 쿠폰에 대해 부분환불, 적립 불가)'
+    storeTemp['refundInfo'] = _refundInfo.text;
+    // '- 예약 확정 후 , 무료코드가 바우처 또는 문자로 발송됩니다.\n- 각 업체별로 사용 가능한 쿠폰이 노출됩니다.\n- 무료쿠폰 코드는 등록 즉시 사용처리되므로, 사용일에 등록 바랍니다.\n- 오등록으로 인한 코드 재발급은 불가합니다.\n- 유효기간은 0000.00.00까지이며, 코드를 등록한 시점으로부터 168시간 (7일) 동안 사용하실 수 있습니다.\n- 업체 사정으로 인해 일부 혜택이 예고 없이 변경될 수 있습니다.\- 업체별 영업시간이 변돌될 수 있어, 방문 전 업체로 문의하시기 바랍니다. (전화문의 권장)\n- 쿠폰은 3시간에 1잔 사용할 수 있으며, 동일 업체는 당일 재사용이 불가능 합니다.\n- 이용기간 내 사용하지 않은 쿠폰은 소멸됩니다.(미사용 쿠폰에 대해 부분환불, 적립 불가)'
+    storeTemp['cautionInfo'] = _cautionInfo.text;
+    //'- 예약 확정 후 , 무료코드가 바우처 또는 문자로 발송됩니다.\n- 각 업체별로 사용 가능한 쿠폰이 노출됩니다.\n- 무료쿠폰 코드는 등록 즉시 사용처리되므로, 사용일에 등록 바랍니다.\n- 오등록으로 인한 코드 재발급은 불가합니다.\n- 유효기간은 0000.00.00까지이며, 코드를 등록한 시점으로부터 168시간 (7일) 동안 사용하실 수 있습니다.\n- 업체 사정으로 인해 일부 혜택이 예고 없이 변경될 수 있습니다.\- 업체별 영업시간이 변돌될 수 있어, 방문 전 업체로 문의하시기 바랍니다. (전화문의 권장)\n- 쿠폰은 3시간에 1잔 사용할 수 있으며, 동일 업체는 당일 재사용이 불가능 합니다.\n- 이용기간 내 사용하지 않은 쿠폰은 소멸됩니다.(미사용 쿠폰에 대해 부분환불, 적립 불가)'
+    storeTemp['homeLink'] = _homeLink.text;
+    storeTemp['storePhone'] = _storePhone.text;
+
+    await networkFunction.createStore(storeTemp);
+    Navigator.pop(context);
+  }
+
+  void _updateStore() async {
+    Map<String, dynamic> storeTemp = Map();
+
+    storeTemp['storeKey'] = widget.store.storeKey;
+    storeTemp['ownerKey'] = '123456789';
+    storeTemp['profileImgs'] = _photos;
+    storeTemp['field'] = _field;
+    storeTemp['storeName'] = _storeName.text;
+    storeTemp['location'] = _location;
+    storeTemp['detail'] = _detail.text;
+    storeTemp['lat'] = 33.253894;
+    storeTemp['long'] = 126.417486;
+    storeTemp['info'] = _info.text;
+    //'제주도 여행에서 결코 놓칠 수 없는 것, 바로 제주 바닷가에서의 서핑! 태평양에서부터 불어오는 바람과 파도를 직접 느낄 수 있는 서귀포 앞바다에서의 서핑을 지금 바로 즐겨보세요!'
+    storeTemp['reviews'] = [];
+    storeTemp['summaries'] = _summaries;
+    storeTemp['specificInfo'] = _specificInfo.text;
+    //'제주도 여행에서 결코 놓칠 수 없는 것, 바로 제주 바닷가에서의 서핑!\n태평양세서부터 불어오는 바람과 파도를 직접 느낄 수 있는 서귀포 앞바다에서의 서핑을 지금 바로 즐겨보세요!\n- 예약 확정 후 , 무료코드가 바우처 또는 문자로 발송됩니다.\n- 각 업체별로 사용 가능한 쿠폰이 노출됩니다.\n- 무료쿠폰 코드는 등록 즉시 사용처리되므로, 사용일에 등록 바랍니다.\n- 오등록으로 인한 코드 재발급은 불가합니다.\n- 유효기간은 0000.00.00까지이며, 코드를 등록한 시점으로부터 168시간 (7일) 동안 사용하실 수 있습니다.\n- 업체 사정으로 인해 일부 혜택이 예고 없이 변경될 수 있습니다.\- 업체별 영업시간이 변돌될 수 있어, 방문 전 업체로 문의하시기 바랍니다. (전화문의 권장)\n- 쿠폰은 3시간에 1잔 사용할 수 있으며, 동일 업체는 당일 재사용이 불가능 합니다.\n- 이용기간 내 사용하지 않은 쿠폰은 소멸됩니다.(미사용 쿠폰에 대해 부분환불, 적립 불가)'
+    storeTemp['refundInfo'] = _refundInfo.text;
+    // '- 예약 확정 후 , 무료코드가 바우처 또는 문자로 발송됩니다.\n- 각 업체별로 사용 가능한 쿠폰이 노출됩니다.\n- 무료쿠폰 코드는 등록 즉시 사용처리되므로, 사용일에 등록 바랍니다.\n- 오등록으로 인한 코드 재발급은 불가합니다.\n- 유효기간은 0000.00.00까지이며, 코드를 등록한 시점으로부터 168시간 (7일) 동안 사용하실 수 있습니다.\n- 업체 사정으로 인해 일부 혜택이 예고 없이 변경될 수 있습니다.\- 업체별 영업시간이 변돌될 수 있어, 방문 전 업체로 문의하시기 바랍니다. (전화문의 권장)\n- 쿠폰은 3시간에 1잔 사용할 수 있으며, 동일 업체는 당일 재사용이 불가능 합니다.\n- 이용기간 내 사용하지 않은 쿠폰은 소멸됩니다.(미사용 쿠폰에 대해 부분환불, 적립 불가)'
+    storeTemp['cautionInfo'] = _cautionInfo.text;
+    //'- 예약 확정 후 , 무료코드가 바우처 또는 문자로 발송됩니다.\n- 각 업체별로 사용 가능한 쿠폰이 노출됩니다.\n- 무료쿠폰 코드는 등록 즉시 사용처리되므로, 사용일에 등록 바랍니다.\n- 오등록으로 인한 코드 재발급은 불가합니다.\n- 유효기간은 0000.00.00까지이며, 코드를 등록한 시점으로부터 168시간 (7일) 동안 사용하실 수 있습니다.\n- 업체 사정으로 인해 일부 혜택이 예고 없이 변경될 수 있습니다.\- 업체별 영업시간이 변돌될 수 있어, 방문 전 업체로 문의하시기 바랍니다. (전화문의 권장)\n- 쿠폰은 3시간에 1잔 사용할 수 있으며, 동일 업체는 당일 재사용이 불가능 합니다.\n- 이용기간 내 사용하지 않은 쿠폰은 소멸됩니다.(미사용 쿠폰에 대해 부분환불, 적립 불가)'
+    storeTemp['homeLink'] = _homeLink.text;
+    storeTemp['storePhone'] = _storePhone.text;
+
+    networkFunction.updateStore(storeTemp, widget.store.storeKey);
   }
 
   Widget _fieldContentSet() {
@@ -243,7 +352,7 @@ class _RegisterStoreState extends State<RegisterStore> {
             width: size.width - 2 * _leftPadding,
             child: TextField(
                 controller: _homeLink,
-                style: TextStyle(fontSize: 20.0),
+                style: TextStyle(fontSize: 15.0),
                 decoration: _contentInputDecoration()),
           ),
         )
@@ -268,24 +377,128 @@ class _RegisterStoreState extends State<RegisterStore> {
                 if (index != 0) {
                   return Padding(
                     padding: EdgeInsets.only(right: 10.0),
-                    child: Container(
-                      width: 100.0,
-                      height: 100.0,
-                      color: Colors.lightBlueAccent,
-                      child: Center(
-                        child: Text('${index}'),
-                      ),
+                    child: Stack(
+                      children: [
+                        InkWell(
+                          onTap:()async{
+                            await showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  content: SafeArea(
+                                    child: CachedNetworkImage(
+                                      imageUrl: _photos[index - 1],
+                                      placeholder: (context, _) =>
+                                          Container(),
+                                      errorWidget: (context, url, error) =>
+                                          Icon(Icons.error),
+                                    ),
+                                  ),
+                                    actions:[
+                                      TextButton(
+                                          child: Text('삭제하기', style: TextStyle(color: Colors.red),),
+                                          onPressed:()async{
+                                            await networkFunction.deleteProfileImg(imgUrl: _photos[index-1]);
+                                            _photos.removeAt(index-1);
+                                            Navigator.pop(context);
+                                            setState((){});
+                                          }
+                                      ),
+                                      TextButton(
+                                          child: Text('뒤로가기'),
+                                          onPressed:(){
+                                            Navigator.pop(context);
+                                          }
+                                      )
+                                    ]
+                                );
+                              },
+                            );
+                          },
+                          child: SizedBox(
+                              width: 100.0,
+                              height: 100.0,
+                              child: CachedNetworkImage(
+                                imageUrl: _photos[index - 1],
+                                placeholder: (context, _) =>
+                                    CircularProgressIndicator(),
+                                errorWidget: (context, url, error) =>
+                                    Icon(Icons.error),
+                              )),
+                        ),
+                        Positioned(
+                          top: 0.0,
+                          left:0.0,
+                          child: Container(
+                              width: 20.0,
+                              height: 20.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                                color: Colors.black87
+                              ),
+                              child: Center(child: Text('$index', style:TextStyle(color: Colors.white, fontWeight: FontWeight.bold)))),
+                        ),
+                      ],
                     ),
                   );
                 } else {
                   return Padding(
                     padding: EdgeInsets.only(right: 10.0),
-                    child: Container(
-                      width: 100.0,
-                      height: 100.0,
-                      color: Colors.grey,
-                      child: Center(
-                        child: Text('+'),
+                    child: InkWell(
+                      onTap: () async {
+                        if(!_isNew){
+                          if(_photos.length < 10){
+                            // await 안붙혀도 되는데... 노란줄이 떠서 붙힘
+                            await Navigator.push(context, MaterialPageRoute(builder: (context)=> SelectFromGallery(storeKey: widget.store.storeKey, updateFunc: (String imgUrl){
+                              _photos.add(imgUrl);
+                              setState(() {});
+                            })));
+                          }
+                          else{
+                            await showDialog(
+                                context: context,
+                                builder:(context){
+                                  return AlertDialog(
+                                    title: Text('사진 초과'),
+                                    content: Text('10장 보다 많이 등록할 수 없습니다.\n기존의 사진을 삭제해주세요!'),
+                                    actions: [
+                                      TextButton(
+                                        child: Text('확인'),
+                                        onPressed: (){
+                                          Navigator.pop(context);
+                                        },
+                                      )
+                                    ],
+                                  );
+                                }
+                            );
+                          }
+                        }
+                        else{
+                          await showDialog(
+                              context: context,
+                              builder:(context){
+                                return AlertDialog(
+                                  title: Text('권한 없음'),
+                                  content: Text('가게 등록이 된 후에 사진 업로드가 가능합니다.\n양식에 맞춰 가게 등록을 해주세요!'),
+                                  actions: [
+                                    TextButton(
+                                      child: Text('확인'),
+                                      onPressed: (){
+                                        Navigator.pop(context);
+                                      },
+                                    )
+                                  ],
+                                );
+                              }
+                          );
+                        }
+
+                      },
+                      child: SizedBox(
+                        width: 100.0,
+                        height: 100.0,
+                        child: Image.asset('assets/home/add_img.png'),
                       ),
                     ),
                   );
@@ -327,7 +540,8 @@ class _RegisterStoreState extends State<RegisterStore> {
               itemBuilder: (context, index) {
                 if (index != _summaries.length) {
                   return _summariesElement('${_summaries[index]['name']}',
-                      '${_summaries[index]['origin']}', false, index: index);
+                      '${_summaries[index]['origin']}', false,
+                      index: index);
                 } else {
                   return _summariesElement('옵션', '금액(원)', true);
                 }
@@ -339,7 +553,8 @@ class _RegisterStoreState extends State<RegisterStore> {
     );
   }
 
-  Widget _summariesElement(String name, String price, bool _setOption, {int index}) {
+  Widget _summariesElement(String name, String price, bool _setOption,
+      {int index}) {
     return SizedBox(
       width: size.width - 2 * _leftPadding,
       height: 50.0,
@@ -352,21 +567,22 @@ class _RegisterStoreState extends State<RegisterStore> {
             decoration: BoxDecoration(
                 border: Border.all(width: 1.0, color: Colors.grey[300])),
             child: Padding(
-              padding: const EdgeInsets.only(left:10.0),
+              padding: const EdgeInsets.only(left: 10.0),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: _setOption
                     ? TextField(
                         controller: _optionName,
-                        style: TextStyle(color: Colors.grey[300]),
-                  decoration: InputDecoration(
-                      hintText: name,
-                      hintStyle: TextStyle(color: Colors.grey),
-                      enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.transparent, width: 1.0)),
-                      focusedBorder: UnderlineInputBorder(
-                          borderSide:
-                          BorderSide(color: Colors.transparent, width: 1.0))),
+                        style: TextStyle(color: Colors.grey),
+                        decoration: InputDecoration(
+                            hintText: name,
+                            hintStyle: TextStyle(color: Colors.grey),
+                            enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.transparent, width: 1.0)),
+                            focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.transparent, width: 1.0))),
                       )
                     : Text(name),
               ),
@@ -386,18 +602,21 @@ class _RegisterStoreState extends State<RegisterStore> {
                 alignment: Alignment.centerRight,
                 child: _setOption
                     ? TextField(
-                  controller: _optionPrice,
-                  style: TextStyle(color: Colors.grey[300]),
-                  textAlign: TextAlign.end,
-                  decoration: InputDecoration(
-                      hintText: price,
-                      hintStyle: TextStyle(color: Colors.grey, ),
-                      enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.transparent, width: 1.0)),
-                      focusedBorder: UnderlineInputBorder(
-                          borderSide:
-                          BorderSide(color: Colors.transparent, width: 1.0))),
-                )
+                        controller: _optionPrice,
+                        style: TextStyle(color: Colors.grey),
+                        textAlign: TextAlign.end,
+                        decoration: InputDecoration(
+                            hintText: price,
+                            hintStyle: TextStyle(
+                              color: Colors.grey,
+                            ),
+                            enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.transparent, width: 1.0)),
+                            focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.transparent, width: 1.0))),
+                      )
                     : Text(price),
               ),
             ),
@@ -409,15 +628,26 @@ class _RegisterStoreState extends State<RegisterStore> {
             width: size.width * 0.1,
             height: 50.0,
             child: IconButton(
-              icon: Icon(_setOption ? Icons.add : Icons.remove, color: _setOption? Colors.lightBlueAccent:Colors.redAccent,),
+              icon: Icon(
+                _setOption ? Icons.add : Icons.remove,
+                color: _setOption ? Colors.lightBlueAccent : Colors.redAccent,
+              ),
               onPressed: () {
-                if(_setOption){
-                  _summaries.add({
-
-                  });
-                }
-                else {
+                if (_setOption) {
+                  if (_optionName.text != null &&
+                      _optionPrice.text != null &&
+                      _optionName.text != '' &&
+                      _optionPrice.text != '') {
+                    _summaries.add({
+                      'name': _optionName.text,
+                      'origin': _optionPrice.text,
+                      'final': _optionPrice.text
+                    });
+                    setState(() {});
+                  }
+                } else {
                   _summaries.removeAt(index);
+                  setState(() {});
                 }
               },
             ),
@@ -533,61 +763,16 @@ class _RegisterStoreState extends State<RegisterStore> {
           Expanded(
             child: Center(
                 child: Text(
-              "액티비티 등록",
+              "액티비티 ${_isNew ? '등록' : '편집'}",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0),
             )),
           ),
           TextButton(
             child: Text(
-              '저장',
+              '${_isNew ? '' : '저장'}',
               style: TextStyle(color: Colors.lightBlueAccent),
             ),
-            onPressed: () {
-              Map<String, dynamic> storeTemp = Map();
-
-              storeTemp['storeKey'] = 'asdfasdf';
-              storeTemp['ownerKey'] = '123456789';
-              storeTemp['profileImgs'] = [
-                'https://www.google.com/url?sa=i&url=https%3A%2F%2Fytn.co.kr%2F_ln%2F0117_202005201300019997&psig=AOvVaw2rLbAZOt0T-DxHN9oKsXI4&ust=1618734599473000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCOi18bruhPACFQAAAAAdAAAAABAD',
-                'https://www.google.com/url?sa=i&url=https%3A%2F%2Fsorrento1979.tistory.com%2F452&psig=AOvVaw2rLbAZOt0T-DxHN9oKsXI4&ust=1618734599473000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCOi18bruhPACFQAAAAAdAAAAABAg'
-              ];
-              storeTemp['field'] = '서핑';
-              storeTemp['storeName'] = '서귀포 서핑샵';
-              storeTemp['location'] = '서귀포시 중문관광로 94';
-              storeTemp['detail'] = '1층';
-              storeTemp['lat'] = 33.253894;
-              storeTemp['long'] = 126.417486;
-              storeTemp['info'] =
-                  '제주도 여행에서 결코 놓칠 수 없는 것, 바로 제주 바닷가에서의 서핑! 태평양에서부터 불어오는 바람과 파도를 직접 느낄 수 있는 서귀포 앞바다에서의 서핑을 지금 바로 즐겨보세요!';
-              storeTemp['reviews'] = [];
-              storeTemp['summarys'] = [
-                {
-                  'title': '서핑 강의 + 3시간 이용권',
-                  'origin_price': '229,000원',
-                  'final_price': '229,000원'
-                },
-                {
-                  'title': '서핑 강의 + 6시간 이용권',
-                  'origin_price': '349,000원',
-                  'final_price': '349,000원'
-                },
-                {
-                  'title': '3시간 자유이용권',
-                  'origin_price': '149,000원',
-                  'final_price': '149,000원'
-                }
-              ];
-              storeTemp['specificInfo'] =
-                  '제주도 여행에서 결코 놓칠 수 없는 것, 바로 제주 바닷가에서의 서핑!\n태평양세서부터 불어오는 바람과 파도를 직접 느낄 수 있는 서귀포 앞바다에서의 서핑을 지금 바로 즐겨보세요!\n- 예약 확정 후 , 무료코드가 바우처 또는 문자로 발송됩니다.\n- 각 업체별로 사용 가능한 쿠폰이 노출됩니다.\n- 무료쿠폰 코드는 등록 즉시 사용처리되므로, 사용일에 등록 바랍니다.\n- 오등록으로 인한 코드 재발급은 불가합니다.\n- 유효기간은 0000.00.00까지이며, 코드를 등록한 시점으로부터 168시간 (7일) 동안 사용하실 수 있습니다.\n- 업체 사정으로 인해 일부 혜택이 예고 없이 변경될 수 있습니다.\- 업체별 영업시간이 변돌될 수 있어, 방문 전 업체로 문의하시기 바랍니다. (전화문의 권장)\n- 쿠폰은 3시간에 1잔 사용할 수 있으며, 동일 업체는 당일 재사용이 불가능 합니다.\n- 이용기간 내 사용하지 않은 쿠폰은 소멸됩니다.(미사용 쿠폰에 대해 부분환불, 적립 불가)';
-              storeTemp['refundInfo'] =
-                  '- 예약 확정 후 , 무료코드가 바우처 또는 문자로 발송됩니다.\n- 각 업체별로 사용 가능한 쿠폰이 노출됩니다.\n- 무료쿠폰 코드는 등록 즉시 사용처리되므로, 사용일에 등록 바랍니다.\n- 오등록으로 인한 코드 재발급은 불가합니다.\n- 유효기간은 0000.00.00까지이며, 코드를 등록한 시점으로부터 168시간 (7일) 동안 사용하실 수 있습니다.\n- 업체 사정으로 인해 일부 혜택이 예고 없이 변경될 수 있습니다.\- 업체별 영업시간이 변돌될 수 있어, 방문 전 업체로 문의하시기 바랍니다. (전화문의 권장)\n- 쿠폰은 3시간에 1잔 사용할 수 있으며, 동일 업체는 당일 재사용이 불가능 합니다.\n- 이용기간 내 사용하지 않은 쿠폰은 소멸됩니다.(미사용 쿠폰에 대해 부분환불, 적립 불가)';
-              storeTemp['cautionInfo'] =
-                  '- 예약 확정 후 , 무료코드가 바우처 또는 문자로 발송됩니다.\n- 각 업체별로 사용 가능한 쿠폰이 노출됩니다.\n- 무료쿠폰 코드는 등록 즉시 사용처리되므로, 사용일에 등록 바랍니다.\n- 오등록으로 인한 코드 재발급은 불가합니다.\n- 유효기간은 0000.00.00까지이며, 코드를 등록한 시점으로부터 168시간 (7일) 동안 사용하실 수 있습니다.\n- 업체 사정으로 인해 일부 혜택이 예고 없이 변경될 수 있습니다.\- 업체별 영업시간이 변돌될 수 있어, 방문 전 업체로 문의하시기 바랍니다. (전화문의 권장)\n- 쿠폰은 3시간에 1잔 사용할 수 있으며, 동일 업체는 당일 재사용이 불가능 합니다.\n- 이용기간 내 사용하지 않은 쿠폰은 소멸됩니다.(미사용 쿠폰에 대해 부분환불, 적립 불가)';
-              storeTemp['homeLink'] = 'https://www.jmsurf.com/';
-              storeTemp['storePhone'] = '01012345678';
-
-              networkFunction.createStore(storeTemp);
-            },
+            onPressed: _isNew ? (){} : _updateStore,
           ),
         ],
       ),

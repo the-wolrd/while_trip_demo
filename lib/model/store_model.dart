@@ -12,7 +12,7 @@ class StoreModel {
   final String info; // 가게 설명
   final List<dynamic> reviews; // 리뷰들 리스트 (각 학목은 reviewKey 값)
 
-  final List<dynamic> summarys; // 요약
+  final List<dynamic> summaries; // 요약
 
   final String specificInfo; // 상세 정보
   final String refundInfo; // 환불 규정
@@ -32,7 +32,7 @@ class StoreModel {
         lon = map['lon'],
         info = map['info'],
         reviews = map['reviews'],
-        summarys = map['summarys'],
+        summaries = map['summaries'],
         specificInfo = map['specificInfo'],
         refundInfo = map['refundInfo'],
         cautionInfo = map['cautionInfo'],
