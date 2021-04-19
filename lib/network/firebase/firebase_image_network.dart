@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/cupertino.dart';
 
 class FirebaseImageNetwork{
 
@@ -9,8 +8,8 @@ class FirebaseImageNetwork{
 
   Future<TaskSnapshot> uploadProfileImg(File imageFile, String storeKey, String uploadTime){
     try{
-      final Reference storageReference = FirebaseStorage.instance.ref().child(_getImagePathByStoreKeyUploadTime(storeKey, uploadTime));
-      final UploadTask uploadTask = storageReference.putFile(imageFile);
+      final storageReference = FirebaseStorage.instance.ref().child(_getImagePathByStoreKeyUploadTime(storeKey, uploadTime));
+      UploadTask uploadTask = storageReference.putFile(imageFile);
 
       return uploadTask.whenComplete(() => null);
     } catch (e){
@@ -36,10 +35,15 @@ class FirebaseImageNetwork{
   }
 
   Future<void> deleteProfileImgFromUrl(String imgUrl) async {
-    await print(imgUrl);
-    if(FirebaseStorage.instance.refFromURL(imgUrl) != null){
-      await FirebaseStorage.instance.refFromURL(imgUrl).delete().onError((error, stackTrace) => print(error));
-    }
+
+    try{
+      if(FirebaseStorage.instance.refFromURL(imgUrl) != null){
+        await FirebaseStorage.instance.refFromURL(imgUrl).delete().onError((error, stackTrace) => print(error));
+      }
+    } catch(e) {
+      print(e);
+    };
+
   }
 
 }

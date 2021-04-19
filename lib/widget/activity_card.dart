@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:while_trip_demo/model/store_model.dart';
-import '../constant/size.dart';
+import 'package:while_trip_demo/constant/constants.dart';
 
 class ActivityCard extends StatelessWidget {
 

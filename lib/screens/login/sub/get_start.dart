@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:while_trip_demo/constant/size.dart';
 import 'package:while_trip_demo/screens/login/login_screen.dart';
+import 'package:while_trip_demo/constant/constants.dart';
+
 
 double aa = size.width;
 

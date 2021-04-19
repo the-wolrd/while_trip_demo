@@ -1,3 +1,5 @@
+import 'package:while_trip_demo/constant/constants.dart';
+
 class StoreModel {
 
   final String storeKey; // 가게 고유키
@@ -12,7 +14,7 @@ class StoreModel {
   final String info; // 가게 설명
   final List<dynamic> reviews; // 리뷰들 리스트 (각 학목은 reviewKey 값)
 
-  final List<dynamic> summaries; // 요약
+  final List<dynamic> prices; // 가격들 Map 형태로 넘김. 현재 : {''}
 
   final String specificInfo; // 상세 정보
   final String refundInfo; // 환불 규정
@@ -21,21 +23,21 @@ class StoreModel {
   final String storePhone; // 가게 전화번호
 
   StoreModel.fromMap(Map<String, dynamic> map)
-      : storeKey = map['storeKey'],
-        ownerKey = map['ownerKey'],
-        profileImgs = map['profileImgs'],
-        field = map['field'],
-        storeName = map['storeName'],
-        location = map['location'],
-        detail = map['detail'],
-        lat = map['lat'],
-        lon = map['lon'],
-        info = map['info'],
-        reviews = map['reviews'],
-        summaries = map['summaries'],
-        specificInfo = map['specificInfo'],
-        refundInfo = map['refundInfo'],
-        cautionInfo = map['cautionInfo'],
-        homeLink = map['homeLink'],
-        storePhone = map['storePhone'];
+      : storeKey = map[KEY_STOREKEY],
+        ownerKey = map[KEY_OWNERKEY],
+        profileImgs = map[KEY_PROFILEIMGS],
+        field = map[KEY_FIELD],
+        storeName = map[KEY_STORENAME],
+        location = map[KEY_LOCATION],
+        detail = map[KEY_DETAIL],
+        lat = map[KEY_LAT],
+        lon = map[KEY_LON],
+        info = map[KEY_INFO],
+        reviews = map[KEY_REVIEWS],
+        prices = map[KEY_PRICES],
+        specificInfo = map[KEY_SPECIFICINFO],
+        refundInfo = map[KEY_REFUNDINFO],
+        cautionInfo = map[KEY_CAUTIONINFO],
+        homeLink = map[KEY_HOMELINK],
+        storePhone = map[KEY_STOREPHONE];
 }

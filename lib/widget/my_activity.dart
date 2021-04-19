@@ -1,15 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:while_trip_demo/model/store_model.dart';
+import 'package:while_trip_demo/model/userModel.dart';
 import 'package:while_trip_demo/screens/home/sub/register_store.dart';
-import '../constant/size.dart';
+import 'package:while_trip_demo/constant/constants.dart';
 
-class ActivityScreen extends StatefulWidget {
+class MyActivityScreen extends StatefulWidget {
+
+  final UserModel user;
+
+  MyActivityScreen({this.user});
+
   @override
-  _ActivityScreenState createState() => _ActivityScreenState();
+  _MyActivityScreenState createState() => _MyActivityScreenState();
 }
 
-class _ActivityScreenState extends State<ActivityScreen> {
+class _MyActivityScreenState extends State<MyActivityScreen> {
 
   bool setOption = false;
 
@@ -167,7 +173,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
                                                   'lon': 126.417486,
                                                   'info': '제주도 여행에서 결코 놓칠 수 없는 것, 바로 제주 바닷가에서의 서핑! 태평양에서부터 불어오는 바람과 파도를 직접 느낄 수 있는 서귀포 앞바다에서의 서핑을 지금 바로 즐겨보세요!',
                                                   'reviews': [],
-                                                  'summaries': [
+                                                  'prices': [
                                                     {
                                                       'name': '서핑 강의 + 3시간 이용권',
                                                       'origin': '229,000원',

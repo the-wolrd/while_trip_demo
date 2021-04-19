@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:while_trip_demo/provider/login.dart';
 import 'package:while_trip_demo/screens/login/login_screen.dart';
 
-import 'constant/size.dart';
+import 'constant/all/size.dart';
 import 'screens/home/home_screen.dart';
 import 'screens/login/sub/get_start.dart';
 

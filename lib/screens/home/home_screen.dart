@@ -2,16 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:while_trip_demo/model/store_model.dart';
 import 'package:while_trip_demo/network/network_function.dart';
+import 'package:while_trip_demo/constant/constants.dart';
 import './sub/my_location.dart';
 import '../../widget/advertise_part.dart';
 import '../../widget/activity_card.dart';
 import '../../screens/result/result_screen.dart';
-import '../../constant/size.dart';
-import '../../constant/category.dart';
 import '../../screens/menu/menu_screen.dart';
 
 import 'sub/search.dart';
-import '../../widget/activity.dart';
+import '../../widget/my_activity.dart';
 import '../../widget/favorite.dart';
 import '../../widget/history.dart';
 
@@ -292,7 +291,7 @@ class _HomeScreenState extends State<HomeScreen> {
           }),
           _iconButton('assets/home/bag_icon.png', () {
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ActivityScreen()));
+                MaterialPageRoute(builder: (context) => MyActivityScreen()));
           }),
           _iconButton('assets/home/star_icon.png', () {
             Navigator.push(context,

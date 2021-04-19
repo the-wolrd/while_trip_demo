@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../constant/size.dart';
+import 'package:while_trip_demo/constant/constants.dart';
 import 'location_search.dart';
 
 class SetLocation extends StatefulWidget {
@@ -163,7 +163,6 @@ class _SetLocationState extends State<SetLocation> {
       child: Text('지번 또는 도로명을\n입력하세요', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.0),),
     );
   }
-
 
   Widget _topBar(){
     return Padding(

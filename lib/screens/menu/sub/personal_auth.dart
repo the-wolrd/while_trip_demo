@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:while_trip_demo/constant/size.dart';
 import 'package:while_trip_demo/provider/login.dart';
+import 'package:while_trip_demo/constant/constants.dart';
 
 class PersonalAuth extends StatelessWidget {
   @override

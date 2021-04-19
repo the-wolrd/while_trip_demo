@@ -2,10 +2,10 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:while_trip_demo/constant/size.dart';
 import 'package:while_trip_demo/model/store_model.dart';
 import 'package:while_trip_demo/network/network_function.dart';
 import 'package:while_trip_demo/widget/select_img_from_gallery.dart';
+import 'package:while_trip_demo/constant/constants.dart';
 
 class RegisterStore extends StatefulWidget {
   final StoreModel store;
@@ -23,24 +23,25 @@ class _RegisterStoreState extends State<RegisterStore> {
 
   bool _isNew = true;
 
-  String _field = '서핑';
-  TextEditingController _storeName = TextEditingController();
-  String _location = '서귀포시 중문관광로 94';
-  TextEditingController _detail = TextEditingController();
-  TextEditingController _storePhone = TextEditingController();
-  TextEditingController _homeLink = TextEditingController();
+  String _field = '';
+  final TextEditingController _storeName = TextEditingController();
+  String _location = '';
+  final TextEditingController _detail = TextEditingController();
+  final TextEditingController _storePhone = TextEditingController();
+  final TextEditingController _homeLink = TextEditingController();
   List<dynamic> _photos = [];
-  TextEditingController _info = TextEditingController();
-  List<Map<String, dynamic>> _summaries = [
-    {'name': '서핑 강의 + 3시간 이용권', 'origin': '229,000원', 'final': '229,000원'},
-    {'name': '서핑 강의 + 6시간 이용권', 'origin': '349,000원', 'final': '349,000원'},
-    {'name': '3시간 자유이용권', 'origin': '149,000원', 'final': '149,000원'}
+  final TextEditingController _info = TextEditingController();
+  List<Map<String, dynamic>> _prices = [
+//    {'name': '서핑 강의 + 3시간 이용권', 'origin': '229,000원', 'final': '229,000원'},
+//    {'name': '서핑 강의 + 6시간 이용권', 'origin': '349,000원', 'final': '349,000원'},
+//    {'name': '3시간 자유이용권', 'origin': '149,000원', 'final': '149,000원'}
   ];
-  TextEditingController _optionName = TextEditingController(); // not in store
-  TextEditingController _optionPrice = TextEditingController(); // not in store
-  TextEditingController _specificInfo = TextEditingController();
-  TextEditingController _refundInfo = TextEditingController();
-  TextEditingController _cautionInfo = TextEditingController();
+  final TextEditingController _optionName = TextEditingController(); // not in store class
+  final TextEditingController _optionPrice = TextEditingController(); // not in store class
+
+  final TextEditingController _specificInfo = TextEditingController();
+  final TextEditingController _refundInfo = TextEditingController();
+  final TextEditingController _cautionInfo = TextEditingController();
 
   @override
   void initState() {
@@ -54,20 +55,20 @@ class _RegisterStoreState extends State<RegisterStore> {
       _homeLink.text = widget.store.homeLink;
       _photos = widget.store.profileImgs;
       _info.text = widget.store.info;
-      _summaries = widget.store.summaries;
+      _prices = widget.store.prices;
       _specificInfo.text = widget.store.specificInfo;
       _refundInfo.text = widget.store.refundInfo;
       _cautionInfo.text = widget.store.cautionInfo;
     }
 
-    _storeName.text = '서귀포 서핑샵';
-    _detail.text = '1층';
-    _storePhone.text = '010-1234-5678';
-    _homeLink.text = 'https://www.instagram.com/jeju_surfing/';
-    _info.text = '제주도 여행에서 결코 놓칠 수 없는 것, 바로 제주 바닷가에서의 서핑! 태평양에서부터 불어오는 바람과 파도를 직접 느낄 수 있는 서귀포 앞바다에서의 서핑을 지금 바로 즐겨보세요!';
-    _specificInfo.text = '제주도 여행에서 결코 놓칠 수 없는 것, 바로 제주 바닷가에서의 서핑!\n태평양세서부터 불어오는 바람과 파도를 직접 느낄 수 있는 서귀포 앞바다에서의 서핑을 지금 바로 즐겨보세요!\n- 예약 확정 후 , 무료코드가 바우처 또는 문자로 발송됩니다.\n- 각 업체별로 사용 가능한 쿠폰이 노출됩니다.\n- 무료쿠폰 코드는 등록 즉시 사용처리되므로, 사용일에 등록 바랍니다.\n- 오등록으로 인한 코드 재발급은 불가합니다.\n- 유효기간은 0000.00.00까지이며, 코드를 등록한 시점으로부터 168시간 (7일) 동안 사용하실 수 있습니다.\n- 업체 사정으로 인해 일부 혜택이 예고 없이 변경될 수 있습니다.\- 업체별 영업시간이 변돌될 수 있어, 방문 전 업체로 문의하시기 바랍니다. (전화문의 권장)\n- 쿠폰은 3시간에 1잔 사용할 수 있으며, 동일 업체는 당일 재사용이 불가능 합니다.\n- 이용기간 내 사용하지 않은 쿠폰은 소멸됩니다.(미사용 쿠폰에 대해 부분환불, 적립 불가)';
-    _refundInfo.text = '- 예약 확정 후 , 무료코드가 바우처 또는 문자로 발송됩니다.\n- 각 업체별로 사용 가능한 쿠폰이 노출됩니다.\n- 무료쿠폰 코드는 등록 즉시 사용처리되므로, 사용일에 등록 바랍니다.\n- 오등록으로 인한 코드 재발급은 불가합니다.\n- 유효기간은 0000.00.00까지이며, 코드를 등록한 시점으로부터 168시간 (7일) 동안 사용하실 수 있습니다.\n- 업체 사정으로 인해 일부 혜택이 예고 없이 변경될 수 있습니다.\- 업체별 영업시간이 변돌될 수 있어, 방문 전 업체로 문의하시기 바랍니다. (전화문의 권장)\n- 쿠폰은 3시간에 1잔 사용할 수 있으며, 동일 업체는 당일 재사용이 불가능 합니다.\n- 이용기간 내 사용하지 않은 쿠폰은 소멸됩니다.(미사용 쿠폰에 대해 부분환불, 적립 불가)';
-    _cautionInfo.text = '- 예약 확정 후 , 무료코드가 바우처 또는 문자로 발송됩니다.\n- 각 업체별로 사용 가능한 쿠폰이 노출됩니다.\n- 무료쿠폰 코드는 등록 즉시 사용처리되므로, 사용일에 등록 바랍니다.\n- 오등록으로 인한 코드 재발급은 불가합니다.\n- 유효기간은 0000.00.00까지이며, 코드를 등록한 시점으로부터 168시간 (7일) 동안 사용하실 수 있습니다.\n- 업체 사정으로 인해 일부 혜택이 예고 없이 변경될 수 있습니다.\- 업체별 영업시간이 변돌될 수 있어, 방문 전 업체로 문의하시기 바랍니다. (전화문의 권장)\n- 쿠폰은 3시간에 1잔 사용할 수 있으며, 동일 업체는 당일 재사용이 불가능 합니다.\n- 이용기간 내 사용하지 않은 쿠폰은 소멸됩니다.(미사용 쿠폰에 대해 부분환불, 적립 불가)';
+//    _storeName.text = '서귀포 서핑샵';
+//    _detail.text = '1층';
+//    _storePhone.text = '010-1234-5678';
+//    _homeLink.text = 'https://www.instagram.com/jeju_surfing/';
+//    _info.text = '제주도 여행에서 결코 놓칠 수 없는 것, 바로 제주 바닷가에서의 서핑! 태평양에서부터 불어오는 바람과 파도를 직접 느낄 수 있는 서귀포 앞바다에서의 서핑을 지금 바로 즐겨보세요!';
+//    _specificInfo.text = '제주도 여행에서 결코 놓칠 수 없는 것, 바로 제주 바닷가에서의 서핑!\n태평양세서부터 불어오는 바람과 파도를 직접 느낄 수 있는 서귀포 앞바다에서의 서핑을 지금 바로 즐겨보세요!\n- 예약 확정 후 , 무료코드가 바우처 또는 문자로 발송됩니다.\n- 각 업체별로 사용 가능한 쿠폰이 노출됩니다.\n- 무료쿠폰 코드는 등록 즉시 사용처리되므로, 사용일에 등록 바랍니다.\n- 오등록으로 인한 코드 재발급은 불가합니다.\n- 유효기간은 0000.00.00까지이며, 코드를 등록한 시점으로부터 168시간 (7일) 동안 사용하실 수 있습니다.\n- 업체 사정으로 인해 일부 혜택이 예고 없이 변경될 수 있습니다.\- 업체별 영업시간이 변돌될 수 있어, 방문 전 업체로 문의하시기 바랍니다. (전화문의 권장)\n- 쿠폰은 3시간에 1잔 사용할 수 있으며, 동일 업체는 당일 재사용이 불가능 합니다.\n- 이용기간 내 사용하지 않은 쿠폰은 소멸됩니다.(미사용 쿠폰에 대해 부분환불, 적립 불가)';
+//    _refundInfo.text = '- 예약 확정 후 , 무료코드가 바우처 또는 문자로 발송됩니다.\n- 각 업체별로 사용 가능한 쿠폰이 노출됩니다.\n- 무료쿠폰 코드는 등록 즉시 사용처리되므로, 사용일에 등록 바랍니다.\n- 오등록으로 인한 코드 재발급은 불가합니다.\n- 유효기간은 0000.00.00까지이며, 코드를 등록한 시점으로부터 168시간 (7일) 동안 사용하실 수 있습니다.\n- 업체 사정으로 인해 일부 혜택이 예고 없이 변경될 수 있습니다.\- 업체별 영업시간이 변돌될 수 있어, 방문 전 업체로 문의하시기 바랍니다. (전화문의 권장)\n- 쿠폰은 3시간에 1잔 사용할 수 있으며, 동일 업체는 당일 재사용이 불가능 합니다.\n- 이용기간 내 사용하지 않은 쿠폰은 소멸됩니다.(미사용 쿠폰에 대해 부분환불, 적립 불가)';
+//    _cautionInfo.text = '- 예약 확정 후 , 무료코드가 바우처 또는 문자로 발송됩니다.\n- 각 업체별로 사용 가능한 쿠폰이 노출됩니다.\n- 무료쿠폰 코드는 등록 즉시 사용처리되므로, 사용일에 등록 바랍니다.\n- 오등록으로 인한 코드 재발급은 불가합니다.\n- 유효기간은 0000.00.00까지이며, 코드를 등록한 시점으로부터 168시간 (7일) 동안 사용하실 수 있습니다.\n- 업체 사정으로 인해 일부 혜택이 예고 없이 변경될 수 있습니다.\- 업체별 영업시간이 변돌될 수 있어, 방문 전 업체로 문의하시기 바랍니다. (전화문의 권장)\n- 쿠폰은 3시간에 1잔 사용할 수 있으며, 동일 업체는 당일 재사용이 불가능 합니다.\n- 이용기간 내 사용하지 않은 쿠폰은 소멸됩니다.(미사용 쿠폰에 대해 부분환불, 적립 불가)';
 
     super.initState();
   }
@@ -108,7 +109,7 @@ class _RegisterStoreState extends State<RegisterStore> {
                     _homeLinkSet(),
                     _photosSet(),
                     _infoSet(),
-                    _summariesSet(),
+                    _pricesSet(),
                     _specificInfoSet(),
                     _refundInfoSet(),
                     _cautionInfoSet(),
@@ -156,27 +157,23 @@ class _RegisterStoreState extends State<RegisterStore> {
 
     Map<String, dynamic> storeTemp = Map();
 
-    storeTemp['storeKey'] = DateTime.now().millisecondsSinceEpoch.toString();
-    storeTemp['ownerKey'] = '123456789';
-    storeTemp['profileImgs'] = _photos;
-    storeTemp['field'] = _field;
-    storeTemp['storeName'] = _storeName.text;
-    storeTemp['location'] = _location;
-    storeTemp['detail'] = _detail.text;
-    storeTemp['lat'] = 33.253894;
-    storeTemp['long'] = 126.417486;
-    storeTemp['info'] = _info.text;
-    //'제주도 여행에서 결코 놓칠 수 없는 것, 바로 제주 바닷가에서의 서핑! 태평양에서부터 불어오는 바람과 파도를 직접 느낄 수 있는 서귀포 앞바다에서의 서핑을 지금 바로 즐겨보세요!'
-    storeTemp['reviews'] = [];
-    storeTemp['summaries'] = _summaries;
-    storeTemp['specificInfo'] = _specificInfo.text;
-    //'제주도 여행에서 결코 놓칠 수 없는 것, 바로 제주 바닷가에서의 서핑!\n태평양세서부터 불어오는 바람과 파도를 직접 느낄 수 있는 서귀포 앞바다에서의 서핑을 지금 바로 즐겨보세요!\n- 예약 확정 후 , 무료코드가 바우처 또는 문자로 발송됩니다.\n- 각 업체별로 사용 가능한 쿠폰이 노출됩니다.\n- 무료쿠폰 코드는 등록 즉시 사용처리되므로, 사용일에 등록 바랍니다.\n- 오등록으로 인한 코드 재발급은 불가합니다.\n- 유효기간은 0000.00.00까지이며, 코드를 등록한 시점으로부터 168시간 (7일) 동안 사용하실 수 있습니다.\n- 업체 사정으로 인해 일부 혜택이 예고 없이 변경될 수 있습니다.\- 업체별 영업시간이 변돌될 수 있어, 방문 전 업체로 문의하시기 바랍니다. (전화문의 권장)\n- 쿠폰은 3시간에 1잔 사용할 수 있으며, 동일 업체는 당일 재사용이 불가능 합니다.\n- 이용기간 내 사용하지 않은 쿠폰은 소멸됩니다.(미사용 쿠폰에 대해 부분환불, 적립 불가)'
-    storeTemp['refundInfo'] = _refundInfo.text;
-    // '- 예약 확정 후 , 무료코드가 바우처 또는 문자로 발송됩니다.\n- 각 업체별로 사용 가능한 쿠폰이 노출됩니다.\n- 무료쿠폰 코드는 등록 즉시 사용처리되므로, 사용일에 등록 바랍니다.\n- 오등록으로 인한 코드 재발급은 불가합니다.\n- 유효기간은 0000.00.00까지이며, 코드를 등록한 시점으로부터 168시간 (7일) 동안 사용하실 수 있습니다.\n- 업체 사정으로 인해 일부 혜택이 예고 없이 변경될 수 있습니다.\- 업체별 영업시간이 변돌될 수 있어, 방문 전 업체로 문의하시기 바랍니다. (전화문의 권장)\n- 쿠폰은 3시간에 1잔 사용할 수 있으며, 동일 업체는 당일 재사용이 불가능 합니다.\n- 이용기간 내 사용하지 않은 쿠폰은 소멸됩니다.(미사용 쿠폰에 대해 부분환불, 적립 불가)'
-    storeTemp['cautionInfo'] = _cautionInfo.text;
-    //'- 예약 확정 후 , 무료코드가 바우처 또는 문자로 발송됩니다.\n- 각 업체별로 사용 가능한 쿠폰이 노출됩니다.\n- 무료쿠폰 코드는 등록 즉시 사용처리되므로, 사용일에 등록 바랍니다.\n- 오등록으로 인한 코드 재발급은 불가합니다.\n- 유효기간은 0000.00.00까지이며, 코드를 등록한 시점으로부터 168시간 (7일) 동안 사용하실 수 있습니다.\n- 업체 사정으로 인해 일부 혜택이 예고 없이 변경될 수 있습니다.\- 업체별 영업시간이 변돌될 수 있어, 방문 전 업체로 문의하시기 바랍니다. (전화문의 권장)\n- 쿠폰은 3시간에 1잔 사용할 수 있으며, 동일 업체는 당일 재사용이 불가능 합니다.\n- 이용기간 내 사용하지 않은 쿠폰은 소멸됩니다.(미사용 쿠폰에 대해 부분환불, 적립 불가)'
-    storeTemp['homeLink'] = _homeLink.text;
-    storeTemp['storePhone'] = _storePhone.text;
+    storeTemp[KEY_STOREKEY] = DateTime.now().millisecondsSinceEpoch.toString();
+    storeTemp[KEY_OWNERKEY] = '123456789';
+    storeTemp[KEY_PROFILEIMGS] = _photos;
+    storeTemp[KEY_FIELD] = _field;
+    storeTemp[KEY_STORENAME] = _storeName.text;
+    storeTemp[KEY_LOCATION] = _location;
+    storeTemp[KEY_DETAIL] = _detail.text;
+    storeTemp[KEY_LAT] = 33.253894;
+    storeTemp[KEY_LON] = 126.417486;
+    storeTemp[KEY_INFO] = _info.text;
+    storeTemp[KEY_REVIEWS] = [];
+    storeTemp[KEY_PRICES] = _prices;
+    storeTemp[KEY_SPECIFICINFO] = _specificInfo.text;
+    storeTemp[KEY_REFUNDINFO] = _refundInfo.text;
+    storeTemp[KEY_CAUTIONINFO] = _cautionInfo.text;
+    storeTemp[KEY_HOMELINK] = _homeLink.text;
+    storeTemp[KEY_STOREPHONE] = _storePhone.text;
 
     await networkFunction.createStore(storeTemp);
     Navigator.pop(context);
@@ -197,7 +194,7 @@ class _RegisterStoreState extends State<RegisterStore> {
     storeTemp['info'] = _info.text;
     //'제주도 여행에서 결코 놓칠 수 없는 것, 바로 제주 바닷가에서의 서핑! 태평양에서부터 불어오는 바람과 파도를 직접 느낄 수 있는 서귀포 앞바다에서의 서핑을 지금 바로 즐겨보세요!'
     storeTemp['reviews'] = [];
-    storeTemp['summaries'] = _summaries;
+    storeTemp['prices'] = _prices;
     storeTemp['specificInfo'] = _specificInfo.text;
     //'제주도 여행에서 결코 놓칠 수 없는 것, 바로 제주 바닷가에서의 서핑!\n태평양세서부터 불어오는 바람과 파도를 직접 느낄 수 있는 서귀포 앞바다에서의 서핑을 지금 바로 즐겨보세요!\n- 예약 확정 후 , 무료코드가 바우처 또는 문자로 발송됩니다.\n- 각 업체별로 사용 가능한 쿠폰이 노출됩니다.\n- 무료쿠폰 코드는 등록 즉시 사용처리되므로, 사용일에 등록 바랍니다.\n- 오등록으로 인한 코드 재발급은 불가합니다.\n- 유효기간은 0000.00.00까지이며, 코드를 등록한 시점으로부터 168시간 (7일) 동안 사용하실 수 있습니다.\n- 업체 사정으로 인해 일부 혜택이 예고 없이 변경될 수 있습니다.\- 업체별 영업시간이 변돌될 수 있어, 방문 전 업체로 문의하시기 바랍니다. (전화문의 권장)\n- 쿠폰은 3시간에 1잔 사용할 수 있으며, 동일 업체는 당일 재사용이 불가능 합니다.\n- 이용기간 내 사용하지 않은 쿠폰은 소멸됩니다.(미사용 쿠폰에 대해 부분환불, 적립 불가)'
     storeTemp['refundInfo'] = _refundInfo.text;
@@ -526,7 +523,7 @@ class _RegisterStoreState extends State<RegisterStore> {
     );
   }
 
-  Widget _summariesSet() {
+  Widget _pricesSet() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -534,16 +531,16 @@ class _RegisterStoreState extends State<RegisterStore> {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: _leftPadding),
           child: SizedBox(
-            height: 50.0 * (_summaries.length + 1),
+            height: 50.0 * (_prices.length + 1),
             child: ListView.builder(
-              itemCount: _summaries.length + 1,
+              itemCount: _prices.length + 1,
               itemBuilder: (context, index) {
-                if (index != _summaries.length) {
-                  return _summariesElement('${_summaries[index]['name']}',
-                      '${_summaries[index]['origin']}', false,
+                if (index != _prices.length) {
+                  return _pricesElement('${_prices[index]['name']}',
+                      '${_prices[index]['origin']}', false,
                       index: index);
                 } else {
-                  return _summariesElement('옵션', '금액(원)', true);
+                  return _pricesElement('옵션', '금액(원)', true);
                 }
               },
             ),
@@ -553,7 +550,7 @@ class _RegisterStoreState extends State<RegisterStore> {
     );
   }
 
-  Widget _summariesElement(String name, String price, bool _setOption,
+  Widget _pricesElement(String name, String price, bool _setOption,
       {int index}) {
     return SizedBox(
       width: size.width - 2 * _leftPadding,
@@ -638,7 +635,7 @@ class _RegisterStoreState extends State<RegisterStore> {
                       _optionPrice.text != null &&
                       _optionName.text != '' &&
                       _optionPrice.text != '') {
-                    _summaries.add({
+                    _prices.add({
                       'name': _optionName.text,
                       'origin': _optionPrice.text,
                       'final': _optionPrice.text
@@ -646,7 +643,7 @@ class _RegisterStoreState extends State<RegisterStore> {
                     setState(() {});
                   }
                 } else {
-                  _summaries.removeAt(index);
+                  _prices.removeAt(index);
                   setState(() {});
                 }
               },

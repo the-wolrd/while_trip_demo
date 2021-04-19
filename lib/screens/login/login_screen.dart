@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:while_trip_demo/constant/size.dart';
+import 'package:while_trip_demo/constant/constants.dart';
 import 'package:while_trip_demo/network/network_function.dart';
 import 'package:while_trip_demo/provider/login.dart';
 import 'package:while_trip_demo/screens/home/home_screen.dart';
@@ -113,7 +113,7 @@ class LoginScreen extends StatelessWidget {
                     'lon' : 241.5,
                     'info' : 'ㅇㄴ',
                     'reviews' : ['asdfasdfasfd', 'asdfasdfw2eqf'],
-                    'summarys' : [
+                    'prices' : [
                       {
                       'name':'서핑 3시간',
                       'origin':'299,000원',

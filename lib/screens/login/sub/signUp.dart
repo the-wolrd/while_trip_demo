@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:while_trip_demo/constant/size.dart';
+import 'package:while_trip_demo/constant/constants.dart';
 
 class SignUp extends StatefulWidget {
   @override

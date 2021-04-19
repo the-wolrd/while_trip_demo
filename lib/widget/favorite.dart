@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../constant/size.dart';
+import 'package:while_trip_demo/constant/constants.dart';
 
 class FavoriteScreen extends StatefulWidget {
   @override

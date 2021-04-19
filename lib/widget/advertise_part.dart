@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import '../constant/size.dart';
+import 'package:while_trip_demo/constant/constants.dart';
 
 class AdvertisePart extends StatefulWidget {
 
