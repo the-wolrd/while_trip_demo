@@ -157,6 +157,7 @@ class _SetLocationState extends State<SetLocation> {
       ),
     );
   }
+
   Widget _title(){
     return Padding(
       padding: EdgeInsets.only(left:leftPadding, bottom: 20.0),

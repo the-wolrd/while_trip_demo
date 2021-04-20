@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:while_trip_demo/model/store_model.dart';
 import 'package:while_trip_demo/constant/constants.dart';
 
+import 'acticity_page.dart';
+
 class ActivityCard extends StatelessWidget {
 
   final StoreModel store;
@@ -15,10 +17,15 @@ class ActivityCard extends StatelessWidget {
       height: size.width,
       child: Stack(
         children: [
-          Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(30.0)),
-              color: Colors.black54
+          InkWell(
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context) => ActivityPage(store:store)));
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                color: Colors.black54
+              ),
             ),
           ),
           Positioned(

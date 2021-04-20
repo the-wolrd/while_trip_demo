@@ -173,7 +173,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   padding: const EdgeInsets.only(right: 10.0),
                   child: StreamProvider<StoreModel>.value(
                     value: networkFunction.getAStoreModel(storeKey: '1d9v7seDfiv993'),
-
                     child: Consumer<StoreModel>(
                       builder: (context, store, _){
                         if(store == null){
