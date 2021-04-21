@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:while_trip_demo/model/store_model.dart';
 import 'package:while_trip_demo/constant/constants.dart';
 import 'package:while_trip_demo/widget/activity_page_caution_info.dart';
@@ -21,7 +22,7 @@ class ActivityPage extends StatefulWidget {
   _ActivityPageState createState() => _ActivityPageState();
 }
 
-class _ActivityPageState extends State<ActivityPage> {
+class _ActivityPageState extends State<ActivityPage>{
 
   final PageController _pageController = PageController(initialPage: 0);
 
@@ -29,9 +30,14 @@ class _ActivityPageState extends State<ActivityPage> {
   final double _topBarHeight = 50.0;
   final double _indicatorBarHeight = 60.0;
 
+  final ScrollController _hideBottomController = ScrollController();
+  bool _isVisible = true;
+
+
   @override
   void initState() {
     _pageController.addListener(onPageChanged);
+    _hideBottomController.addListener(onScrollChanged);
     super.initState();
   }
 
@@ -39,7 +45,33 @@ class _ActivityPageState extends State<ActivityPage> {
   @override
   void dispose() {
     _pageController.dispose();
+    _hideBottomController.dispose();
     super.dispose();
+  }
+
+  void onScrollChanged(){
+    if(_hideBottomController.position.userScrollDirection == ScrollDirection.reverse){
+      if(_hideBottomController.position.atEdge){
+        setState(() {
+          _isVisible = true;
+        });
+      }
+      else{
+        if(_isVisible){
+          setState(() {
+            _isVisible = false;
+          });
+        }
+      }
+
+    }
+    if(_hideBottomController.position.userScrollDirection == ScrollDirection.forward){
+      if(!_isVisible){
+        setState(() {
+          _isVisible = true;
+        });
+      }
+    }
   }
 
   void onPageChanged(){
@@ -52,6 +84,7 @@ class _ActivityPageState extends State<ActivityPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: true,
           body: Column(
         children: [
           SizedBox(
@@ -83,6 +116,7 @@ class _ActivityPageState extends State<ActivityPage> {
           ),
           Expanded(
             child: CustomScrollView(
+              controller: _hideBottomController,
               slivers: [
                 SliverAppBar(
                   automaticallyImplyLeading: false,
@@ -135,7 +169,38 @@ class _ActivityPageState extends State<ActivityPage> {
             ),
           ),
         ],
-      )),
+      ),
+      bottomNavigationBar: SizedBox(
+        height: _isVisible? 100.0:0.0,
+        width: size.width,
+        child: _isVisible? Stack(
+          children: [
+            Container(color: Colors.transparent,),
+            Positioned(
+              bottom: 0.0,
+              left: 0.0,
+              child: Container(
+                width: size.width,
+                height: 60.0,
+                color: Colors.white,
+                child: BottomNavigationBar(
+                  type: BottomNavigationBarType.fixed,
+                  items: [
+                    BottomNavigationBarItem(icon: Icon(Icons.location_on, color: Colors.red,), title: Text('바로 가기')),
+                    BottomNavigationBarItem(icon: Icon(Icons.star, color: Colors.yellow,), title: Text('즐겨찾기 등촉')),
+                  ],
+                  currentIndex: 0,
+                ),
+              ),
+            ),
+            Positioned(
+              top: 0.0,
+              right: 20.0,
+              child: Icon(Icons.phone, color: Colors.lightBlueAccent,),
+            )
+          ],
+        ): Container(color: Colors.white, width: size.width,),
+      ),),
     );
   }
 
@@ -160,15 +225,13 @@ class _ActivityPageState extends State<ActivityPage> {
           ),
         ),
         Positioned(
-            bottom: 0.0, left: 0.0, child: _indicator())
+            bottom: 0.0, left: size.width * 0.2 * _selected, child: _indicator())
       ],
     );
   }
 
   Widget _indicator() {
-    return AnimatedContainer(
-      duration: Duration(milliseconds: 0),
-      transform: Matrix4.translationValues(size.width * 0.2 * _selected, 0, 0),
+    return Container(
       height: 5.0,
       width: size.width * 0.2,
       color: Colors.lightBlueAccent,
