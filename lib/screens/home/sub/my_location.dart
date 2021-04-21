@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:while_trip_demo/constant/constants.dart';
+import 'package:while_trip_demo/model/userModel.dart';
+import 'location_here_set.dart';
 import 'location_search.dart';
 
 class SetLocation extends StatefulWidget {
+
+  final UserModel user;
+
+  SetLocation({this.user});
 
   @override
   _SetLocationState createState() => _SetLocationState();
@@ -12,7 +18,7 @@ class _SetLocationState extends State<SetLocation> {
 
   TextEditingController _searchController = TextEditingController();
   double rating = 0.0;
-  int rangeIndex = 0;
+  int _rangeIndex = 0; // 0: 1km, 1: 5km , 2: 10km, 3: 20km
 
   List<String> rangeInfo = [
     '차로 5분 이내',
@@ -24,6 +30,12 @@ class _SetLocationState extends State<SetLocation> {
   @override
   void initState() {
     super.initState();
+    if(widget.user != null){
+      if(widget.user.range < 1000) _rangeIndex = 0;
+      else if(widget.user.range < 5000) _rangeIndex = 1;
+      else if(widget.user.range < 10000) _rangeIndex = 2;
+      else _rangeIndex = 3;
+    }
   }
 
   @override
@@ -56,7 +68,7 @@ class _SetLocationState extends State<SetLocation> {
   Widget _rangeImg(){
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 20.0),
-      child: Center(child: Image.asset('assets/map/map_range${rangeIndex+1}.png', width: size.width*0.9, fit: BoxFit.fitWidth,)),
+      child: Center(child: Image.asset('assets/map/map_range${_rangeIndex+1}.png', width: size.width*0.9, fit: BoxFit.fitWidth,)),
     );
   }
 
@@ -70,7 +82,7 @@ class _SetLocationState extends State<SetLocation> {
             children: [
               Text('범위 ',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25.0),),
-              Text(rangeInfo[rangeIndex], style: TextStyle(fontWeight: FontWeight.bold,
+              Text(rangeInfo[_rangeIndex], style: TextStyle(fontWeight: FontWeight.bold,
                   color: Colors.grey,
                   fontSize: 15.0),),
             ],
@@ -80,7 +92,7 @@ class _SetLocationState extends State<SetLocation> {
           value: rating,
           onChanged: (newRating){
             setState((){
-              rangeIndex = (newRating*3.1).toInt();
+              _rangeIndex = (newRating*3.1).toInt();
               rating = newRating;
             });
           },
@@ -107,20 +119,25 @@ class _SetLocationState extends State<SetLocation> {
   Widget _nowLocationSet(){
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: leftPadding, vertical: 20.0),
-      child: Container(
-        width: size.width - 2*leftPadding,
-        height: 70.0,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(20.0)),
-          color: Colors.limeAccent,
-          boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 2.0)]
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.location_on),
-            Text(' 현재 위치로 설정', style: TextStyle(color: Colors.red, fontSize: 20.0, fontWeight: FontWeight.bold),),
-          ],
+      child: InkWell(
+        onTap: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>LocationHereSet()));
+        },
+        child: Container(
+          width: size.width - 2*leftPadding,
+          height: 70.0,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+            color: Colors.limeAccent,
+            boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 2.0)]
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.location_on),
+              Text(' 현재 위치로 설정', style: TextStyle(color: Colors.red, fontSize: 20.0, fontWeight: FontWeight.bold),),
+            ],
+          ),
         ),
       ),
     );

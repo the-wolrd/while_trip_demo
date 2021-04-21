@@ -41,6 +41,9 @@ dependencies:
   local_image_provider: ^2.1.0
   image: ^2.1.5 # 호환때문에 어쩔 수 없이 낮은 단계를 사용한다.
 
+  naver_map_plugin: ^0.9.6
+  geolocator: ^7.0.1
+
 
 flutter_native_splash:
   image: assets/loding_page/loading_bg.png

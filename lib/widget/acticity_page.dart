@@ -131,7 +131,6 @@ class _ActivityPageState extends State<ActivityPage> {
                   ),
                   )
                 ),
-
               ],
             ),
           ),

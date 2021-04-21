@@ -7,9 +7,10 @@ class UserModel {
   final String userNickname;
   final Map<String, dynamic> userInfo;
   final bool isBusiness;
-  final String userLocation;
-  final double lat;
-  final double lon;
+  // final String userLocation;
+  // final double lat;
+  // final double lon;
+  final List<dynamic> userLocations;
   final double range;
   final List<dynamic> activities;
   final List<dynamic> favorites;
@@ -22,9 +23,10 @@ class UserModel {
         userNickname = map[KEY_USERNICKNAME],
         userInfo = map[KEY_USERINFO],
         isBusiness = map[KEY_ISBUSINESS],
-        userLocation = map[KEY_USERLOCATION],
-        lat = map[KEY_LAT],
-        lon = map[KEY_LON],
+//        userLocation = map[KEY_USERLOCATION],
+//        lat = map[KEY_LAT],
+//        lon = map[KEY_LON],
+        userLocations = map[KEY_USERLOCATIONS],
         range = map[KEY_RANGE],
         activities = map[KEY_ACTIVITIES],
         favorites = map[KEY_FAVORITES],
