@@ -38,6 +38,9 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider<GalleryState>.value(value: widget._galleryState),
       ],
       child: MaterialApp(
+        theme: ThemeData(
+            primaryColor: Colors.white
+        ),
         home: Consumer<Login>(
           builder: (BuildContext context, Login provider, Widget child) {
 

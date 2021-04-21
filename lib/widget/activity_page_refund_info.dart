@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'set_button.dart';
+
 class ActivityPageRefundInfo extends StatefulWidget {
 
   final bool isSet;
@@ -29,14 +31,8 @@ class _ActivityPageRefundInfoState extends State<ActivityPageRefundInfo> {
                 ),
                 Text('환불 규정'),
                 Expanded(child: Container()),
-                Container(
-                  height: 30.0,
-                  width: 60.0,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                    color: Colors.grey,
-                  ),
-                  child: Center(child: Text('편집',style: TextStyle(color: Colors.white),)),
+                SetButton(
+                    setFunc: (){}
                 )
               ],
             )

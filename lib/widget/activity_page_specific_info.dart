@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:while_trip_demo/widget/set_button.dart';
 
 class ActivityPageSpecificInfo extends StatefulWidget {
 
@@ -29,14 +30,8 @@ class _ActivityPageSpecificInfoState extends State<ActivityPageSpecificInfo> {
                 ),
                 Text('상세 정보'),
                 Expanded(child: Container()),
-                Container(
-                  height: 30.0,
-                  width: 60.0,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                    color: Colors.grey,
-                  ),
-                  child: Center(child: Text('편집',style: TextStyle(color: Colors.white),)),
+                SetButton(
+                    setFunc: (){}
                 )
               ],
             )

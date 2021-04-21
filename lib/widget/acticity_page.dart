@@ -9,6 +9,7 @@ import 'package:while_trip_demo/widget/activity_page_review.dart';
 import 'package:while_trip_demo/widget/activity_page_specific_info.dart';
 
 import 'image_view_part.dart';
+import 'set_button.dart';
 
 class ActivityPage extends StatefulWidget {
   final StoreModel store;
@@ -105,6 +106,7 @@ class _ActivityPageState extends State<ActivityPage> {
                   ),
                   expandedHeight: size.width * 1.2 + _indicatorBarHeight,
                   flexibleSpace: FlexibleSpaceBar(
+                    stretchModes: [],
                     collapseMode: CollapseMode.pin,
                     background: _mainHome(),
                   ),
@@ -113,20 +115,20 @@ class _ActivityPageState extends State<ActivityPage> {
                   child: SizedBox(
                     height: size.height,
                     child: PageView(
-                      scrollDirection: Axis.horizontal,
-                      controller: _pageController,
-                      children: [
-                        ActivityPagePrice(isSet: true, prices: [
-    {'name': '서핑 강의 + 3시간 이용권', 'origin': '229,000원', 'final': '229,000원'},
-    {'name': '서핑 강의 + 6시간 이용권', 'origin': '349,000원', 'final': '349,000원'},
-    {'name': '3시간 자유이용권', 'origin': '149,000원', 'final': '149,000원'}
-                        ],),
-                        ActivityPageReview(isSet: true, reviews: [],),
-                        ActivityPageSpecificInfo(isSet: true, specificInfo: '',),
-                        ActivityPageRefundInfo(isSet: true, refundInfo: '',),
-                        ActivityPageCautionInfo(isSet: true, cautionInfo: '',),
-                      ],
-                    ),
+                    scrollDirection: Axis.horizontal,
+                    controller: _pageController,
+                    children: [
+                      ActivityPagePrice(isSet: true, prices: [
+                        {'name': '서핑 강의 + 3시간 이용권', 'origin': '229,000원', 'final': '229,000원'},
+                        {'name': '서핑 강의 + 6시간 이용권', 'origin': '349,000원', 'final': '349,000원'},
+                        {'name': '3시간 자유이용권', 'origin': '149,000원', 'final': '149,000원'}
+                      ],),
+                      ActivityPageReview(isSet: true, reviews: [],),
+                      ActivityPageSpecificInfo(isSet: true, specificInfo: '',),
+                      ActivityPageRefundInfo(isSet: true, refundInfo: '',),
+                      ActivityPageCautionInfo(isSet: true, cautionInfo: '',),
+                    ],
+                  ),
                   )
                 ),
 
@@ -184,14 +186,8 @@ class _ActivityPageState extends State<ActivityPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _imagesView(),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: _titleInfo(),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: _storeInfo(),
-            )
+            _titleInfo(),
+            _storeInfo()
           ],
         ),
       ),
@@ -209,61 +205,80 @@ class _ActivityPageState extends State<ActivityPage> {
   }
 
   Widget _titleInfo() {
-    return SizedBox(
-      height: size.width * 0.3,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: Stack(
         children: [
           SizedBox(
-            height: size.width * 0.03,
-          ),
-          SizedBox(
-            height: size.width * 0.12,
-            child: Text(
-              widget.store.storeName,
-              style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
+            height: size.width * 0.3,
+            width: size.width - 40.0,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: size.width * 0.03,
+                ),
+                SizedBox(
+                  height: size.width * 0.12,
+                  child: Text(
+                    widget.store.storeName,
+                    style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                SizedBox(
+                  height: size.width * 0.005,
+                ),
+                SizedBox(
+                  height: size.width * 0.06,
+                  child: Text(
+                    '${widget.store.location} ${widget.store.detail}',
+                    style: TextStyle(fontSize: 15.0),
+                  ),
+                ),
+                SizedBox(
+                  height: size.width * 0.005,
+                ),
+                SizedBox(
+                  height: size.width * 0.06,
+                  child: Text(
+                    '4.8(${widget.store.reviews.length})',
+                    style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                SizedBox(
+                  height: size.width * 0.02,
+                ),
+              ],
             ),
           ),
-          SizedBox(
-            height: size.width * 0.005,
-          ),
-          SizedBox(
-            height: size.width * 0.06,
-            child: Text(
-              '${widget.store.location} ${widget.store.detail}',
-              style: TextStyle(fontSize: 15.0),
+          Positioned(
+            top: size.width * 0.03,
+            right: 0,
+            child: SetButton(
+                setFunc: (){}
             ),
-          ),
-          SizedBox(
-            height: size.width * 0.005,
-          ),
-          SizedBox(
-            height: size.width * 0.06,
-            child: Text(
-              '4.8(${widget.store.reviews.length})',
-              style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),
-            ),
-          ),
-          SizedBox(
-            height: size.width * 0.02,
-          ),
+          )
         ],
       ),
     );
   }
 
   Widget _storeInfo() {
-    return SizedBox(
-        height: size.width * 0.3,
-        child: Center(
-          child: Text(
-            widget.store.info,
-            style: TextStyle(
-              fontSize: 14.0,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: SizedBox(
+          height: size.width * 0.3,
+          width: size.width - 40.0,
+          child: Center(
+            child: Text(
+              widget.store.info,
+              style: TextStyle(
+                fontSize: 14.0,
+              ),
+              overflow: TextOverflow.clip,
             ),
-            overflow: TextOverflow.clip,
-          ),
-        ));
+          )),
+    );
   }
 
   Widget _barOption(int index, String text, {@required double width}) {
