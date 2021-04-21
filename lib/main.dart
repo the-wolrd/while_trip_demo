@@ -6,6 +6,7 @@ import 'package:while_trip_demo/provider/login.dart';
 import 'model/gallery_state.dart';
 import 'screens/home/home_screen.dart';
 import 'screens/login/sub/get_start.dart';
+import 'test1.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

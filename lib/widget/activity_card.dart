@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:while_trip_demo/model/store_model.dart';
 import 'package:while_trip_demo/constant/constants.dart';
 
-import 'acticity_page.dart';
+import 'activity_page.dart';
 
 class ActivityCard extends StatelessWidget {
 
