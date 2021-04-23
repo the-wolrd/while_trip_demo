@@ -100,54 +100,6 @@ class _ActivityPageState extends State<ActivityPage> with SingleTickerProviderSt
               ),
             ),
             Expanded(
-              // child: CustomScrollView(
-              //   controller: _hideBottomController,
-              //   slivers: [
-              //     SliverAppBar(
-              //       automaticallyImplyLeading: false,
-              //       pinned: true,
-              //       collapsedHeight: _indicatorBarHeight,
-              //       bottom: PreferredSize(
-              //         preferredSize: Size.fromHeight(0.0),
-              //         child: Column(
-              //           children: [
-              //             Container(
-              //               height: 5.0,
-              //               color: Colors.grey[300],
-              //             ),
-              //             _optionIndicator(),
-              //             Container(
-              //               height: 5.0,
-              //               color: Colors.grey[300],
-              //             ),
-              //           ],
-              //         ),
-              //       ),
-              //       expandedHeight: size.width * 1.2 + _indicatorBarHeight,
-              //       flexibleSpace: FlexibleSpaceBar(
-              //         stretchModes: [],
-              //         collapseMode: CollapseMode.pin,
-              //         background: _mainHome(),
-              //       ),
-              //     ),
-              //     SliverToBoxAdapter(
-              //         child: SizedBox(
-              //       height: size.height,
-              //       child: PageView(
-              //         scrollDirection: Axis.horizontal,
-              //         controller: _pageController,
-              //         children: [
-              //           _pages(13, '안녕'),
-              //           _pages(18, '하세요'),
-              //           _pages(25, '반갑'),
-              //           _pages(35, '습니다'),
-              //           _pages(5, 'ㅇㄴㅁㅇ'),
-              //
-              //         ],
-              //       ),
-              //     )),
-              //   ],
-              // ),
               child: NestedScrollView(
                 controller: _scrollController,
                 headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {

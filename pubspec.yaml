@@ -44,6 +44,8 @@ dependencies:
   naver_map_plugin: ^0.9.6
   geolocator: ^7.0.1
 
+  http: ^0.13.1
+
 
 flutter_native_splash:
   image: assets/loding_page/loading_bg.png

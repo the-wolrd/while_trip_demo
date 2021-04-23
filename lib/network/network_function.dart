@@ -9,6 +9,7 @@ import 'firebase/firebase_review_network.dart';
 import 'firebase/firebase_store_network.dart';
 import 'firebase/firebase_user_network.dart';
 import 'firebase/firebase_image_network.dart';
+import 'naver_api/naver_api_network.dart';
 
 class NetworkFunction {
 
@@ -33,6 +34,14 @@ class NetworkFunction {
   Stream<UserModel> getAUserModel({@required String userKey}) => firebaseUserNetwork.getAUserModel(userKey);
 
   Stream<ReviewModel> getAReviewModel({@required String reviewKey}) => firebaseReviewNetwork.getAReviewModel(reviewKey);
+
+  Future<Map<String, dynamic>> getAddressFromQuery (String query) {
+    return naverApiNetwork.getAddressInfoFromQuery(query);
+  }
+
+  Future<Map<String, dynamic>> getAddressInfoFromPosition ({double lat, double lon}){
+    return naverApiNetwork.getAddressInfoFromPosition(latitude: lat, longitude: lon);
+  }
 
 }
 
