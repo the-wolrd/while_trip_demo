@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:while_trip_demo/constant/constants.dart';
+import 'package:while_trip_demo/screens/menu/sub/privacy_policy.dart';
 
 import 'sub/1vs1.dart';
 import 'sub/personal_auth.dart';
@@ -11,12 +12,15 @@ class MenuScreen extends StatefulWidget {
 
 enum PerAlert { Allowed, NotAllowed }
 enum PerLocate { Allowed, NotAllowed, UseApp }
+enum MyTheme { Default, Dark }
 
 class _MenuScreenState extends State<MenuScreen> {
   PerAlert _perAlert = PerAlert.Allowed;
   PerLocate _perLocate = PerLocate.Allowed;
+  MyTheme _myTheme = MyTheme.Default;
   String _alertState = '허용';
   String _locateState = '허용';
+  String _themeState = '기본';
 
   @override
   Widget build(BuildContext context) {
@@ -114,19 +118,21 @@ class _MenuScreenState extends State<MenuScreen> {
   }
 
   Text _etcInfo() => Text(
-        "기타 정보",
+        '기타 정보',
         style: TextStyle(fontSize: 16, color: Colors.black38),
       );
 
   InkWell _privacy() {
     return InkWell(
       splashColor: Colors.grey,
-      onTap: () {},
+      onTap: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => PrivacyPolicy()));
+      },
       child: const SizedBox(
           height: 50,
           child: ListTile(
             leading: Icon(Icons.info_outline),
-            title: Text("개인정보 처리 방침"),
+            title: Text('개인정보 처리 방침'),
             trailing: Icon(Icons.arrow_forward_ios_outlined),
           )),
     );
@@ -135,12 +141,74 @@ class _MenuScreenState extends State<MenuScreen> {
   InkWell _setTheme() {
     return InkWell(
       splashColor: Colors.grey,
-      onTap: () {},
+      onTap: () {
+        showDialog(
+            context: context,
+            //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
+            barrierDismissible: false,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                // RoundedRectangleBorder - Dialog 화면 모서리 둥글게 조절
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0)),
+                //Dialog Main Title
+                title: Column(
+                  children: <Widget>[
+                    Text('알림 설정'),
+                  ],
+                ),
+                //
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    RadioListTile(
+                      title: Text('기본'),
+                      value: MyTheme.Default,
+                      groupValue: _myTheme,
+                      onChanged: (value) {
+                        setState(() {
+                          _myTheme = value;
+                          print(value);
+                          _themeState = '기본';
+                          Navigator.pop(context);
+                        });
+                      },
+                    ),
+                    RadioListTile(
+                      title: Text('다크'),
+                      value: MyTheme.Dark,
+                      groupValue: _myTheme,
+                      onChanged: (value) {
+                        setState(() {
+                          _myTheme = value;
+                          print(value);
+                          _themeState = '다크';
+                          Navigator.pop(context);
+                        });
+                      },
+                    ),
+                  ],
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      '취소',
+                      style: TextStyle(color: Colors.black87),
+                    ),
+                  ),
+                ],
+              );
+            });
+      },
       child: const SizedBox(
           height: 50,
           child: ListTile(
             leading: Icon(Icons.video_label_rounded),
-            title: Text("테마 설정"),
+            title: Text('테마 설정'),
             trailing: Icon(Icons.arrow_forward_ios_outlined),
           )),
     );
@@ -447,12 +515,14 @@ class _MenuScreenState extends State<MenuScreen> {
     return Row(
       children: [
         Spacer(flex: 6),
-        Icon(
-          Icons.account_circle,
-          size: 60,
-          color: Colors.cyan,
+        SizedBox(
+          width: 60,
+          height: 60,
+          child: CircleAvatar(
+            backgroundImage: NetworkImage('https://picsum.photos/200'),
+          ),
         ),
-        Spacer(flex: 8),
+        Spacer(flex: 11),
         Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           const Text('김다슬님',
               style: TextStyle(fontWeight: FontWeight.w600, fontSize: 21)),
