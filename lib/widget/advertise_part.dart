@@ -38,6 +38,7 @@ class _AdvertisePartState extends State<AdvertisePart> {
   @override
   void dispose() {
     _pageController.dispose();
+    _timer.cancel();
     super.dispose();
   }
 

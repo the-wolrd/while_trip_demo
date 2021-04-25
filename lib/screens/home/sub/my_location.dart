@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:while_trip_demo/constant/constants.dart';
-import 'package:while_trip_demo/model/userModel.dart';
+import 'package:while_trip_demo/model/user_model.dart';
 import 'location_here_set.dart';
 import 'location_search.dart';
 

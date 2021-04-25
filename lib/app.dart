@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:while_trip_demo/provider/login.dart';
+import 'package:while_trip_demo/provider/login_state_firebase.dart';
 import 'package:while_trip_demo/screens/login/login_screen.dart';
 
 import 'constant/all/size.dart';
@@ -19,12 +19,12 @@ class App extends StatelessWidget {
       builder: (BuildContext context, Login provider, Widget child) {
 
         switch(provider.loginState){
-          case LoginState.signIn:
+          case LoginStatus.signIn:
             _currentWidget = HomeScreen();
             print('로그인');
             break;
 
-          case LoginState.signOut:
+          case LoginStatus.signOut:
             _currentWidget = GetStartScreen();
             print('로그아웃');
             break;

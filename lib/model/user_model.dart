@@ -6,11 +6,9 @@ class UserModel {
   final String userEmail;
   final String userNickname;
   final Map<String, dynamic> userInfo;
+  final String profileImg;
   final bool isBusiness;
-  // final String userLocation;
-  // final double lat;
-  // final double lon;
-  final List<dynamic> userLocations;
+  final List<dynamic> userLocations; // dynamic : Map 형태  {'title': '집', 'address': '대전 유성구 대학로 291', 'detail': 'w5-2 스타트업빌리지 204호', 'lat': 36.3693545, 'lon':127.355723}
   final double range;
   final List<dynamic> activities;
   final List<dynamic> favorites;
@@ -22,10 +20,8 @@ class UserModel {
         userEmail = map[KEY_USEREMAIL],
         userNickname = map[KEY_USERNICKNAME],
         userInfo = map[KEY_USERINFO],
+        profileImg = map[KEY_PROFILEIMG],
         isBusiness = map[KEY_ISBUSINESS],
-//        userLocation = map[KEY_USERLOCATION],
-//        lat = map[KEY_LAT],
-//        lon = map[KEY_LON],
         userLocations = map[KEY_USERLOCATIONS],
         range = map[KEY_RANGE],
         activities = map[KEY_ACTIVITIES],

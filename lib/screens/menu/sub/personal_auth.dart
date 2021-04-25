@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:while_trip_demo/provider/login.dart';
+import 'package:while_trip_demo/provider/login_state_firebase.dart';
 import 'package:while_trip_demo/constant/constants.dart';
 
 class PersonalAuth extends StatelessWidget {
@@ -97,7 +97,7 @@ class PersonalAuth extends StatelessWidget {
             onTap: (){
               Navigator.pop(context);
               Navigator.pop(context);
-              Provider.of<Login>(context, listen: false).logout();
+              Provider.of<Login>(context, listen: false).logOut();
             },
           ),
           _myDivider(),

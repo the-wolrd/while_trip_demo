@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:while_trip_demo/model/userModel.dart';
+import 'package:while_trip_demo/model/user_model.dart';
 import 'package:while_trip_demo/constant/constants.dart';
 
 import 'package:while_trip_demo/network/firebase/transformers.dart';

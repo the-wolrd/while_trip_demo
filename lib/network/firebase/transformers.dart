@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:while_trip_demo/model/review_model.dart';
 import 'package:while_trip_demo/model/store_model.dart';
-import 'package:while_trip_demo/model/userModel.dart';
+import 'package:while_trip_demo/model/user_model.dart';
 
 class Transformers {
   final toStore = StreamTransformer<DocumentSnapshot, StoreModel>.fromHandlers(

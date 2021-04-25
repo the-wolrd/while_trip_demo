@@ -4,7 +4,7 @@ import 'dart:typed_data';
 
 import 'package:while_trip_demo/network/network_function.dart';
 
-import '../model/gallery_state.dart';
+import '../provider/gallery_state.dart';
 import 'package:flutter/material.dart';
 import 'package:local_image_provider/device_image.dart';
 import 'package:local_image_provider/local_image.dart';

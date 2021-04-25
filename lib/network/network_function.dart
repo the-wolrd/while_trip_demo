@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:while_trip_demo/model/review_model.dart';
 import 'package:while_trip_demo/model/store_model.dart';
-import 'package:while_trip_demo/model/userModel.dart';
+import 'package:while_trip_demo/model/user_model.dart';
 
 import 'firebase/firebase_review_network.dart';
 import 'firebase/firebase_store_network.dart';
@@ -35,13 +35,9 @@ class NetworkFunction {
 
   Stream<ReviewModel> getAReviewModel({@required String reviewKey}) => firebaseReviewNetwork.getAReviewModel(reviewKey);
 
-  Future<Map<String, dynamic>> getAddressFromQuery (String query) {
-    return naverApiNetwork.getAddressInfoFromQuery(query);
-  }
+  Future<Map<String, dynamic>> getAddressFromQuery (String query) => naverApiNetwork.getAddressInfoFromQuery(query);
 
-  Future<Map<String, dynamic>> getAddressInfoFromPosition ({double lat, double lon}){
-    return naverApiNetwork.getAddressInfoFromPosition(latitude: lat, longitude: lon);
-  }
+  Future<Map<String, dynamic>> getAddressInfoFromPosition ({double lat, double lon}) => naverApiNetwork.getAddressInfoFromPosition(latitude: lat, longitude: lon);
 
 }
 

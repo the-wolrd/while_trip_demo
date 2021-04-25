@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:while_trip_demo/model/store_model.dart';
-import 'package:while_trip_demo/model/userModel.dart';
+import 'package:while_trip_demo/model/user_model.dart';
 import 'package:while_trip_demo/screens/home/sub/register_store.dart';
 import 'package:while_trip_demo/constant/constants.dart';
 
