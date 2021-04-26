@@ -1,11 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:while_trip_demo/constant/constants.dart';
+import 'package:while_trip_demo/model/user_model.dart';
+import 'package:while_trip_demo/provider/user_model_state.dart';
 import 'package:while_trip_demo/screens/menu/sub/privacy_policy.dart';
+import 'package:while_trip_demo/widget/my_history.dart';
+import 'package:while_trip_demo/widget/my_activity.dart';
+import 'package:while_trip_demo/widget/my_favorite.dart';
+import 'package:while_trip_demo/widget/my_reviews.dart';
 
 import 'sub/1vs1.dart';
 import 'sub/personal_auth.dart';
 
 class MenuScreen extends StatefulWidget {
+
+  final UserModel user;
+
+  MenuScreen({this.user});
+
   @override
   _MenuScreenState createState() => _MenuScreenState();
 }
@@ -34,9 +46,7 @@ class _MenuScreenState extends State<MenuScreen> {
             _gap(34),
             _basicInfo(),
             _gap(14),
-            _account(),
-            _gap(22),
-            _etc(),
+            _userCard(),
             _gap(18),
             _application(),
             _versionInfo(),
@@ -456,88 +466,155 @@ class _MenuScreenState extends State<MenuScreen> {
     );
   }
 
-  Row _etc() {
-    return Row(
-      children: [
-        Spacer(flex: 1),
-        SizedBox(
-          child: InkWell(
-            splashColor: Colors.grey,
-            onTap: () {},
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.list_alt,
-                  color: Colors.cyan,
-                ),
-                Text('이용내역', style: TextStyle(fontSize: 12))
-              ],
+  Widget _userCard(){
+    return Consumer<UserModelState>(
+      builder: (context, userModelState, _){
+        if (userModelState == null || userModelState.userModel == null){
+          return Container();
+        }
+        else{
+          return Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+              color: (userModelState.userModel.isBusiness)?Colors.lightBlueAccent:Colors.white,
             ),
-          ),
-        ),
-        Spacer(flex: 2),
-        InkWell(
-          splashColor: Colors.grey,
-          onTap: () {},
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(
-                Icons.chat,
-                color: Colors.cyan,
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                children: [
+                  _account(userModelState.userModel),
+                  _gap(22),
+                  _etc(userModelState.userModel)
+                ],
               ),
-              Text('리뷰관리', style: TextStyle(fontSize: 12))
-            ],
-          ),
-        ),
-        Spacer(flex: 2),
-        InkWell(
-          splashColor: Colors.grey,
-          onTap: () {},
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.star_border,
-                color: Colors.cyan,
-              ),
-              Text('관심목록', style: TextStyle(fontSize: 12))
-            ],
-          ),
-        ),
-        Spacer(flex: 1),
-      ],
+            ),
+          );
+        }
+      },
     );
   }
 
-  Row _account() {
-    return Row(
-      children: [
-        Spacer(flex: 6),
-        SizedBox(
-          width: 60,
-          height: 60,
-          child: CircleAvatar(
-            backgroundImage: NetworkImage('https://picsum.photos/200'),
-          ),
+  Widget _etc(UserModel user) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+        color:Colors.grey[50]
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10.0),
+        child: Row(
+          children: [
+            Spacer(flex: 1),
+
+            user.isBusiness?
+              SizedBox(
+                child: InkWell(
+                  splashColor: Colors.grey,
+                  onTap: () {},
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.work,
+                        color: Colors.cyan,
+                      ),
+                      Text('액티비티\n관리', style: TextStyle(fontSize: 12), textAlign: TextAlign.center,)
+                    ],
+                  ),
+                ),
+              ):Container(),
+            user.isBusiness?
+              Spacer(flex: 2):Container(),
+
+            SizedBox(
+              child: InkWell(
+                splashColor: Colors.grey,
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => MyHistoryScreen(user: user,)));
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.list_alt,
+                      color: Colors.cyan,
+                    ),
+                    Text('이용내역', style: TextStyle(fontSize: 12))
+                  ],
+                ),
+              ),
+            ),
+            Spacer(flex: 2),
+            InkWell(
+              splashColor: Colors.grey,
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => MyReviewScreen(user: user,)));
+              },
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(
+                    Icons.chat,
+                    color: Colors.cyan,
+                  ),
+                  Text('리뷰관리', style: TextStyle(fontSize: 12))
+                ],
+              ),
+            ),
+            Spacer(flex: 2),
+            InkWell(
+              splashColor: Colors.grey,
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => MyFavoriteScreen(user: user,)));
+                },
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.star_border,
+                    color: Colors.cyan,
+                  ),
+                  Text('관심목록', style: TextStyle(fontSize: 12))
+                ],
+              ),
+            ),
+            Spacer(flex: 1),
+          ],
         ),
-        Spacer(flex: 11),
-        Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          const Text('김다슬님',
-              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 21)),
-          SizedBox(height: 4),
-          const Text('일반 회원'),
-        ]),
-        Spacer(flex: 88),
-        IconButton(
-            icon: Icon(Icons.arrow_forward_ios_rounded),
-            onPressed: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => PersonalAuth()));
-            })
-      ],
+      ),
     );
+  }
+
+  Widget _account(UserModel user) {
+    return Row(
+            children: [
+              Spacer(flex: 6),
+              SizedBox(
+                width: 60,
+                height: 60,
+                child: CircleAvatar(
+                  backgroundImage: NetworkImage(user.profileImg),
+                ),
+              ),
+              Spacer(flex: 11),
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Text('${user.userNickname}님',
+                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 21, color: user.isBusiness?Colors.white:Colors.black)),
+                SizedBox(height: 4),
+                (user.isBusiness)?
+                Text('비즈니스 회원', style: TextStyle(color: Colors.white),)
+                    :Text('일반 회원', style: TextStyle(color: Colors.black)),
+              ]),
+              Spacer(flex: 88),
+              IconButton(
+                  icon: Icon(Icons.arrow_forward_ios_rounded),
+                  color: user.isBusiness?Colors.white:Colors.black,
+                  onPressed: () {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => PersonalAuth(userModel: user)));
+                  })
+            ],
+          );
   }
 
   Text _basicInfo() {

@@ -39,6 +39,8 @@ class NetworkFunction {
 
   Future<Map<String, dynamic>> getAddressInfoFromPosition ({double lat, double lon}) => naverApiNetwork.getAddressInfoFromPosition(latitude: lat, longitude: lon);
 
+  Future<void> transferBusinessStatus ({@required String userKey}) => firebaseUserNetwork.transferBusinessStatus(userKey);
+
 }
 
 NetworkFunction networkFunction = NetworkFunction();

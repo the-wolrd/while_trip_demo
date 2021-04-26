@@ -9,7 +9,7 @@ class UserModel {
   final String profileImg;
   final bool isBusiness;
   final List<dynamic> userLocations; // dynamic : Map 형태  {'title': '집', 'address': '대전 유성구 대학로 291', 'detail': 'w5-2 스타트업빌리지 204호', 'lat': 36.3693545, 'lon':127.355723}
-  final double range;
+  final int range;  // 5000m , 10000m 요런식으로 사용할 예정
   final List<dynamic> activities;
   final List<dynamic> favorites;
   final List<dynamic> myReviews;

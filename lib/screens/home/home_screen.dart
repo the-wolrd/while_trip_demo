@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:while_trip_demo/model/store_model.dart';
+import 'package:while_trip_demo/model/user_model.dart';
 import 'package:while_trip_demo/network/network_function.dart';
 import 'package:while_trip_demo/constant/constants.dart';
+import 'package:while_trip_demo/provider/user_model_state.dart';
 import './sub/my_location.dart';
 import '../../widget/advertise_part.dart';
 import '../../widget/activity_card.dart';
@@ -11,8 +13,8 @@ import '../../screens/menu/menu_screen.dart';
 
 import 'sub/search.dart';
 import '../../widget/my_activity.dart';
-import '../../widget/favorite.dart';
-import '../../widget/history.dart';
+import '../../widget/my_favorite.dart';
+import '../../widget/my_history.dart';
 
 class HomeScreen extends StatefulWidget {
 
@@ -130,17 +132,27 @@ class _HomeScreenState extends State<HomeScreen> {
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _topBar(context),
-              _locationSet(),
-              _banner(),
-              _title(),
-              _categoryList(),
-              _recommendActivity(),
-            ],
-          ),
+          child:
+          Consumer<UserModelState>(
+              builder: (context, userModelState, _){
+                if (userModelState == null || userModelState.userModel == null){
+                  return Container();
+                }
+                else{
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _topBar(context, userModelState.userModel),
+                      _locationSet(userModelState.userModel),
+                      _banner(),
+                      _title(),
+                      _categoryList(),
+                      _recommendActivity(),
+                    ],
+                  );
+                }
+
+              })
         ),
       ),
     );
@@ -232,16 +244,16 @@ class _HomeScreenState extends State<HomeScreen> {
     return Padding(
       padding: const EdgeInsets.only(left: 20.0),
       child: Text(
-        "제주도 여행은 \n와일!",
+        '제주도 여행은 \n와일!',
         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.0),
       ),
     );
   }
 
-  Widget _locationSet() {
+  Widget _locationSet(UserModel user) {
     return InkWell(
       onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=> SetLocation()));
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> SetLocation(user: user)));
       },
       child: Padding(
         padding: EdgeInsets.only(
@@ -268,7 +280,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _topBar(BuildContext context) {
+  Widget _topBar(BuildContext context, UserModel user) {
     return Padding(
       padding: const EdgeInsets.only(top: 20.0),
       child: Row(
@@ -290,15 +302,15 @@ class _HomeScreenState extends State<HomeScreen> {
           }),
           _iconButton('assets/home/bag_icon.png', () {
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) => MyActivityScreen()));
+                MaterialPageRoute(builder: (context) => MyActivityScreen(user: user,)));
           }),
           _iconButton('assets/home/star_icon.png', () {
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) => FavoriteScreen()));
+                MaterialPageRoute(builder: (context) => MyFavoriteScreen(user: user)));
           }),
           _iconButton('assets/home/menu_icon.png', () {
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => MenuScreen()));
+                context, MaterialPageRoute(builder: (context) => MenuScreen(user: user,)));
           }),
           SizedBox(
             width: 10.0,

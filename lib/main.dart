@@ -50,14 +50,16 @@ class _MyAppState extends State<MyApp> {
             primaryColor: Colors.white
         ),
         home: Consumer<Login>(
-          builder: (BuildContext context, Login provider, Widget child) {
+          builder: (BuildContext context, Login loginStateProvider, Widget child) {
 
-            switch(provider.loginState){
+            switch(loginStateProvider.loginState){
               case LoginStatus.signIn:
+                _initUserModel(loginStateProvider, context);
                 _currentWidget = HomeScreen();
                 break;
 
               case LoginStatus.signOut:
+                _clearUserModel(context);
                 _currentWidget = GetStartScreen();
                 break;
 
@@ -65,6 +67,7 @@ class _MyAppState extends State<MyApp> {
                 _currentWidget = Container();
                 break;
             }
+
             return AnimatedSwitcher(
                 duration: Duration(seconds: 1),
                 child: _currentWidget);

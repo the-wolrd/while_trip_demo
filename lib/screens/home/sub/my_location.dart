@@ -17,7 +17,7 @@ class SetLocation extends StatefulWidget {
 class _SetLocationState extends State<SetLocation> {
 
   TextEditingController _searchController = TextEditingController();
-  double rating = 0.0;
+  double rating = 0.0; // for slider
   int _rangeIndex = 0; // 0: 1km, 1: 5km , 2: 10km, 3: 20km
 
   List<String> rangeInfo = [
@@ -161,7 +161,7 @@ class _SetLocationState extends State<SetLocation> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(left:15.0),
-                    child: Text("예) 서귀포 중문동",style: TextStyle(color: Colors.grey),),
+                    child: Text('예) 서귀포 중문동',style: TextStyle(color: Colors.grey),),
                   ),
                   Expanded(child: Container()),
                   Padding(
@@ -194,7 +194,7 @@ class _SetLocationState extends State<SetLocation> {
             },
           ),
           Expanded(
-            child: Center(child: Text("위치 설정하기", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0),)),
+            child: Center(child: Text('위치 설정하기', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0),)),
           ),
           IconButton(
             icon: Icon(Icons.map),

@@ -90,7 +90,7 @@ class _SignUpState extends State<SignUp> {
             KEY_LOGINTYPE : LOGIN_TYPE_EMAIL,
             KEY_USEREMAIL : _emailController.text,
             KEY_USERNICKNAME : _nickNameController.text,
-            KEY_USERINFO : _infoController.text,
+            KEY_USERINFO : {'info':_infoController.text},
             KEY_PROFILEIMG : 'https://picsum.photos/200',
             KEY_ISBUSINESS : false,
             KEY_USERLOCATIONS : [{'title': '집', 'address': '대전 유성구 대학로 291', 'detail': 'w5-2 스타트업빌리지 204호', 'lat': 36.3693545, 'lon':127.355723}],

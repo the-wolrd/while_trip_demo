@@ -28,6 +28,12 @@ class FirebaseUserNetwork with Transformers{
         .transform(toUser);
   }
 
+  Future<void> transferBusinessStatus(String userKey) async {
+    final userRef = FirebaseFirestore.instance.collection(COLLECTION_USERS).doc(userKey);
+    var data = await userRef.get();
+    await userRef.update({KEY_ISBUSINESS: !data[KEY_ISBUSINESS]});
+  }
+
 }
 
 FirebaseUserNetwork firebaseUserNetwork = FirebaseUserNetwork();

@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:while_trip_demo/constant/constants.dart';
+import 'package:while_trip_demo/model/user_model.dart';
 
-class FavoriteScreen extends StatefulWidget {
+class MyFavoriteScreen extends StatefulWidget {
+
+  final UserModel user;
+
+  MyFavoriteScreen({this.user});
+
   @override
-  _FavoriteScreenState createState() => _FavoriteScreenState();
+  _MyFavoriteScreenState createState() => _MyFavoriteScreenState();
 }
 
-class _FavoriteScreenState extends State<FavoriteScreen> {
+class _MyFavoriteScreenState extends State<MyFavoriteScreen> {
 
   List<Map<String, dynamic>> activities = [
     {
