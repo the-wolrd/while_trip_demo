@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:while_trip_demo/model/store_model.dart';
 import 'package:while_trip_demo/constant/constants.dart';
+import 'package:while_trip_demo/model/user_model.dart';
 import 'package:while_trip_demo/widget/activity_page_caution_info.dart';
 import 'package:while_trip_demo/widget/activity_page_price.dart';
 import 'package:while_trip_demo/widget/activity_page_refund_info.dart';
@@ -14,53 +15,58 @@ import 'set_button.dart';
 
 class ActivityPage extends StatefulWidget {
   final StoreModel store;
-  final bool isSet;
+  final UserModel user;
 
-  ActivityPage({this.store, this.isSet = false});
+  ActivityPage({this.store, this.user});
 
   @override
   _ActivityPageState createState() => _ActivityPageState();
 }
 
-class _ActivityPageState extends State<ActivityPage> with SingleTickerProviderStateMixin{
+class _ActivityPageState extends State<ActivityPage>
+    with SingleTickerProviderStateMixin {
+  bool _isSet;
+
   var _scrollController, _tabController;
   final PageController _pageController = PageController(initialPage: 0);
 
-  double _selected =
-      0.0; // 총 5개. 가격(0~0.8), 리뷰(0.8~1.6) , 상세정보(1.6~2.4), 환뷸 규정(2.4~3.2), 유의사항(3.2~4.0)
+  int _selected = 0 ; // 0 : 가격, 1 : 리뷰, 2 : 상세정보, 3 : 환불규정, 4 : 유의사항
   final double _topBarHeight = 50.0;
   final double _indicatorBarHeight = 60.0;
-
-  final ScrollController _hideBottomController = ScrollController();
 
   @override
   void initState() {
     _scrollController = ScrollController();
-    _tabController = TabController(length: 4, vsync: this);
-    _pageController.addListener(onPageChanged);
+    _tabController = TabController(length: 5, vsync: this);
+    _tabController.addListener(() {
+      setState(() {
+        _selected = _tabController.index;
+        print(_tabController.index);
+      });
+    });
+    _isSet = (widget.store.ownerKey == widget.user.userKey);
     super.initState();
   }
 
   @override
   void dispose() {
     _pageController.dispose();
-    _hideBottomController.dispose();
     super.dispose();
-  }
-
-  void onPageChanged() {
-    setState(() {
-      _selected = _pageController.page;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        floatingActionButton: IconButton(
-          icon: Icon(Icons.phone, color: Colors.cyanAccent,),
-        ),
+        floatingActionButton:
+            FloatingActionButton(
+              backgroundColor: Colors.lightBlueAccent,
+              onPressed: (){ },
+              child: Icon(
+                Icons.phone,
+                color: Colors.white,
+              ),
+            ),
         resizeToAvoidBottomInset: true,
         body: Column(
           children: [
@@ -86,8 +92,12 @@ class _ActivityPageState extends State<ActivityPage> with SingleTickerProviderSt
                     onPressed: () {
                       print(kToolbarHeight);
                     },
-                    child: widget.isSet
-                        ? Text('완료')
+                    child: _isSet
+                        ? TextButton(
+                            onPressed: () async {
+                              // TODO 확인 창 하나 만들어주기
+                            },
+                            child: Text('완료'))
                         : IconButton(
                             icon: Icon(
                               Icons.star_border,
@@ -102,25 +112,74 @@ class _ActivityPageState extends State<ActivityPage> with SingleTickerProviderSt
             Expanded(
               child: NestedScrollView(
                 controller: _scrollController,
-                headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+                headerSliverBuilder:
+                    (BuildContext context, bool innerBoxIsScrolled) {
                   return [
                     SliverAppBar(
+                      automaticallyImplyLeading: false, // 화면 왼쪽 상단에 뒤로가기 화살표 없애주는 것
                       expandedHeight: size.width * 1.2 + _indicatorBarHeight,
-                        flexibleSpace: FlexibleSpaceBar(
-                                stretchModes: [],
-                                collapseMode: CollapseMode.pin,
-                                background: _mainHome(),
-                              ),
+                      flexibleSpace: FlexibleSpaceBar(
+                        stretchModes: [],
+                        collapseMode: CollapseMode.pin,
+                        background: _mainHome(),
+                      ),
                       pinned: true,
                       floating: true,
                       snap: false,
                       forceElevated: innerBoxIsScrolled,
                       bottom: TabBar(
+                        onTap: (i) {
+                          print(i);
+                          print(_tabController.index);
+                        },
+                          indicatorColor: Colors.lightBlueAccent,
+                        labelPadding: const EdgeInsets.all(0.0),
                         tabs: [
-                          Tab(text: 'Page 1'),
-                          Tab(text: 'Page 2'),
-                          Tab(text: 'Page 3'),
-                          Tab(text: 'Page 4'),
+                          Tab(
+                              child: Center(
+                                  child: Text('가격',
+                                      style: TextStyle(
+                                          fontSize: 12.0,
+                                          fontWeight: FontWeight.bold,
+                                          color: _selected == 0
+                                              ? Colors.lightBlueAccent
+                                              : Colors.black)))),
+                          Tab(
+                              child: Center(
+                                  child: Text('리뷰',
+                                      style: TextStyle(
+                                          fontSize: 12.0,
+                                          fontWeight: FontWeight.bold,
+                                          color: _selected == 1
+                                              ? Colors.lightBlueAccent
+                                              : Colors.black)))),
+                          Tab(
+                              child: Center(
+                                  child: Text('상세정보',
+                                      style: TextStyle(
+                                          fontSize: 12.0,
+                                          fontWeight: FontWeight.bold,
+                                          color: _selected == 2
+                                              ? Colors.lightBlueAccent
+                                              : Colors.black)))),
+                          Tab(
+                              child: Center(
+                                  child: Text('환불규정',
+                                      style: TextStyle(
+                                          fontSize: 12.0,
+                                          fontWeight: FontWeight.bold,
+                                          color: _selected == 3
+                                              ? Colors.lightBlueAccent
+                                              : Colors.black)))),
+                          Tab(
+                              child: Center(
+                                  child: Text('유의사항',
+                                      style: TextStyle(
+                                          fontSize: 12.0,
+                                          fontWeight: FontWeight.bold,
+                                          color: _selected == 4
+                                              ? Colors.lightBlueAccent
+                                              : Colors.black)))),
                         ],
                         controller: _tabController,
                       ),
@@ -134,7 +193,7 @@ class _ActivityPageState extends State<ActivityPage> with SingleTickerProviderSt
                     _pageView(10),
                     _pageView(100),
                     _pageView(23),
-
+                    _pageView(19),
                   ],
                 ),
               ),
@@ -147,35 +206,37 @@ class _ActivityPageState extends State<ActivityPage> with SingleTickerProviderSt
             child: Stack(
               children: [
                 Container(
-                  color: Colors.transparent,
+                  color: Colors.white,
                 ),
-                Positioned(
-                  bottom: 0.0,
-                  left: 0.0,
-                  child: Container(
-                    width: size.width,
-                    height: 60.0,
-                    color: Colors.white,
-                    child: BottomNavigationBar(
-                      type: BottomNavigationBarType.fixed,
-                      items: [
-                        BottomNavigationBarItem(
-                            icon: Icon(
-                              Icons.location_on,
-                              color: Colors.red,
-                            ),
-                            title: Text('바로 가기')),
-                        BottomNavigationBarItem(
-                            icon: Icon(
-                              Icons.star,
-                              color: Colors.yellow,
-                            ),
-                            title: Text('즐겨찾기 등촉')),
-                      ],
-                      currentIndex: 0,
-                    ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical:5.0),
+                  child: Row(
+                    children: [
+                      Spacer(flex:1),
+                      Container(
+                        width: size.width*0.45,
+                        height: 50.0,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                          color: Colors.lightBlueAccent
+                        ),
+                        child: Center(child: Text('바로가기', style: TextStyle(color: Colors.white),)),
+                      ),
+                      Spacer(flex:1),
+                      Container(
+                        width: size.width*0.45,
+                        height: 50.0,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                            border: Border.all(width: 1.0, color: Colors.lightBlueAccent),
+                            color: Colors.white
+                        ),
+                        child: Center(child: Text('관심등록', style: TextStyle(color: Colors.lightBlueAccent),)),
+                      ),
+                      Spacer(flex:1),
+                    ],
                   ),
-                ),
+                )
               ],
             )),
       ),
@@ -193,7 +254,6 @@ class _ActivityPageState extends State<ActivityPage> with SingleTickerProviderSt
       },
     );
   }
-
 
   Widget _optionIndicator() {
     return Stack(
@@ -230,14 +290,14 @@ class _ActivityPageState extends State<ActivityPage> with SingleTickerProviderSt
 
   Widget _mainHome() {
     return SizedBox(
-      height: size.width * 1.2 + _indicatorBarHeight,
+      height: size.width * 1.2 + 10.0,
       //추가항목이 생기면 더 늘어날 수 도 있으니 보류
       width: size.width,
       child: Container(
         color: Colors.white,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [_imagesView(), _titleInfo(), _storeInfo()],
+          children: [_imagesView(), _titleInfo(), _storeInfo(), Container(height:10.0, color:Colors.grey[50])],
         ),
       ),
     );

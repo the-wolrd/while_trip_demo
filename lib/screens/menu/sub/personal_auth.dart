@@ -57,7 +57,7 @@ class PersonalAuth extends StatelessWidget {
               onTap: (){},
               child: ListTile(
                 leading: Text(
-                  "개인 정보",
+                  '개인 정보',
                   style: TextStyle(fontSize: 18),
                 ),
                 trailing: Icon(Icons.arrow_forward_ios_outlined)

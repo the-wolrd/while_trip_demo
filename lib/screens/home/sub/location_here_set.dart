@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:io';
-
+import 'package:while_trip_demo/constant/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:naver_map_plugin/naver_map_plugin.dart';
 
@@ -27,27 +27,63 @@ class _LocationHereSetState extends State<LocationHereSet> {
   Widget build(BuildContext context) {
     return SafeArea(child: Scaffold(
       key: scaffoldKey,
-      appBar: AppBar(),
-      body: Stack(
-        children: <Widget>[
-          NaverMap(
-            onMapCreated: onMapCreated,
-            mapType: MapType.Basic,
-            initLocationTrackingMode: _trackingMode,
-            locationButtonEnable: true,
-            indoorEnable: true,
-            onCameraChange: _onCameraChange,
-            onCameraIdle: _onCameraIdle,
-            onMapTap: _onMapTap,
-            onMapLongTap: _onMapLongTap,
-            onMapDoubleTap: _onMapDoubleTap,
-            onMapTwoFingerTap: _onMapTwoFingerTap,
-            onSymbolTap: _onSymbolTap,
+      body: Column(
+        children: [
+          SizedBox(
+            width: size.width,
+            height: size.width * 1.5,
+            child: Stack(
+              children: <Widget>[
+                NaverMap(
+                  onMapCreated: onMapCreated,
+                  mapType: MapType.Basic,
+                  initLocationTrackingMode: _trackingMode,
+                  locationButtonEnable: true,
+                  indoorEnable: true,
+                  onCameraChange: _onCameraChange,
+                  onCameraIdle: _onCameraIdle,
+                  onMapTap: _onMapTap,
+                  onMapLongTap: _onMapLongTap,
+                  onMapDoubleTap: _onMapDoubleTap,
+                  onMapTwoFingerTap: _onMapTwoFingerTap,
+                  onSymbolTap: _onSymbolTap,
+                ),
+                Center(
+                  child: Image.asset('assets/map/target.png', height: 100.0, fit: BoxFit.fitHeight, color: _isStop?Colors.red:Colors.grey,),
+                ),
+                _trackingModeSelector(),
+              ],
+            ),
           ),
-          Center(
-            child: Image.asset('assets/map/target.png', height: 100.0, fit: BoxFit.fitHeight, color: _isStop?Colors.red:Colors.grey,),
-          ),
-          _trackingModeSelector(),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Spacer(flex: 3,),
+                  Text(_isStop?'한국과학기술원':'...', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),),
+                  Spacer(flex: 1,),
+                  Text(_isStop?'대전광역시 유성구 대학로 291':'...', style: TextStyle(color: Colors.grey, fontSize: 15.0),),
+                  Spacer(flex: 2,),
+                  SizedBox(
+                    width: size.width,
+                    height: 50.0,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        color: _isStop? Colors.lightBlueAccent:Colors.grey
+                      ),
+                      child: Center(child: Text(_isStop?'이 위치로 배달받기':'...', style: TextStyle(fontSize: 20.0,color: Colors.white),)),
+                    ),
+                  ),
+                  Spacer(flex: 3,),
+                ],
+              ),
+            ),
+          )
+
         ],
       )));
   }

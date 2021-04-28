@@ -39,7 +39,9 @@ class _ImageViewPartState extends State<ImageViewPart> {
   @override
   void dispose() {
     _pageController.dispose();
+    _timer.cancel();
     super.dispose();
+
   }
 
   void onPageChanged(){

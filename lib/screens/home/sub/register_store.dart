@@ -3,14 +3,18 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:while_trip_demo/model/store_model.dart';
+import 'package:while_trip_demo/model/user_model.dart';
 import 'package:while_trip_demo/network/network_function.dart';
+import 'package:while_trip_demo/useful/generate_key.dart';
 import 'package:while_trip_demo/widget/select_img_from_gallery.dart';
 import 'package:while_trip_demo/constant/constants.dart';
 
 class RegisterStore extends StatefulWidget {
   final StoreModel store;
+  final UserModel user;
+  final Function refreshAcitivities;
 
-  RegisterStore({this.store});
+  RegisterStore({this.store, this.user, this.refreshAcitivities});
 
   @override
   _RegisterStoreState createState() => _RegisterStoreState();
@@ -23,18 +27,18 @@ class _RegisterStoreState extends State<RegisterStore> {
 
   bool _isNew = true;
 
-  String _field = '';
+  String _field = '서핑';
   final TextEditingController _storeName = TextEditingController();
-  String _location = '';
+  String _location = '대전 유성구 대학로 291';
   final TextEditingController _detail = TextEditingController();
   final TextEditingController _storePhone = TextEditingController();
   final TextEditingController _homeLink = TextEditingController();
   List<dynamic> _photos = [];
   final TextEditingController _info = TextEditingController();
-  List<Map<String, dynamic>> _prices = [
-//    {'name': '서핑 강의 + 3시간 이용권', 'origin': '229,000원', 'final': '229,000원'},
-//    {'name': '서핑 강의 + 6시간 이용권', 'origin': '349,000원', 'final': '349,000원'},
-//    {'name': '3시간 자유이용권', 'origin': '149,000원', 'final': '149,000원'}
+  List<dynamic> _prices = [
+    {'name': '서핑 강의 + 3시간 이용권', 'origin': '229,000원', 'final': '229,000원'},
+    {'name': '서핑 강의 + 6시간 이용권', 'origin': '349,000원', 'final': '349,000원'},
+    {'name': '3시간 자유이용권', 'origin': '149,000원', 'final': '149,000원'}
   ];
   final TextEditingController _optionName = TextEditingController(); // not in store class
   final TextEditingController _optionPrice = TextEditingController(); // not in store class
@@ -61,14 +65,14 @@ class _RegisterStoreState extends State<RegisterStore> {
       _cautionInfo.text = widget.store.cautionInfo;
     }
 
-//    _storeName.text = '서귀포 서핑샵';
-//    _detail.text = '1층';
-//    _storePhone.text = '010-1234-5678';
-//    _homeLink.text = 'https://www.instagram.com/jeju_surfing/';
-//    _info.text = '제주도 여행에서 결코 놓칠 수 없는 것, 바로 제주 바닷가에서의 서핑! 태평양에서부터 불어오는 바람과 파도를 직접 느낄 수 있는 서귀포 앞바다에서의 서핑을 지금 바로 즐겨보세요!';
-//    _specificInfo.text = '제주도 여행에서 결코 놓칠 수 없는 것, 바로 제주 바닷가에서의 서핑!\n태평양세서부터 불어오는 바람과 파도를 직접 느낄 수 있는 서귀포 앞바다에서의 서핑을 지금 바로 즐겨보세요!\n- 예약 확정 후 , 무료코드가 바우처 또는 문자로 발송됩니다.\n- 각 업체별로 사용 가능한 쿠폰이 노출됩니다.\n- 무료쿠폰 코드는 등록 즉시 사용처리되므로, 사용일에 등록 바랍니다.\n- 오등록으로 인한 코드 재발급은 불가합니다.\n- 유효기간은 0000.00.00까지이며, 코드를 등록한 시점으로부터 168시간 (7일) 동안 사용하실 수 있습니다.\n- 업체 사정으로 인해 일부 혜택이 예고 없이 변경될 수 있습니다.\- 업체별 영업시간이 변돌될 수 있어, 방문 전 업체로 문의하시기 바랍니다. (전화문의 권장)\n- 쿠폰은 3시간에 1잔 사용할 수 있으며, 동일 업체는 당일 재사용이 불가능 합니다.\n- 이용기간 내 사용하지 않은 쿠폰은 소멸됩니다.(미사용 쿠폰에 대해 부분환불, 적립 불가)';
-//    _refundInfo.text = '- 예약 확정 후 , 무료코드가 바우처 또는 문자로 발송됩니다.\n- 각 업체별로 사용 가능한 쿠폰이 노출됩니다.\n- 무료쿠폰 코드는 등록 즉시 사용처리되므로, 사용일에 등록 바랍니다.\n- 오등록으로 인한 코드 재발급은 불가합니다.\n- 유효기간은 0000.00.00까지이며, 코드를 등록한 시점으로부터 168시간 (7일) 동안 사용하실 수 있습니다.\n- 업체 사정으로 인해 일부 혜택이 예고 없이 변경될 수 있습니다.\- 업체별 영업시간이 변돌될 수 있어, 방문 전 업체로 문의하시기 바랍니다. (전화문의 권장)\n- 쿠폰은 3시간에 1잔 사용할 수 있으며, 동일 업체는 당일 재사용이 불가능 합니다.\n- 이용기간 내 사용하지 않은 쿠폰은 소멸됩니다.(미사용 쿠폰에 대해 부분환불, 적립 불가)';
-//    _cautionInfo.text = '- 예약 확정 후 , 무료코드가 바우처 또는 문자로 발송됩니다.\n- 각 업체별로 사용 가능한 쿠폰이 노출됩니다.\n- 무료쿠폰 코드는 등록 즉시 사용처리되므로, 사용일에 등록 바랍니다.\n- 오등록으로 인한 코드 재발급은 불가합니다.\n- 유효기간은 0000.00.00까지이며, 코드를 등록한 시점으로부터 168시간 (7일) 동안 사용하실 수 있습니다.\n- 업체 사정으로 인해 일부 혜택이 예고 없이 변경될 수 있습니다.\- 업체별 영업시간이 변돌될 수 있어, 방문 전 업체로 문의하시기 바랍니다. (전화문의 권장)\n- 쿠폰은 3시간에 1잔 사용할 수 있으며, 동일 업체는 당일 재사용이 불가능 합니다.\n- 이용기간 내 사용하지 않은 쿠폰은 소멸됩니다.(미사용 쿠폰에 대해 부분환불, 적립 불가)';
+    _storeName.text = '서귀포 서핑샵';
+    _detail.text = '1층';
+    _storePhone.text = '010-1234-5678';
+    _homeLink.text = 'https://www.instagram.com/jeju_surfing/';
+    _info.text = '제주도 여행에서 결코 놓칠 수 없는 것, 바로 제주 바닷가에서의 서핑! 태평양에서부터 불어오는 바람과 파도를 직접 느낄 수 있는 서귀포 앞바다에서의 서핑을 지금 바로 즐겨보세요!';
+    _specificInfo.text = '제주도 여행에서 결코 놓칠 수 없는 것, 바로 제주 바닷가에서의 서핑!\n태평양세서부터 불어오는 바람과 파도를 직접 느낄 수 있는 서귀포 앞바다에서의 서핑을 지금 바로 즐겨보세요!\n- 예약 확정 후 , 무료코드가 바우처 또는 문자로 발송됩니다.\n- 각 업체별로 사용 가능한 쿠폰이 노출됩니다.\n- 무료쿠폰 코드는 등록 즉시 사용처리되므로, 사용일에 등록 바랍니다.\n- 오등록으로 인한 코드 재발급은 불가합니다.\n- 유효기간은 0000.00.00까지이며, 코드를 등록한 시점으로부터 168시간 (7일) 동안 사용하실 수 있습니다.\n- 업체 사정으로 인해 일부 혜택이 예고 없이 변경될 수 있습니다.\- 업체별 영업시간이 변돌될 수 있어, 방문 전 업체로 문의하시기 바랍니다. (전화문의 권장)\n- 쿠폰은 3시간에 1잔 사용할 수 있으며, 동일 업체는 당일 재사용이 불가능 합니다.\n- 이용기간 내 사용하지 않은 쿠폰은 소멸됩니다.(미사용 쿠폰에 대해 부분환불, 적립 불가)';
+    _refundInfo.text = '- 예약 확정 후 , 무료코드가 바우처 또는 문자로 발송됩니다.\n- 각 업체별로 사용 가능한 쿠폰이 노출됩니다.\n- 무료쿠폰 코드는 등록 즉시 사용처리되므로, 사용일에 등록 바랍니다.\n- 오등록으로 인한 코드 재발급은 불가합니다.\n- 유효기간은 0000.00.00까지이며, 코드를 등록한 시점으로부터 168시간 (7일) 동안 사용하실 수 있습니다.\n- 업체 사정으로 인해 일부 혜택이 예고 없이 변경될 수 있습니다.\- 업체별 영업시간이 변돌될 수 있어, 방문 전 업체로 문의하시기 바랍니다. (전화문의 권장)\n- 쿠폰은 3시간에 1잔 사용할 수 있으며, 동일 업체는 당일 재사용이 불가능 합니다.\n- 이용기간 내 사용하지 않은 쿠폰은 소멸됩니다.(미사용 쿠폰에 대해 부분환불, 적립 불가)';
+    _cautionInfo.text = '- 예약 확정 후 , 무료코드가 바우처 또는 문자로 발송됩니다.\n- 각 업체별로 사용 가능한 쿠폰이 노출됩니다.\n- 무료쿠폰 코드는 등록 즉시 사용처리되므로, 사용일에 등록 바랍니다.\n- 오등록으로 인한 코드 재발급은 불가합니다.\n- 유효기간은 0000.00.00까지이며, 코드를 등록한 시점으로부터 168시간 (7일) 동안 사용하실 수 있습니다.\n- 업체 사정으로 인해 일부 혜택이 예고 없이 변경될 수 있습니다.\- 업체별 영업시간이 변돌될 수 있어, 방문 전 업체로 문의하시기 바랍니다. (전화문의 권장)\n- 쿠폰은 3시간에 1잔 사용할 수 있으며, 동일 업체는 당일 재사용이 불가능 합니다.\n- 이용기간 내 사용하지 않은 쿠폰은 소멸됩니다.(미사용 쿠폰에 대해 부분환불, 적립 불가)';
 
     super.initState();
   }
@@ -157,8 +161,8 @@ class _RegisterStoreState extends State<RegisterStore> {
 
     Map<String, dynamic> storeTemp = Map();
 
-    storeTemp[KEY_STOREKEY] = DateTime.now().millisecondsSinceEpoch.toString();
-    storeTemp[KEY_OWNERKEY] = '123456789';
+    storeTemp[KEY_STOREKEY] = GenerateKey().generateStoreKey(_storeName.text);
+    storeTemp[KEY_OWNERKEY] = widget.user.userKey;
     storeTemp[KEY_PROFILEIMGS] = _photos;
     storeTemp[KEY_FIELD] = _field;
     storeTemp[KEY_STORENAME] = _storeName.text;
@@ -176,7 +180,8 @@ class _RegisterStoreState extends State<RegisterStore> {
     storeTemp[KEY_STOREPHONE] = _storePhone.text;
 
     await networkFunction.createStore(storeTemp);
-    Navigator.pop(context);
+    Navigator.pop(context); // 등록창 나가기
+    widget.refreshAcitivities(); // 마이 액티비티 페이지 최신화
   }
 
   void _updateStore() async {

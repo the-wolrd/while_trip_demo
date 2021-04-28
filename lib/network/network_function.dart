@@ -13,13 +13,41 @@ import 'naver_api/naver_api_network.dart';
 
 class NetworkFunction {
 
+  // store 관련 함수들
+
   Future<void> createStore(Map<String, dynamic> storeData) => firebaseStoreNetwork.createStore(storeData);
 
   Future<void> updateStore(Map<String, dynamic> storeData, String storeKey) => firebaseStoreNetwork.updateStore(storeData, storeKey);
 
+  Future<void> removeStore(String storeKey) => firebaseStoreNetwork.removeStore(storeKey);
+
+  Stream<StoreModel> getAStoreModel({@required String storeKey}) => firebaseStoreNetwork.getAStoreModel(storeKey);
+
+  Future<List<StoreModel>> getActivitiesFromUserKey(String userKey) => firebaseStoreNetwork.getActivitiesFromUserKey(userKey);
+
+  Future<List<StoreModel>> getFavoritesFromUserKey(String userKey) => firebaseStoreNetwork.getFavoritesFromUserKey(userKey);
+
+
+
+  // user 관련 함수들
+
   Future<void> createUser(Map<String, dynamic> userData) => firebaseUserNetwork.createUser(userData);
 
+  Stream<UserModel> getAUserModel({@required String userKey}) => firebaseUserNetwork.getAUserModel(userKey);
+
+  Future<void> transferBusinessStatus ({@required String userKey}) => firebaseUserNetwork.transferBusinessStatus(userKey);
+
+
+  // review 관련 함수들
+
   Future<void> createReview (Map<String, dynamic> reviewData) => firebaseReviewNetwork.createReview(reviewData);
+
+  Stream<ReviewModel> getAReviewModel({@required String reviewKey}) => firebaseReviewNetwork.getAReviewModel(reviewKey);
+
+  Future<List<ReviewModel>> getReviewsFromUserKey(String userKey) => firebaseReviewNetwork.getReviewsFromUserKey(userKey);
+
+
+  // image 업데이트 관련 함수들
 
   Future<void> uploadProfileImg({@required File imageFile, @required String storeKey, @required String uploadTime}) => firebaseImageNetwork.uploadProfileImg(imageFile, storeKey, uploadTime);
 
@@ -29,17 +57,13 @@ class NetworkFunction {
 
   Future<dynamic> getProfileImgUrls({@required String storeKey}) => firebaseImageNetwork.getProfileImgUrlsFromStore(storeKey);
 
-  Stream<StoreModel> getAStoreModel({@required String storeKey}) => firebaseStoreNetwork.getAStoreModel(storeKey);
 
-  Stream<UserModel> getAUserModel({@required String userKey}) => firebaseUserNetwork.getAUserModel(userKey);
-
-  Stream<ReviewModel> getAReviewModel({@required String reviewKey}) => firebaseReviewNetwork.getAReviewModel(reviewKey);
+  // 네이버 api 관련 함수들
 
   Future<Map<String, dynamic>> getAddressFromQuery (String query) => naverApiNetwork.getAddressInfoFromQuery(query);
 
   Future<Map<String, dynamic>> getAddressInfoFromPosition ({double lat, double lon}) => naverApiNetwork.getAddressInfoFromPosition(latitude: lat, longitude: lon);
 
-  Future<void> transferBusinessStatus ({@required String userKey}) => firebaseUserNetwork.transferBusinessStatus(userKey);
 
 }
 

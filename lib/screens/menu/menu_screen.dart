@@ -510,7 +510,9 @@ class _MenuScreenState extends State<MenuScreen> {
               SizedBox(
                 child: InkWell(
                   splashColor: Colors.grey,
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder:(context)=> MyActivityScreen(user: widget.user,)));
+                  },
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -523,6 +525,7 @@ class _MenuScreenState extends State<MenuScreen> {
                   ),
                 ),
               ):Container(),
+
             user.isBusiness?
               Spacer(flex: 2):Container(),
 

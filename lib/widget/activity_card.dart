@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:while_trip_demo/model/store_model.dart';
 import 'package:while_trip_demo/constant/constants.dart';
+import 'package:while_trip_demo/model/user_model.dart';
 
 import 'activity_page.dart';
 
 class ActivityCard extends StatelessWidget {
 
   final StoreModel store;
+  final UserModel user;
 
-  const ActivityCard({this.store});
+  const ActivityCard({this.store, this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,7 @@ class ActivityCard extends StatelessWidget {
         children: [
           InkWell(
             onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => ActivityPage(store:store)));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => ActivityPage(store:store, user: user)));
             },
             child: Container(
               decoration: BoxDecoration(

@@ -147,7 +147,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       _banner(),
                       _title(),
                       _categoryList(),
-                      _recommendActivity(),
+                      _recommendActivity(userModelState.userModel),
                     ],
                   );
                 }
@@ -160,12 +160,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _banner(){
     return Padding(
-      padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+      padding: const EdgeInsets.only(bottom: 10.0),
       child: AdvertisePart(),
     );
   }
 
-  Widget _recommendActivity() {
+  Widget _recommendActivity(UserModel user) {
     return Padding(
       padding: EdgeInsets.only(left: leftPadding),
       child: Column(
@@ -184,15 +184,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 return Padding(
                   padding: const EdgeInsets.only(right: 10.0),
                   child: StreamProvider<StoreModel>.value(
-                    value: networkFunction.getAStoreModel(storeKey: '1d9v7seDfiv993'),
+                    value: networkFunction.getAStoreModel(storeKey: '서귀포 서핑샵_1619468801744'),
+                    initialData: null,
                     child: Consumer<StoreModel>(
                       builder: (context, store, _){
                         if(store == null){
                           return Container();
                         }
                         else{
-                          return  ActivityCard(
+                          return ActivityCard(
                             store: store,
+                            user: user
                           );
                         }
                       },
@@ -210,9 +212,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _categoryList() {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: leftPadding, vertical: 10.0),
+      padding: EdgeInsets.only(top:10.0, bottom:10.0, left:leftPadding),
       child: SizedBox(
-        width: size.width - leftPadding * 2,
+        width: size.width - leftPadding,
         height: 100.0,
         child: ListView(
           scrollDirection: Axis.horizontal,

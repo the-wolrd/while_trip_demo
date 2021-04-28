@@ -45,7 +45,7 @@ dependencies:
   geolocator: ^7.0.1
 
   http: ^0.13.1
-
+  rxdart:
 
 flutter_native_splash:
   image: assets/loding_page/loading_bg.png
