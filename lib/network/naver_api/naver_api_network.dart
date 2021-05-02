@@ -22,6 +22,14 @@ class NaverApiNetwork{
     return jsonDecode(response.body);
   }
 
+
+  Future<Map<String, dynamic>> getAddressInfoFromPositionAndQuery (String query, {double latitude, double longitude}) async {
+    var url = Uri.parse('https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode?query=$query&coords=$longitude,$latitude');
+    var response = await http.get(url, headers:{'X-NCP-APIGW-API-KEY-ID':_API_KEY_ID, 'X-NCP-APIGW-API-KEY':_API_KEY_SECRET});
+
+    return jsonDecode(response.body);
+  }
+
 }
 
 NaverApiNetwork naverApiNetwork = NaverApiNetwork();

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:while_trip_demo/constant/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:naver_map_plugin/naver_map_plugin.dart';
+import 'package:while_trip_demo/network/network_function.dart';
 
 class LocationHereSet extends StatefulWidget {
 
@@ -70,12 +71,23 @@ class _LocationHereSetState extends State<LocationHereSet> {
                   SizedBox(
                     width: size.width,
                     height: 50.0,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                        color: _isStop? Colors.lightBlueAccent:Colors.grey
+                    child: InkWell(
+                      onTap: () async {
+                        var data = await networkFunction.getAddressInfoFromPosition(lat: 37.56058579485761 , lon:126.98526495408939);
+                        print(data['results']);
+
+                        String detail = data['results'][0]['region'].toString();
+                        // var data3 = await networkFunction.getAddressInfoFromPositionAndQuery('온천 2동', lat:36.3647903 , lon: 127.3556164);
+                        // print(data3);
+
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                          color: _isStop? Colors.lightBlueAccent:Colors.grey
+                        ),
+                        child: Center(child: Text(_isStop?'이 위치로 배달받기':'...', style: TextStyle(fontSize: 20.0,color: Colors.white),)),
                       ),
-                      child: Center(child: Text(_isStop?'이 위치로 배달받기':'...', style: TextStyle(fontSize: 20.0,color: Colors.white),)),
                     ),
                   ),
                   Spacer(flex: 3,),

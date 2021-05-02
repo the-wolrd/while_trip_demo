@@ -20,7 +20,7 @@ class FirebaseUserNetwork with Transformers{
     });
   }
 
-  Stream<UserModel> getAUserModel(String userKey){
+  Stream<UserModel> getAUserModelStream(String userKey){
     return FirebaseFirestore.instance
         .collection(COLLECTION_USERS)
         .doc(userKey)
@@ -32,6 +32,15 @@ class FirebaseUserNetwork with Transformers{
     final userRef = FirebaseFirestore.instance.collection(COLLECTION_USERS).doc(userKey);
     var data = await userRef.get();
     await userRef.update({KEY_ISBUSINESS: !data[KEY_ISBUSINESS]});
+  }
+
+  Future<void> transferFavoritesStore(String storeKey, String userKey) async {
+    final userRef = FirebaseFirestore.instance.collection(COLLECTION_USERS).doc(userKey);
+    final storeRef = FirebaseFirestore.instance.collection(COLLECTION_STORES).doc(storeKey);
+
+
+
+
   }
 
 }

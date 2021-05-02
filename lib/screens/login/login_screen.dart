@@ -14,10 +14,10 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-          body: SafeArea(
-            child: Column(
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+            body: Column(
               children: [
                 Spacer(
                   flex: 18,
@@ -47,7 +47,7 @@ class LoginScreen extends StatelessWidget {
               ],
             ),
           ),
-        );
+    );
   }
 
   TextButton _signUpButton(BuildContext context) {

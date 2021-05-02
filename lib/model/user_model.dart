@@ -14,6 +14,9 @@ class UserModel {
   final List<dynamic> favorites;
   final List<dynamic> myReviews;
 
+  final String theme;     // origin, dark
+  final String language;  // kr, en
+
   UserModel.fromMap(Map<String, dynamic> map)
       : userKey = map[KEY_USERKEY],
         loginType = map[KEY_LOGINTYPE],
@@ -26,5 +29,7 @@ class UserModel {
         range = map[KEY_RANGE],
         activities = map[KEY_ACTIVITIES],
         favorites = map[KEY_FAVORITES],
-        myReviews = map[KEY_MYREVIEWS];
+        myReviews = map[KEY_MYREVIEWS],
+        theme = map[KEY_THEME],
+        language = map[KEY_LANGUAGE];
 }

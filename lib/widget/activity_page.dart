@@ -1,14 +1,19 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:while_trip_demo/model/review_model.dart';
 import 'package:while_trip_demo/model/store_model.dart';
 import 'package:while_trip_demo/constant/constants.dart';
 import 'package:while_trip_demo/model/user_model.dart';
+import 'package:while_trip_demo/network/network_function.dart';
+import 'package:while_trip_demo/useful/cal_score.dart';
 import 'package:while_trip_demo/widget/activity_page_caution_info.dart';
 import 'package:while_trip_demo/widget/activity_page_price.dart';
 import 'package:while_trip_demo/widget/activity_page_refund_info.dart';
 import 'package:while_trip_demo/widget/activity_page_review.dart';
 import 'package:while_trip_demo/widget/activity_page_specific_info.dart';
+import 'package:while_trip_demo/widget/star_score.dart';
+import 'package:while_trip_demo/widget/while_progress_indicator.dart';
 
 import 'image_view_part.dart';
 import 'set_button.dart';
@@ -92,111 +97,117 @@ class _ActivityPageState extends State<ActivityPage>
                     onPressed: () {
                       print(kToolbarHeight);
                     },
-                    child: _isSet
-                        ? TextButton(
-                            onPressed: () async {
-                              // TODO 확인 창 하나 만들어주기
-                            },
-                            child: Text('완료'))
-                        : IconButton(
-                            icon: Icon(
-                              Icons.star_border,
-                              color: Colors.grey,
-                            ),
+                    child: !_isSet
+                        ? Container()
+                        :
+                    IconButton(
+                            icon: ImageIcon(AssetImage('assets/stars/favorite_not.png'), size: 20.0,color: Colors.grey,),
+                      //icon: ImageIcon(AssetImage('assets/stars/favorite_yes.png'), size: 20.0,color: Colors.amber,),
                             onPressed: () {},
                           ),
                   )
                 ],
               ),
             ),
-            Expanded(
-              child: NestedScrollView(
-                controller: _scrollController,
-                headerSliverBuilder:
-                    (BuildContext context, bool innerBoxIsScrolled) {
-                  return [
-                    SliverAppBar(
-                      automaticallyImplyLeading: false, // 화면 왼쪽 상단에 뒤로가기 화살표 없애주는 것
-                      expandedHeight: size.width * 1.2 + _indicatorBarHeight,
-                      flexibleSpace: FlexibleSpaceBar(
-                        stretchModes: [],
-                        collapseMode: CollapseMode.pin,
-                        background: _mainHome(),
-                      ),
-                      pinned: true,
-                      floating: true,
-                      snap: false,
-                      forceElevated: innerBoxIsScrolled,
-                      bottom: TabBar(
-                        onTap: (i) {
-                          print(i);
-                          print(_tabController.index);
-                        },
-                          indicatorColor: Colors.lightBlueAccent,
-                        labelPadding: const EdgeInsets.all(0.0),
-                        tabs: [
-                          Tab(
-                              child: Center(
-                                  child: Text('가격',
-                                      style: TextStyle(
-                                          fontSize: 12.0,
-                                          fontWeight: FontWeight.bold,
-                                          color: _selected == 0
-                                              ? Colors.lightBlueAccent
-                                              : Colors.black)))),
-                          Tab(
-                              child: Center(
-                                  child: Text('리뷰',
-                                      style: TextStyle(
-                                          fontSize: 12.0,
-                                          fontWeight: FontWeight.bold,
-                                          color: _selected == 1
-                                              ? Colors.lightBlueAccent
-                                              : Colors.black)))),
-                          Tab(
-                              child: Center(
-                                  child: Text('상세정보',
-                                      style: TextStyle(
-                                          fontSize: 12.0,
-                                          fontWeight: FontWeight.bold,
-                                          color: _selected == 2
-                                              ? Colors.lightBlueAccent
-                                              : Colors.black)))),
-                          Tab(
-                              child: Center(
-                                  child: Text('환불규정',
-                                      style: TextStyle(
-                                          fontSize: 12.0,
-                                          fontWeight: FontWeight.bold,
-                                          color: _selected == 3
-                                              ? Colors.lightBlueAccent
-                                              : Colors.black)))),
-                          Tab(
-                              child: Center(
-                                  child: Text('유의사항',
-                                      style: TextStyle(
-                                          fontSize: 12.0,
-                                          fontWeight: FontWeight.bold,
-                                          color: _selected == 4
-                                              ? Colors.lightBlueAccent
-                                              : Colors.black)))),
-                        ],
-                        controller: _tabController,
-                      ),
-                    ),
-                  ];
-                },
-                body: TabBarView(
-                  controller: _tabController,
-                  children: <Widget>[
-                    _pageView(1),
-                    _pageView(10),
-                    _pageView(100),
-                    _pageView(23),
-                    _pageView(19),
-                  ],
-                ),
-              ),
+            FutureBuilder<List<ReviewModel>>(
+              future: networkFunction.getReviewsFromStoreKey(widget.store.storeKey),
+              builder: (context, reviews) {
+                if(!reviews.hasData){
+                  return WhileProgressIndicator();
+                }
+                else if(reviews.hasError){
+                  return Center(child:Text('데이터를 불러오는 과정에서\n에러가 발생했습니다.\n문의주시면 감사하겠습니다.',textAlign: TextAlign.center,));
+                }
+                return Expanded(
+                  child: NestedScrollView(
+                    controller: _scrollController,
+                    headerSliverBuilder:
+                        (BuildContext context, bool innerBoxIsScrolled) {
+                      return [
+                        SliverAppBar(
+                          automaticallyImplyLeading: false, // 화면 왼쪽 상단에 뒤로가기 화살표 없애주는 것
+                          expandedHeight: size.width * 1.2 + _indicatorBarHeight,
+                          flexibleSpace: FlexibleSpaceBar(
+                            stretchModes: [],
+                            collapseMode: CollapseMode.pin,
+                            background: _mainHome(reviews: reviews.data),
+                          ),
+                          pinned: true,
+                          floating: true,
+                          snap: false,
+                          forceElevated: innerBoxIsScrolled,
+                          bottom: TabBar(
+                            onTap: (i) {
+                              print(i);
+                              print(_tabController.index);
+                            },
+                              indicatorColor: Colors.lightBlueAccent,
+                            labelPadding: const EdgeInsets.all(0.0),
+                            tabs: [
+                              Tab(
+                                  child: Center(
+                                      child: Text('가격',
+                                          style: TextStyle(
+                                              fontSize: 12.0,
+                                              fontWeight: FontWeight.bold,
+                                              color: _selected == 0
+                                                  ? Colors.lightBlueAccent
+                                                  : Colors.black)))),
+                              Tab(
+                                  child: Center(
+                                      child: Text('리뷰',
+                                          style: TextStyle(
+                                              fontSize: 12.0,
+                                              fontWeight: FontWeight.bold,
+                                              color: _selected == 1
+                                                  ? Colors.lightBlueAccent
+                                                  : Colors.black)))),
+                              Tab(
+                                  child: Center(
+                                      child: Text('상세정보',
+                                          style: TextStyle(
+                                              fontSize: 12.0,
+                                              fontWeight: FontWeight.bold,
+                                              color: _selected == 2
+                                                  ? Colors.lightBlueAccent
+                                                  : Colors.black)))),
+                              Tab(
+                                  child: Center(
+                                      child: Text('환불규정',
+                                          style: TextStyle(
+                                              fontSize: 12.0,
+                                              fontWeight: FontWeight.bold,
+                                              color: _selected == 3
+                                                  ? Colors.lightBlueAccent
+                                                  : Colors.black)))),
+                              Tab(
+                                  child: Center(
+                                      child: Text('유의사항',
+                                          style: TextStyle(
+                                              fontSize: 12.0,
+                                              fontWeight: FontWeight.bold,
+                                              color: _selected == 4
+                                                  ? Colors.lightBlueAccent
+                                                  : Colors.black)))),
+                            ],
+                            controller: _tabController,
+                          ),
+                        ),
+                      ];
+                    },
+                    body: TabBarView(
+                            controller: _tabController,
+                            children: <Widget>[
+                              _pageView(1),
+                              _pageView(10),
+                              _pageView(100),
+                              _pageView(23),
+                              _pageView(19),
+                            ],
+                          )
+                  ),
+                );
+              }
             ),
           ],
         ),
@@ -288,7 +299,7 @@ class _ActivityPageState extends State<ActivityPage>
     );
   }
 
-  Widget _mainHome() {
+  Widget _mainHome({List<ReviewModel> reviews}) {
     return SizedBox(
       height: size.width * 1.2 + 10.0,
       //추가항목이 생기면 더 늘어날 수 도 있으니 보류
@@ -297,7 +308,7 @@ class _ActivityPageState extends State<ActivityPage>
         color: Colors.white,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [_imagesView(), _titleInfo(), _storeInfo(), Container(height:10.0, color:Colors.grey[50])],
+          children: [_imagesView(), _titleInfo(reviews: reviews), _storeInfo(), Container(height:10.0, color:Colors.grey[50])],
         ),
       ),
     );
@@ -313,7 +324,7 @@ class _ActivityPageState extends State<ActivityPage>
         ));
   }
 
-  Widget _titleInfo() {
+  Widget _titleInfo({List<ReviewModel> reviews}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Stack(
@@ -350,10 +361,16 @@ class _ActivityPageState extends State<ActivityPage>
                 ),
                 SizedBox(
                   height: size.width * 0.06,
-                  child: Text(
-                    '4.8(${widget.store.reviews.length})',
-                    style:
-                        TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      StarScore(score: CalScore().scoreFromReviews(reviews), height: size.width * 0.06,),
+                      Text(
+                        '${CalScore().scoreFromReviews(reviews)}(${widget.store.reviews.length}명)',
+                        style:
+                            TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),
+                      ),
+                    ],
                   ),
                 ),
                 SizedBox(

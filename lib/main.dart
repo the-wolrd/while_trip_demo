@@ -32,7 +32,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final Login _loginState = Login();
-
+  //String a = null;
   Widget _currentWidget;
 
   @override
@@ -98,7 +98,7 @@ class _MyAppState extends State<MyApp> {
 
     UserModelState userModelState = Provider.of<UserModelState>(context, listen: false);
 
-    userModelState.currentStreamSub = networkFunction.getAUserModel(userKey: login.user.uid).listen((userModel){
+    userModelState.currentStreamSub = networkFunction.getAUserModelStream(userKey: login.user.uid).listen((userModel){
       userModelState.userModel = userModel;
     });
   }

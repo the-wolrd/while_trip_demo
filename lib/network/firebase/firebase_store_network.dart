@@ -38,7 +38,7 @@ class FirebaseStoreNetwork with Transformers{
         final newSummaryRef = newStoreRef.collection(KEY_PRICES).doc(element.toString());
         await tx.set(newSummaryRef, element);
       });
-      await tx.set(newStoreRef, storeData);
+      await tx.update(newStoreRef, storeData); // 바뀌어선 안되는 값들이 포함되어 있기 때문에, update로 사용.
     });
   }
 
@@ -59,7 +59,7 @@ class FirebaseStoreNetwork with Transformers{
     });
   }
 
-  Stream<StoreModel> getAStoreModel(String storeKey){
+  Stream<StoreModel> getAStoreModelStream(String storeKey){
     return FirebaseFirestore.instance
         .collection(COLLECTION_STORES)
         .doc(storeKey)

@@ -32,10 +32,10 @@ class _SignInState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      body: SafeArea(
-        child: Padding(
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Form(
             key: _formKey,

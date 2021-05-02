@@ -26,7 +26,7 @@ class FirebaseReviewNetwork with Transformers{
     });
   }
 
-  Stream<ReviewModel> getAReviewModel(String reviewKey){
+  Stream<ReviewModel> getAReviewModelStream(String reviewKey){
     return FirebaseFirestore.instance
         .collection(COLLECTION_REVIEWS)
         .doc(reviewKey)
@@ -36,13 +36,36 @@ class FirebaseReviewNetwork with Transformers{
 
   Future<List<ReviewModel>> getReviewsFromUserKey(String userKey) async {
     // 두가지 방법이 존재할 것 같다.
-    // 1. User 컬렉션에 접근해서 각각의 store DB에 접근하는 것
-    // 2. 처음부터 Store 컬렉션에 접근해서 where 함수로 userKey가 같은 것을 찾는것..
+    // 1. User 컬렉션에 접근해서 각각의 Review DB에 접근하는 것
+    // 2. 처음부터 Review 컬렉션에 접근해서 where 함수로 userKey가 같은 것을 찾는것..
     // 1번 방법으로 하는게 왠지 좀더 빠를것 같은데.. 왠지 2번이 더 빠를것 같기도 하다.. (애초에 파이어베이스에서 이정도 최적화는 해놓았을거란 생각..)
 
     final reviewColRef = FirebaseFirestore.instance.collection(COLLECTION_REVIEWS);
 
     var reviewQuery = await reviewColRef.where(KEY_USERKEY, isEqualTo: userKey).get();
+
+    var reviews = <ReviewModel>[];
+
+    reviewQuery.docs.forEach((element) {
+      reviews.add(ReviewModel.fromMap(element.data()));
+    });
+
+    // 추후 stores 내에서 orderBy 함수로 순서 변경할 수 있게 하기.
+
+    return reviews;
+  }
+
+
+
+  Future<List<ReviewModel>>  getReviewsFromStoreKey(String storeKey) async {
+    // 두가지 방법이 존재할 것 같다.
+    // 1. Store 컬렉션에 접근해서 각각의 Review DB에 접근하는 것
+    // 2. 처음부터 Review 컬렉션에 접근해서 where 함수로 userKey가 같은 것을 찾는것..
+    // 1번 방법으로 하는게 왠지 좀더 빠를것 같은데.. 왠지 2번이 더 빠를것 같기도 하다.. (애초에 파이어베이스에서 이정도 최적화는 해놓았을거란 생각..)
+
+    final reviewColRef = FirebaseFirestore.instance.collection(COLLECTION_REVIEWS);
+
+    var reviewQuery = await reviewColRef.where(KEY_STOREKEY, isEqualTo: storeKey).get();
 
     var reviews = <ReviewModel>[];
 

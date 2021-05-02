@@ -37,17 +37,17 @@ class GetStartScreen extends StatelessWidget {
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
               ),
-              child: Center(
-                  child: Text(
-                '시작하기',
-                style: TextStyle(color: Colors.cyan, fontSize: 17),
-              )),
               onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => LoginScreen()),
                 );
               },
+              child: Center(
+                  child: Text(
+                '시작하기',
+                style: TextStyle(color: Colors.cyan, fontSize: 17),
+              )),
             ),
           ),
         ),

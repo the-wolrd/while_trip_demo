@@ -21,11 +21,11 @@ class NetworkFunction {
 
   Future<void> removeStore(String storeKey) => firebaseStoreNetwork.removeStore(storeKey);
 
-  Stream<StoreModel> getAStoreModel({@required String storeKey}) => firebaseStoreNetwork.getAStoreModel(storeKey);
-
   Future<List<StoreModel>> getActivitiesFromUserKey(String userKey) => firebaseStoreNetwork.getActivitiesFromUserKey(userKey);
 
   Future<List<StoreModel>> getFavoritesFromUserKey(String userKey) => firebaseStoreNetwork.getFavoritesFromUserKey(userKey);
+
+  Stream<StoreModel> getAStoreModelStream({@required String storeKey}) => firebaseStoreNetwork.getAStoreModelStream(storeKey);
 
 
 
@@ -33,18 +33,23 @@ class NetworkFunction {
 
   Future<void> createUser(Map<String, dynamic> userData) => firebaseUserNetwork.createUser(userData);
 
-  Stream<UserModel> getAUserModel({@required String userKey}) => firebaseUserNetwork.getAUserModel(userKey);
-
   Future<void> transferBusinessStatus ({@required String userKey}) => firebaseUserNetwork.transferBusinessStatus(userKey);
+
+  Future<void> transferFavoritesStore({@required String storeKey, @required String userKey}) => firebaseUserNetwork.transferFavoritesStore(storeKey, userKey);
+
+  Stream<UserModel> getAUserModelStream({@required String userKey}) => firebaseUserNetwork.getAUserModelStream(userKey);
 
 
   // review 관련 함수들
 
   Future<void> createReview (Map<String, dynamic> reviewData) => firebaseReviewNetwork.createReview(reviewData);
 
-  Stream<ReviewModel> getAReviewModel({@required String reviewKey}) => firebaseReviewNetwork.getAReviewModel(reviewKey);
-
   Future<List<ReviewModel>> getReviewsFromUserKey(String userKey) => firebaseReviewNetwork.getReviewsFromUserKey(userKey);
+
+  Future<List<ReviewModel>> getReviewsFromStoreKey(String storeKey) => firebaseReviewNetwork.getReviewsFromStoreKey(storeKey);
+
+  Stream<ReviewModel> getAReviewModelStream({@required String reviewKey}) => firebaseReviewNetwork.getAReviewModelStream(reviewKey);
+
 
 
   // image 업데이트 관련 함수들
@@ -63,6 +68,8 @@ class NetworkFunction {
   Future<Map<String, dynamic>> getAddressFromQuery (String query) => naverApiNetwork.getAddressInfoFromQuery(query);
 
   Future<Map<String, dynamic>> getAddressInfoFromPosition ({double lat, double lon}) => naverApiNetwork.getAddressInfoFromPosition(latitude: lat, longitude: lon);
+
+  Future<Map<String, dynamic>> getAddressInfoFromPositionAndQuery (String query, {double lat, double lon}) => naverApiNetwork.getAddressInfoFromPositionAndQuery(query, latitude:lat, longitude: lon);
 
 
 }

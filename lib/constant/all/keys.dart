@@ -23,6 +23,8 @@ const KEY_RANGE = 'range';
 const KEY_ACTIVITIES = 'activities';
 const KEY_FAVORITES = 'favorites';
 const KEY_MYREVIEWS = 'myReviews';
+const KEY_THEME = 'theme';
+const KEY_LANGUAGE = 'language';
 
 const KEY_STOREKEY = 'storeKey';
 const KEY_OWNERKEY = 'ownerKey';
@@ -34,6 +36,7 @@ const KEY_DETAIL = 'detail';
 const KEY_LAT = 'lat';
 const KEY_LON = 'lon';
 const KEY_INFO = 'info';
+// const KEY_FAVORITES = 'favorites';
 const KEY_REVIEWS = 'reviews';
 const KEY_PRICES = 'prices'; // prices 경우에는 collection 경로로도 쓰인다.
 const KEY_SPECIFICINFO = 'specificInfo';

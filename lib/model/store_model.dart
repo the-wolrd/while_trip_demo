@@ -12,6 +12,7 @@ class StoreModel {
   final double lat; // 위도
   final double lon; // 경도
   final String info; // 가게 설명
+  final List<dynamic> favorites; // 즐겨찾기 등촉한 사람들 userKey들이 들어있음.
   final List<dynamic> reviews; // 리뷰들 리스트 (각 학목은 reviewKey 값)
 
   final List<dynamic> prices; // 가격들 Map 형태로 넘김. 현재 : {''}
@@ -33,6 +34,7 @@ class StoreModel {
         lat = map[KEY_LAT],
         lon = map[KEY_LON],
         info = map[KEY_INFO],
+        favorites = map[KEY_FAVORITES],
         reviews = map[KEY_REVIEWS],
         prices = map[KEY_PRICES],
         specificInfo = map[KEY_SPECIFICINFO],

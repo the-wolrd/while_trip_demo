@@ -184,7 +184,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 return Padding(
                   padding: const EdgeInsets.only(right: 10.0),
                   child: StreamProvider<StoreModel>.value(
-                    value: networkFunction.getAStoreModel(storeKey: '서귀포 서핑샵_1619468801744'),
+                    value: networkFunction.getAStoreModelStream(storeKey: '서귀포 서핑샵_1619468801744'),
                     initialData: null,
                     child: Consumer<StoreModel>(
                       builder: (context, store, _){

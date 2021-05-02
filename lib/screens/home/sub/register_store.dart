@@ -14,6 +14,9 @@ class RegisterStore extends StatefulWidget {
   final UserModel user;
   final Function refreshAcitivities;
 
+  // store가 비어있을때 RegisterStore의 기능은 없던 가게 등록
+  // store를 받았을때 RegisterStore의 기능은 액티비티 수정. (사진 등록, 항목 추가 등등)
+
   RegisterStore({this.store, this.user, this.refreshAcitivities});
 
   @override
@@ -171,6 +174,7 @@ class _RegisterStoreState extends State<RegisterStore> {
     storeTemp[KEY_LAT] = 33.253894;
     storeTemp[KEY_LON] = 126.417486;
     storeTemp[KEY_INFO] = _info.text;
+    storeTemp[KEY_FAVORITES] = [];
     storeTemp[KEY_REVIEWS] = [];
     storeTemp[KEY_PRICES] = _prices;
     storeTemp[KEY_SPECIFICINFO] = _specificInfo.text;
@@ -197,8 +201,9 @@ class _RegisterStoreState extends State<RegisterStore> {
     storeTemp['lat'] = 33.253894;
     storeTemp['long'] = 126.417486;
     storeTemp['info'] = _info.text;
-    //'제주도 여행에서 결코 놓칠 수 없는 것, 바로 제주 바닷가에서의 서핑! 태평양에서부터 불어오는 바람과 파도를 직접 느낄 수 있는 서귀포 앞바다에서의 서핑을 지금 바로 즐겨보세요!'
-    storeTemp['reviews'] = [];
+    // this part will not update. It's not store owner's acting.
+    // storeTemp['favorite'] = [];
+    // storeTemp['reviews'] = [];
     storeTemp['prices'] = _prices;
     storeTemp['specificInfo'] = _specificInfo.text;
     //'제주도 여행에서 결코 놓칠 수 없는 것, 바로 제주 바닷가에서의 서핑!\n태평양세서부터 불어오는 바람과 파도를 직접 느낄 수 있는 서귀포 앞바다에서의 서핑을 지금 바로 즐겨보세요!\n- 예약 확정 후 , 무료코드가 바우처 또는 문자로 발송됩니다.\n- 각 업체별로 사용 가능한 쿠폰이 노출됩니다.\n- 무료쿠폰 코드는 등록 즉시 사용처리되므로, 사용일에 등록 바랍니다.\n- 오등록으로 인한 코드 재발급은 불가합니다.\n- 유효기간은 0000.00.00까지이며, 코드를 등록한 시점으로부터 168시간 (7일) 동안 사용하실 수 있습니다.\n- 업체 사정으로 인해 일부 혜택이 예고 없이 변경될 수 있습니다.\- 업체별 영업시간이 변돌될 수 있어, 방문 전 업체로 문의하시기 바랍니다. (전화문의 권장)\n- 쿠폰은 3시간에 1잔 사용할 수 있으며, 동일 업체는 당일 재사용이 불가능 합니다.\n- 이용기간 내 사용하지 않은 쿠폰은 소멸됩니다.(미사용 쿠폰에 대해 부분환불, 적립 불가)'

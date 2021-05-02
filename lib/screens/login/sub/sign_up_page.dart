@@ -41,10 +41,10 @@ class _SignUpState extends State<SignUp> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      body: SafeArea(
-        child: Padding(
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Form(
             key: _formKey,
@@ -98,6 +98,8 @@ class _SignUpState extends State<SignUp> {
             KEY_ACTIVITIES : [],
             KEY_FAVORITES : [],
             KEY_MYREVIEWS : [],
+            KEY_THEME : 'origin',
+            KEY_LANGUAGE : 'kr',
           });
         }
       },
